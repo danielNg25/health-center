@@ -74,6 +74,15 @@ public abstract class  Person {
 		this.email = null;
 		this.histories = null;
 	}
+	public Person(String iD, String lastName, String firstName, Date dateOfBirth, String address, String email) {
+		this.ID = iD;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.dateOfBirth = dateOfBirth;
+		this.address = address;
+		this.email = email;
+		this.histories = null;
+	}
 	
 	
 	

@@ -5,22 +5,16 @@ import java.util.Date;
 
 
 public class HistoryMedical {
-	private int IDHistory;
-	private Date dateOfInjection;
-	private String typeOfVaccine;
-	private int IDVaccine;
-	private String address;
-	private String interaction;
-	private BufferedImage imageHist;
-	private Date nextAppointment;
+	
+	private Date dateOfInjection; // ngày chích
+	private String typeOfVaccine; // loại
+	private int IDVaccine; // số lô "int"
+	private String address; // địa điểm
+	private String interaction; // phản ứng
+	private BufferedImage imageHist; // ảnh
+	private Date nextAppointment; // hẹn lần tiếp
 	
 	
-	public int getIDHistory() {
-		return IDHistory;
-	}
-	public void setIDHistory(int iDHistory) {
-		IDHistory = iDHistory;
-	}
 	public Date getDateOfInjection() {
 		return dateOfInjection;
 	}
@@ -63,9 +57,8 @@ public class HistoryMedical {
 	public void setNextAppointment(Date nextAppointment) {
 		this.nextAppointment = nextAppointment;
 	}
-	public HistoryMedical(int iDHistory, Date dateOfInjection, String typeOfVaccine, int iDVaccine, String address,
+	public HistoryMedical( Date dateOfInjection, String typeOfVaccine, int iDVaccine, String address,
 			String interaction, BufferedImage imageHist, Date nextAppointment) {
-		IDHistory = iDHistory;
 		this.dateOfInjection = dateOfInjection;
 		this.typeOfVaccine = typeOfVaccine;
 		IDVaccine = iDVaccine;

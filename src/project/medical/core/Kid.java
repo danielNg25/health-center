@@ -23,12 +23,17 @@ public class Kid extends Person{
 		this.kidWH= null;
 		this.gender = null;
 	}
-	public Kid(String iD, String lastName, String firstName, Date dateOfBirth, String address, String email,
+	public Kid(String id, String lastName, String firstName, Date dateOfBirth, String address, String email,
 			HistoryMedical[] histories, String gender, WeightHeight[] kidWH) {
-		super(iD, lastName, firstName, dateOfBirth, address, email, histories);
+		super(id, lastName, firstName, dateOfBirth, address, email, histories);
 		this.kidWH= kidWH;
 		this.gender = gender;
 		
+	}
+	public Kid(String id, String lastName, String firstName, Date dateOfBirth, String address, String email,
+			String gender) {
+		super(id, lastName, firstName, dateOfBirth, address, email);
+		this.gender = gender;
 	}
 
     

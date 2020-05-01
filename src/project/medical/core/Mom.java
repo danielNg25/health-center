@@ -23,6 +23,10 @@ public class Mom extends Person{
 		super(iD, lastName, firstName, dateOfBirth, address, email, histories);
 		this.fetalWH =  fetalWH;
 	}
+
+	public Mom(String id, String lastName, String firstName, Date dateOfBirth, String address, String email) {
+		super(id, lastName, firstName, dateOfBirth, address, email);
+	}
 	
 
 }

@@ -2,8 +2,7 @@ package project.medical.core;
 import java.util.Date;
 
 public class WeightHeight {
-
-	private int height;
+	private int height; 
 	private int weight;
 	private Date date;
 	
