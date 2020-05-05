@@ -9,6 +9,7 @@ public class Kid extends Person{
 	private String gender;
 	private WeightHeight[] kidWH;
 	private Person parent;
+	private String abc;
 	public String getGender() {
 		return gender;
 	}
