@@ -102,8 +102,9 @@ public class HistoryMedicalDAO {
 		
 		String type = myRs.getString("typeOfVaccine");
 		int idvaccine = myRs.getInt("IDVaccine");
+		String url = myRs.getString("imageHist");
 		
-	    HistoryMedical tempHistoryMedical = new HistoryMedical(height, weight, dateinDate);
+	    HistoryMedical tempHistoryMedical = new HistoryMedical(dateInjectionInDate, typeOfVaccine, iDVaccine, address, interaction, imageHist, nextAppoinmentInDate)
 	    
 		return tempHistoryMedical;
 	}

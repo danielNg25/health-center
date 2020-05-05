@@ -82,7 +82,7 @@ public class MomDAO {
 		try {
 		String sql  = "Insert into Mom"
 				+ "(ID, lastName, firstName, dateOfBirth,Address,Email)"
-				+ " values (?, ? ,? , ?, ?,? ) " ;
+				+ " values (?, ? ,? , ?, ?, ? ) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);
 		
