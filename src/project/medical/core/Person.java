@@ -2,7 +2,7 @@ package project.medical.core;
 
 import java.util.Date;
 
-public abstract class  Person {
+public class  Person {
 	protected String ID; // khóa chính để tìm "String"
 	protected String lastName; 
 	protected String firstName;
