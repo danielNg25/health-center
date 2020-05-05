@@ -5,7 +5,7 @@ import java.util.Date;
 public class Kid extends Person{
 	
 	
-	private String helloKhang;
+	private String helloKhangdmdmd;
 	private String gender;
 	private WeightHeight[] kidWH;
 	private Person parent;
