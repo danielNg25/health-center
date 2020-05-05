@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class Kid extends Person{
 	
+	
+	private String helloKhang;
 	private String gender;
 	private WeightHeight[] kidWH;
 	public String getGender() {
