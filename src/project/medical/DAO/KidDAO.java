@@ -81,7 +81,7 @@ public class KidDAO {
 		PreparedStatement myStmt = null;
 		try {
 		String sql  = "Insert into Kid"
-				+ "(ID, lastName, firstName, dateOfBirth, address, email, gender)"
+				+ "(ID, lastName, firstName, dateOfBirth, address, email, phoneNum, gender)"
 				+ " values (?, ?, ?, ?, ?, ?, ?) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);
@@ -95,7 +95,8 @@ public class KidDAO {
 		myStmt.setString(4, stringDate);
 		myStmt.setString(5, newKid.getAddress());
 		myStmt.setString(6, newKid.getEmail());
-		myStmt.setString(7, newKid.getGender());
+		myStmt.setString(8, newKid.getGender());
+		myStmt.setString(7, newKid.getPhoneNum());
 		
 		
 		myStmt.executeUpdate();
@@ -116,8 +117,9 @@ public class KidDAO {
 		String email = myRs.getString("email");
 		String address = myRs.getString("address"); 
 		String gender = myRs.getString("gender");
+		String phoneNum = myRs.getString("phoneNum");
 		
-	    Kid tempKid = new Kid(id, lastName, firstName, dateOfBirth, address, email, gender);
+	    Kid tempKid = new Kid(id, lastName, firstName, dateOfBirth, address, email, phoneNum, gender);
 		
 		return tempKid;
 	}

@@ -81,7 +81,7 @@ public class MomDAO {
 		PreparedStatement myStmt = null;
 		try {
 		String sql  = "Insert into Mom"
-				+ "(ID, lastName, firstName, dateOfBirth,Address,Email)"
+				+ "(ID, lastName, firstName, dateOfBirth,address,email, phoneNum)"
 				+ " values (?, ? ,? , ?, ?, ? ) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);
@@ -95,6 +95,7 @@ public class MomDAO {
 		myStmt.setString(4, stringDate);
 		myStmt.setString(5, newMom.getAddress());
 		myStmt.setString(6, newMom.getEmail());
+		myStmt.setString(7, newMom.getPhoneNum());
 		
 		
 		myStmt.executeUpdate();
@@ -114,8 +115,9 @@ public class MomDAO {
 		Date dateOfBirth = myRs.getDate("dateOfBirth");
 		String email = myRs.getString("email");
 		String address = myRs.getString("address"); 
+		String phoneNum = myRs.getString("phoneNum");
 		
-	    Mom tempMom = new Mom(id, lastName, firstName, dateOfBirth, address, email);
+	    Mom tempMom = new Mom(id, lastName, firstName, dateOfBirth, address, email, phoneNum);
 		
 		return tempMom;
 	}

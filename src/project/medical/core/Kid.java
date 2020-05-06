@@ -4,12 +4,8 @@ import java.util.Date;
 
 public class Kid extends Person{
 	
-	
-	private String helloKhangdmdmd;
 	private String gender;
 	private WeightHeight[] kidWH;
-	private Person parent;
-	private String abc;
 	public String getGender() {
 		return gender;
 	}
@@ -22,30 +18,23 @@ public class Kid extends Person{
 	public void setKidWH(WeightHeight[] kidWH) {
 		this.kidWH = kidWH;
 	}
-	public Person getParent() {
-		return parent;
-	}
-	public void setParent(Person parent) {
-		this.parent = parent;
-	}
+
 	public Kid() {
 		super();
 		this.kidWH= null;
 		this.gender = null;
 	}
-	public Kid(String id, String lastName, String firstName, Date dateOfBirth, String address, String email,
-			HistoryMedical[] histories, String gender, WeightHeight[] kidWH, Person parent) {
-		super(id, lastName, firstName, dateOfBirth, address, email, histories);
+	public Kid(String id, String lastName, String firstName, Date dateOfBirth, String address, String email, String phoneNum,
+			HistoryMedical[] histories, String gender, WeightHeight[] kidWH) {
+		super(id, lastName, firstName, dateOfBirth, address, email, phoneNum, histories);
 		this.kidWH= kidWH;
-		this.gender = gender;
-		this.parent = parent;
-		
+		this.gender = gender;		
 	}
-	public Kid(String id, String lastName, String firstName, Date dateOfBirth, String address, String email,
-			String gender, Person parent) {
-		super(id, lastName, firstName, dateOfBirth, address, email);
+	public Kid(String id, String lastName, String firstName, Date dateOfBirth, String address, String email, String phoneNum,
+			String gender) {
+		super(id, lastName, firstName, dateOfBirth, address, email, phoneNum);
 		this.gender = gender;
-		this.parent = parent;
+
 	}
 
     

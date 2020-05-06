@@ -18,14 +18,14 @@ public class Mom extends Person{
 		this.fetalWH = null;
 	}
 
-	public Mom(String iD, String lastName, String firstName, Date dateOfBirth, String address, String email,
+	public Mom(String iD, String lastName, String firstName, Date dateOfBirth, String address, String email, String phoneNum,
 			HistoryMedical[] histories, WeightHeight[] fetalWH ) {
-		super(iD, lastName, firstName, dateOfBirth, address, email, histories);
+		super(iD, lastName, firstName, dateOfBirth, address, email, phoneNum,  histories);
 		this.fetalWH =  fetalWH;
 	}
 
-	public Mom(String id, String lastName, String firstName, Date dateOfBirth, String address, String email) {
-		super(id, lastName, firstName, dateOfBirth, address, email);
+	public Mom(String id, String lastName, String firstName, Date dateOfBirth, String address, String email, String phoneNum) {
+		super(id, lastName, firstName, dateOfBirth, address, email, phoneNum);
 	}
 	
 
