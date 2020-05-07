@@ -35,7 +35,7 @@ public class WeightHeightDAO {
 		try {
 			
 			theIDPerson += "%";
-			myStmt = myCon.prepareStatement("select * from WeightHeight where id = ? ");
+			myStmt = myCon.prepareStatement("select * from weightheight where personID = ? ");
 			myStmt.setString(1, theIDPerson);
 			myRs = myStmt.executeQuery();
 			
@@ -58,7 +58,7 @@ public class WeightHeightDAO {
 		PreparedStatement myStmt = null;
 		try {
 		String sql  = "Insert into WeightHeight"
-				+ "(ID, date, weight, height)"
+				+ "(personID, date, weight, height)"
 				+ " values (?, ? ,?, ?) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);
@@ -70,6 +70,7 @@ public class WeightHeightDAO {
 		myStmt.setString(2, stringDate);
 		myStmt.setInt(3, newWeightHeight.getWeight());
 		myStmt.setInt(4, newWeightHeight.getHeight());
+		
 			
 		
 		myStmt.executeUpdate();

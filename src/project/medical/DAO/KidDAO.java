@@ -33,7 +33,7 @@ public class KidDAO {
 		
 		try {
 			myStmt = myCon.createStatement();
-			myRs = myStmt.executeQuery("select * from Kid");
+			myRs = myStmt.executeQuery("select * from kid");
 			
 			while (myRs.next()) {
 				Kid tempKid = convertRowToKid(myRs);
@@ -80,8 +80,8 @@ public class KidDAO {
 	public void addKid(Kid newKid) throws Exception{
 		PreparedStatement myStmt = null;
 		try {
-		String sql  = "Insert into Kid"
-				+ "(ID, lastName, firstName, dateOfBirth, address, email, phoneNum, gender)"
+		String sql  = "Insert into kid"
+				+ "(kidID, lastName, firstName, dateOfBirth, address, email, phoneNum, gender)"
 				+ " values (?, ?, ?, ?, ?, ?, ?) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);
@@ -110,7 +110,7 @@ public class KidDAO {
 	// Converting one Kid in table -> object Kid
 	private Kid convertRowToKid(ResultSet myRs) throws SQLException {
 		
-		String id = myRs.getString("ID");
+		String id = myRs.getString("kidID");
 		String lastName = myRs.getString("lastName");
 		String firstName = myRs.getString("firstName");
 		Date dateOfBirth = myRs.getDate("dateOfBirth");

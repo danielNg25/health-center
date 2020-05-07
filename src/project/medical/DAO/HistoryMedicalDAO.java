@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Properties;
 
 
+
 public class HistoryMedicalDAO {
     private Connection myCon;
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -35,7 +36,7 @@ public class HistoryMedicalDAO {
 		try {
 			
 			theIDPerson += "%";
-			myStmt = myCon.prepareStatement("select * from HistoryMedical where id = ? ");
+			myStmt = myCon.prepareStatement("select * from medicalhistory where personID = ? ");
 			myStmt.setString(1, theIDPerson);
 			myRs = myStmt.executeQuery();
 			
@@ -58,7 +59,7 @@ public class HistoryMedicalDAO {
 		PreparedStatement myStmt = null;
 		try {
 		String sql  = "Insert into HistoryMedical"
-				+ "(ID, dateOfInjection, typeOfVaccine, IDVaccine, address, interaction, imageHist, nextAppointment)"
+				+ "(personID, dateOfInjection, typeOfVaccine, IDVaccine, address, interaction, imageHist, nextAppointment)"
 				+ " values (?, ? ,?, ?, ?, ? ,?, ?)"; 
 		
 		myStmt  = myCon.prepareStatement(sql);
@@ -91,7 +92,7 @@ public class HistoryMedicalDAO {
 		
 		String stringDateInjection = myRs.getString("dateOfInjection");
 		String stringDateNextAppoint =  myRs.getString("nextAppointment");
-		Date dateInjectionInDate, nextAppoinmentInDate = null;
+		Date dateInjectionInDate = null, nextAppoinmentInDate = null;
 		try {
 			dateInjectionInDate = formatter.parse(stringDateInjection);
 			nextAppoinmentInDate = formatter.parse(stringDateNextAppoint);
@@ -100,11 +101,13 @@ public class HistoryMedicalDAO {
 			e.printStackTrace();
 		}
 		
-		String type = myRs.getString("typeOfVaccine");
-		int idvaccine = myRs.getInt("IDVaccine");
-		String url = myRs.getString("imageHist");
+		String interaction = myRs.getString("interation");
+		String typeOfVaccine = myRs.getString("typeOfVaccine");
+		int iDVaccine = myRs.getInt("IDVaccine");
+		String address = myRs.getString("address");
+		String imageHist = myRs.getString("imageHist");
 		
-	    HistoryMedical tempHistoryMedical = new HistoryMedical(dateInjectionInDate, typeOfVaccine, iDVaccine, address, interaction, imageHist, nextAppoinmentInDate)
+	    HistoryMedical tempHistoryMedical = new HistoryMedical(dateInjectionInDate, typeOfVaccine, iDVaccine, address, interaction, imageHist, nextAppoinmentInDate);
 	    
 		return tempHistoryMedical;
 	}
