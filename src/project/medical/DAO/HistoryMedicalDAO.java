@@ -16,6 +16,7 @@ import java.util.Properties;
 import javax.imageio.ImageIO;
 
 
+
 public class HistoryMedicalDAO {
     private Connection myCon;
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -40,7 +41,7 @@ public class HistoryMedicalDAO {
 		try {
 			
 			theIDPerson += "%";
-			myStmt = myCon.prepareStatement("select * from HistoryMedical where id = ? ");
+			myStmt = myCon.prepareStatement("select * from medicalhistory where personID = ? ");
 			myStmt.setString(1, theIDPerson);
 			myRs = myStmt.executeQuery();
 			
@@ -63,7 +64,7 @@ public class HistoryMedicalDAO {
 		PreparedStatement myStmt = null;
 		try {
 		String sql  = "Insert into HistoryMedical"
-				+ "(ID, dateOfInjection, typeOfVaccine, IDVaccine, address, interaction, imageHist, nextAppointment)"
+				+ "(personID, dateOfInjection, typeOfVaccine, IDVaccine, address, interaction, imageHist, nextAppointment)"
 				+ " values (?, ? ,?, ?, ?, ? ,?, ?)"; 
 		
 		myStmt  = myCon.prepareStatement(sql);
@@ -103,6 +104,7 @@ public class HistoryMedicalDAO {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+<<<<<<< HEAD
 		}	
 		String typeOfVaccine = myRs.getString("typeOfVaccine");
 		int idvaccine = myRs.getInt("IDVaccine");
@@ -119,6 +121,17 @@ public class HistoryMedicalDAO {
 	
 		
 	    HistoryMedical tempHistoryMedical = new HistoryMedical(dateInjectionInDate, typeOfVaccine, idvaccine, address, interaction, img, nextAppoinmentInDate);
+=======
+		}
+		
+		String interaction = myRs.getString("interation");
+		String typeOfVaccine = myRs.getString("typeOfVaccine");
+		int iDVaccine = myRs.getInt("IDVaccine");
+		String address = myRs.getString("address");
+		String imageHist = myRs.getString("imageHist");
+		
+	    HistoryMedical tempHistoryMedical = new HistoryMedical(dateInjectionInDate, typeOfVaccine, iDVaccine, address, interaction, imageHist, nextAppoinmentInDate);
+>>>>>>> 7c3a326ee61ae4a1876039bf96982d2d0c0c95fa
 	    
 		return tempHistoryMedical;
 	}

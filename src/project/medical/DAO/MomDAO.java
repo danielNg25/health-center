@@ -57,7 +57,7 @@ public class MomDAO {
 		try {
 			
 			name += "%";
-			myStmt = myCon.prepareStatement("select * from Mom where firstName like ? or lastName like ? ");
+			myStmt = myCon.prepareStatement("select * from mom where firstName like ? or lastName like ? ");
 			myStmt.setString(1, name);
 			myStmt.setString(2, name);			
 			myRs = myStmt.executeQuery();
@@ -80,8 +80,8 @@ public class MomDAO {
 	public void addMom(Mom newMom) throws Exception{
 		PreparedStatement myStmt = null;
 		try {
-		String sql  = "Insert into Mom"
-				+ "(ID, lastName, firstName, dateOfBirth,address,email, phoneNum)"
+		String sql  = "Insert into mom"
+				+ "(momID, lastName, firstName, dateOfBirth,address,email, phoneNum)"
 				+ " values (?, ? ,? , ?, ?, ? ) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);
@@ -109,7 +109,7 @@ public class MomDAO {
 	// Converting one Mom in table -> object Mom
 	private Mom convertRowToMom(ResultSet myRs) throws SQLException {
 		
-		String id = myRs.getString("ID");
+		String id = myRs.getString("momID");
 		String lastName = myRs.getString("lastName");
 		String firstName = myRs.getString("firstName");
 		Date dateOfBirth = myRs.getDate("dateOfBirth");

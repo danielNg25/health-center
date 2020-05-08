@@ -1,6 +1,5 @@
 package project.medical.core;
 
-import java.awt.image.BufferedImage;
 import java.util.Date;
 
 
@@ -11,7 +10,7 @@ public class HistoryMedical {
 	private int IDVaccine; // số lô "int"
 	private String address; // địa điểm
 	private String interaction; // phản ứng
-	private BufferedImage imageHist; // ảnh
+	private String imageHist; // ảnh
 	private Date nextAppointment; // hẹn lần tiếp
 	
 	
@@ -45,10 +44,10 @@ public class HistoryMedical {
 	public void setInteraction(String interaction) {
 		this.interaction = interaction;
 	}
-	public BufferedImage getImageHist() {
+	public String getImageHist() {
 		return imageHist;
 	}
-	public void setImageHist(BufferedImage imageHist) {
+	public void setImageHist(String imageHist) {
 		this.imageHist = imageHist;
 	}
 	public Date getNextAppointment() {
@@ -58,7 +57,7 @@ public class HistoryMedical {
 		this.nextAppointment = nextAppointment;
 	}
 	public HistoryMedical( Date dateOfInjection, String typeOfVaccine, int iDVaccine, String address,
-			String interaction, BufferedImage imageHist, Date nextAppointment) {
+			String interaction, String imageHist, Date nextAppointment) {
 		this.dateOfInjection = dateOfInjection;
 		this.typeOfVaccine = typeOfVaccine;
 		IDVaccine = iDVaccine;
