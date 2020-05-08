@@ -81,7 +81,7 @@ public class  Person {
 		this.address = null;
 		this.email = null;
 		this.histories = null;
-		this.phoneNum = 0;
+		this.phoneNum = null;
 	}
 	public Person(String iD, String lastName, String firstName, Date dateOfBirth, String address, String email, String phoneNum) {
 		this.ID = iD;

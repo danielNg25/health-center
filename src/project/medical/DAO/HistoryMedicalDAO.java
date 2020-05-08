@@ -1,7 +1,10 @@
 package project.medical.DAO;
 
 import project.medical.core.*;
+
+import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+
+import javax.imageio.ImageIO;
 
 
 public class HistoryMedicalDAO {
@@ -91,20 +96,29 @@ public class HistoryMedicalDAO {
 		
 		String stringDateInjection = myRs.getString("dateOfInjection");
 		String stringDateNextAppoint =  myRs.getString("nextAppointment");
-		Date dateInjectionInDate, nextAppoinmentInDate = null;
+		Date dateInjectionInDate = null, nextAppoinmentInDate = null;
 		try {
 			dateInjectionInDate = formatter.parse(stringDateInjection);
 			nextAppoinmentInDate = formatter.parse(stringDateNextAppoint);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		String type = myRs.getString("typeOfVaccine");
+		}	
+		String typeOfVaccine = myRs.getString("typeOfVaccine");
 		int idvaccine = myRs.getInt("IDVaccine");
 		String url = myRs.getString("imageHist");
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(getClass().getResource(url));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String address = myRs.getString("address");
+		String interaction = myRs.getString("interaction");
 		
-	    HistoryMedical tempHistoryMedical = new HistoryMedical(dateInjectionInDate, typeOfVaccine, iDVaccine, address, interaction, imageHist, nextAppoinmentInDate)
+	
+		
+	    HistoryMedical tempHistoryMedical = new HistoryMedical(dateInjectionInDate, typeOfVaccine, idvaccine, address, interaction, img, nextAppoinmentInDate);
 	    
 		return tempHistoryMedical;
 	}
