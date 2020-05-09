@@ -84,7 +84,7 @@ public class PersonReminder extends JFrame {
 					if(TodayPersons.size() == 0) {
 						JOptionPane.showMessageDialog(PersonReminder.this,"Today has no Person","Not found",JOptionPane.ERROR_MESSAGE);
 					}else {
-						PersonTableModel model = new PersonTableModel(TodayPersons);
+						KidTableModel model = new KidTableModel(TodayPersons);
 		                table.setModel(model);
 					}
 				} catch (Exception exc) {
@@ -105,7 +105,7 @@ public class PersonReminder extends JFrame {
 					if(TomorrowPersons.size() == 0) {
 						JOptionPane.showMessageDialog(PersonReminder.this,"Tomorrow has no Person","Not Found", JOptionPane.ERROR_MESSAGE);
 					} else {
-					PersonTableModel model = new PersonTableModel(TomorrowPersons);
+					KidTableModel model = new KidTableModel(TomorrowPersons);
 	                table.setModel(model);
 					}
 					

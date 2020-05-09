@@ -100,7 +100,7 @@ public class PersonApp extends JFrame {
 					return;
 				}
 				
-				Person temp = (Person) table.getValueAt(row, PersonTableModel.OBJECT_COL);
+				Person temp = (Person) table.getValueAt(row, KidTableModel.OBJECT_COL);
 				
 				PersonDialog dialog = new PersonDialog(PersonApp.this, personDAO, temp, true);
 				
@@ -139,7 +139,7 @@ public class PersonApp extends JFrame {
 					for (Person temp : persons) {
 						System.out.println(temp);
 					}
-                    PersonTableModel model = new PersonTableModel(persons);
+                    KidTableModel model = new KidTableModel(persons);
                     table.setModel(model);
                     
 	
@@ -174,7 +174,7 @@ public class PersonApp extends JFrame {
 		try {
 			List<Person> persons = personDAO.getAllPerson();
 			
-			PersonTableModel model = new PersonTableModel(persons);
+			KidTableModel model = new KidTableModel(persons);
 			
 			table.setModel(model);
 		} catch(Exception e) {

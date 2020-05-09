@@ -20,11 +20,11 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Choice;
+import java.awt.Component;
 
 public class WelcomeScreen {
 
 	private JFrame MainScreen;
-	private JTextField txtHealthcenter;
 
 	/**
 	 * Launch the application.
@@ -54,6 +54,7 @@ public class WelcomeScreen {
 	 */
 	private void initialize() {
 		MainScreen = new JFrame();
+		MainScreen.setType(Type.UTILITY);
 		MainScreen.getContentPane().setBackground(new Color(192, 192, 192));
 		MainScreen.setTitle("HealthCenter");
 		MainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,33 +62,21 @@ public class WelcomeScreen {
 		MainScreen.setBounds(100, 100, 609, 475);
 		MainScreen.getContentPane().setLayout(null);
 		
-		txtHealthcenter = new JTextField();
-		txtHealthcenter.setFont(new Font("Tahoma", Font.BOLD, 16));
-		txtHealthcenter.setBackground(Color.BLUE);
-		txtHealthcenter.setForeground(Color.BLACK);
-		txtHealthcenter.setHorizontalAlignment(SwingConstants.CENTER);
-		txtHealthcenter.setText("Welcome to TNT Healthcare Center");
-		txtHealthcenter.setBounds(0, 0, 593, 46);
-		MainScreen.getContentPane().add(txtHealthcenter);
-		txtHealthcenter.setColumns(50);
-		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\admin\\eclipse-workspace\\Medical\\Image\\screen-bg.jpg"));
-		lblNewLabel.setBounds(125, 45, 468, 394);
-		MainScreen.getContentPane().add(lblNewLabel);
-		
 		JButton btnNewButton = new JButton("Vaccination");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				VaccinationScreen  vaccinationUI = new VaccinationScreen();
+				vaccinationUI.setVisible(true);
+				
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnNewButton.setBounds(0, 177, 129, 46);
+		btnNewButton.setBounds(0, 44, 118, 46);
 		MainScreen.getContentPane().add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Kid Index");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnNewButton_1.setBounds(0, 223, 129, 52);
+		btnNewButton_1.setBounds(116, 44, 101, 46);
 		MainScreen.getContentPane().add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Appointment");
@@ -96,17 +85,28 @@ public class WelcomeScreen {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_2.setBounds(0, 327, 129, 57);
+		btnNewButton_2.setBounds(321, 44, 129, 46);
 		MainScreen.getContentPane().add(btnNewButton_2);
 		
 		JButton btnNewButton_3 = new JButton("Mom Index");
 		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnNewButton_3.setBounds(0, 276, 129, 52);
+		btnNewButton_3.setBounds(212, 44, 111, 46);
 		MainScreen.getContentPane().add(btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("Clinic Infor");
 		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnNewButton_4.setBounds(0, 382, 129, 57);
+		btnNewButton_4.setBounds(446, 42, 147, 48);
 		MainScreen.getContentPane().add(btnNewButton_4);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\admin\\eclipse-workspace\\Medical\\Image\\healthycare-screen.jpg"));
+		lblNewLabel.setBounds(0, 88, 593, 348);
+		MainScreen.getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Welcome to TNT Healthcare Center");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1.setBackground(Color.CYAN);
+		lblNewLabel_1.setBounds(0, 0, 593, 46);
+		MainScreen.getContentPane().add(lblNewLabel_1);
 	}
 }
