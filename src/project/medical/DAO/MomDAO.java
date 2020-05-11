@@ -109,7 +109,7 @@ public class MomDAO {
 	// Converting one Mom in table -> object Mom
 	private Mom convertRowToMom(ResultSet myRs) throws SQLException {
 		
-		String id = myRs.getString("momID");
+		String momID = myRs.getString("momID");
 		String lastName = myRs.getString("lastName");
 		String firstName = myRs.getString("firstName");
 		Date dateOfBirth = myRs.getDate("dateOfBirth");
@@ -117,7 +117,7 @@ public class MomDAO {
 		String address = myRs.getString("address"); 
 		String phoneNum = myRs.getString("phoneNum");
 		
-	    Mom tempMom = new Mom(id, lastName, firstName, dateOfBirth, address, email, phoneNum);
+	    Mom tempMom = new Mom(momID, lastName, firstName, dateOfBirth, address, email, phoneNum);
 		
 		return tempMom;
 	}
