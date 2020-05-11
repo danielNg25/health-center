@@ -118,13 +118,44 @@ public class KidDAO {
 		String address = myRs.getString("address"); 
 		String gender = myRs.getString("gender");
 		String phoneNum = myRs.getString("phoneNum");
-		
-	    Kid tempKid = new Kid(id, lastName, firstName, dateOfBirth, address, email, phoneNum, gender);
+		String parentName = myRs.getString("parentName");
+	    Kid tempKid = new Kid(id, lastName, firstName, dateOfBirth, address, email, phoneNum, gender, parentName);
 		
 		return tempKid;
 	}
 	
-	
+	public void updateKid(Kid temp) throws SQLException {
+		PreparedStatement myStmt = null;
+		try {
+			String sql  = "Update Kid"
+					+ "set lastName = ?, firstName = ?, dateOfBirth=?,address= ?,email=?, phoneNum=?,"
+					+ " gender = ?, parentName=? "
+					+ " where kidID = ? " ;
+			
+			myStmt  = myCon.prepareStatement(sql);
+			
+			
+			String stringDate = formatter.format(temp.getDateOfBirth());
+			
+			myStmt.setString(1, temp.getID() );
+			myStmt.setString(1, temp.getLastName());
+			myStmt.setString(2, temp.getFirstName());
+			myStmt.setString(3, stringDate);
+			myStmt.setString(4, temp.getAddress());
+			myStmt.setString(5, temp.getEmail());
+			myStmt.setString(6, temp.getPhoneNum());
+			myStmt.setString(7, temp.getGender());
+			myStmt.setString(8, temp.getParentName());
+			myStmt.setString(7, temp.getID());			
+			
+			myStmt.executeUpdate();
+	    }
+	    finally {
+	    	myStmt.close();
+	    }
+		
+	}
+
 
 	
 	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)

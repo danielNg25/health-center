@@ -121,7 +121,36 @@ public class MomDAO {
 		
 		return tempMom;
 	}
-	
+	// Updating on Mom in table
+	public void updateMom(Mom temp) throws SQLException {
+		PreparedStatement myStmt = null;
+		try {
+			String sql  = "Update mom"
+					+ "set lastName = ?, firstName = ?, dateOfBirth=?,address= ?,email=?, phoneNum=?"
+					+ " where momID = ? " ;
+			
+			myStmt  = myCon.prepareStatement(sql);
+			
+			
+			String stringDate = formatter.format(temp.getDateOfBirth());
+			
+			myStmt.setString(1, temp.getID() );
+			myStmt.setString(1, temp.getLastName());
+			myStmt.setString(2, temp.getFirstName());
+			myStmt.setString(3, stringDate);
+			myStmt.setString(4, temp.getAddress());
+			myStmt.setString(5, temp.getEmail());
+			myStmt.setString(6, temp.getPhoneNum());
+			myStmt.setString(7, temp.getID());			
+			
+			myStmt.executeUpdate();
+	    }
+	    finally {
+	    	myStmt.close();
+	    }
+		
+	}
+
 	
 
 	
@@ -150,6 +179,6 @@ public class MomDAO {
 		System.out.println(dao.getAllMom());
 
 	}
-
+	
 
 }
