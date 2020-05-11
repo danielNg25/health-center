@@ -33,7 +33,7 @@ public class KidDAO {
 		
 		try {
 			myStmt = myCon.createStatement();
-			myRs = myStmt.executeQuery("select * from Kid");
+			myRs = myStmt.executeQuery("select * from kid");
 			
 			while (myRs.next()) {
 				Kid tempKid = convertRowToKid(myRs);
@@ -80,22 +80,24 @@ public class KidDAO {
 	public void addKid(Kid newKid) throws Exception{
 		PreparedStatement myStmt = null;
 		try {
-		String sql  = "Insert into Kid"
-				+ "(ID, lastName, firstName, dateOfBirth, address, email, gender)"
-				+ " values (?, ?, ?, ?, ?, ?, ?) " ;
+		String sql  = "Insert into kid"
+				+ "(kidID, lastName, firstName, dateOfBirth, address, email, phoneNum, gender, parentName)"
+				+ " values (?, ?, ?, ?, ?, ?, ?, ?) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);
 		
 		
 		String stringDate = formatter.format(newKid.getDateOfBirth());
 		
-		myStmt.setString(1, newKid.getID() );
+		myStmt.setString(1, newKid.getID());
 		myStmt.setString(2, newKid.getLastName());
 		myStmt.setString(3, newKid.getFirstName());
 		myStmt.setString(4, stringDate);
 		myStmt.setString(5, newKid.getAddress());
 		myStmt.setString(6, newKid.getEmail());
-		myStmt.setString(7, newKid.getGender());
+		myStmt.setString(7, newKid.getPhoneNum());
+		myStmt.setString(8, newKid.getGender());
+		myStmt.setString(9, newKid.getParentName());
 		
 		
 		myStmt.executeUpdate();
@@ -108,21 +110,53 @@ public class KidDAO {
 	
 	// Converting one Kid in table -> object Kid
 	private Kid convertRowToKid(ResultSet myRs) throws SQLException {
-		
-		String id = myRs.getString("ID");
+		String id = myRs.getString("kidID");
 		String lastName = myRs.getString("lastName");
 		String firstName = myRs.getString("firstName");
 		Date dateOfBirth = myRs.getDate("dateOfBirth");
 		String email = myRs.getString("email");
 		String address = myRs.getString("address"); 
 		String gender = myRs.getString("gender");
-		
-	    Kid tempKid = new Kid(id, lastName, firstName, dateOfBirth, address, email, gender);
+		String phoneNum = myRs.getString("phoneNum");
+		String parentName = myRs.getString("parentName");
+
+	    Kid tempKid = new Kid(id, lastName, firstName, dateOfBirth, address, email, phoneNum, gender, parentName);
 		
 		return tempKid;
 	}
 	
-	
+	public void updateKid(Kid temp) throws SQLException {
+		PreparedStatement myStmt = null;
+		try {
+			String sql  = "Update Kid"
+					+ "set lastName = ?, firstName = ?, dateOfBirth=?,address= ?,email=?, phoneNum=?,"
+					+ " gender = ?, parentName=? "
+					+ " where kidID = ? " ;
+			
+			myStmt  = myCon.prepareStatement(sql);
+			
+			
+			String stringDate = formatter.format(temp.getDateOfBirth());
+			
+			myStmt.setString(1, temp.getID() );
+			myStmt.setString(1, temp.getLastName());
+			myStmt.setString(2, temp.getFirstName());
+			myStmt.setString(3, stringDate);
+			myStmt.setString(4, temp.getAddress());
+			myStmt.setString(5, temp.getEmail());
+			myStmt.setString(6, temp.getPhoneNum());
+			myStmt.setString(7, temp.getGender());
+			myStmt.setString(8, temp.getParentName());
+			myStmt.setString(7, temp.getID());			
+			
+			myStmt.executeUpdate();
+	    }
+	    finally {
+	    	myStmt.close();
+	    }
+		
+	}
+
 
 	
 	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)

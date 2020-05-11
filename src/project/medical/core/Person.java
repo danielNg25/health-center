@@ -2,18 +2,32 @@ package project.medical.core;
 
 import java.util.Date;
 
-public abstract class  Person {
+public class  Person {
 	protected String ID; // khóa chính để tìm "String"
 	protected String lastName; 
 	protected String firstName;
 	protected Date dateOfBirth;
 	protected String address;
+	protected String phoneNum;
 	protected String email;
 	protected HistoryMedical [] histories;
+	protected WeightHeight [] wH;
 	
 	
+	public WeightHeight[] getwH() {
+		return wH;
+	}
+	public void setwH(WeightHeight[] wH) {
+		this.wH = wH;
+	}
 	public HistoryMedical[] getHistories() {
 		return histories;
+	}
+	public String getPhoneNum() {
+		return phoneNum;
+	}
+	public void setPhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
 	}
 	public void setHistories(HistoryMedical[] histories) {
 		this.histories = histories;
@@ -54,15 +68,17 @@ public abstract class  Person {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Person(String iD, String lastName, String firstName, Date dateOfBirth, String address, String email,
-			HistoryMedical[] histories) {
+	public Person(String iD, String lastName, String firstName, Date dateOfBirth, String address, String email, String phoneNum,
+			HistoryMedical[] histories, WeightHeight [] wH) {
 		ID = iD;
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.dateOfBirth = dateOfBirth;
 		this.address = address;
 		this.email = email;
+		this.phoneNum = phoneNum;
 		this.histories = histories;
+		this.wH = wH;
 	}
 	
 	public Person() {
@@ -73,8 +89,10 @@ public abstract class  Person {
 		this.address = null;
 		this.email = null;
 		this.histories = null;
+		this.phoneNum = null;
+		this.wH = null;
 	}
-	public Person(String iD, String lastName, String firstName, Date dateOfBirth, String address, String email) {
+	public Person(String iD, String lastName, String firstName, Date dateOfBirth, String address, String email, String phoneNum) {
 		this.ID = iD;
 		this.lastName = lastName;
 		this.firstName = firstName;
@@ -82,6 +100,7 @@ public abstract class  Person {
 		this.address = address;
 		this.email = email;
 		this.histories = null;
+		this.phoneNum = phoneNum;
 	}
 	
 	

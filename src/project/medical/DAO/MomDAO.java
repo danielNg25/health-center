@@ -57,7 +57,7 @@ public class MomDAO {
 		try {
 			
 			name += "%";
-			myStmt = myCon.prepareStatement("select * from Mom where firstName like ? or lastName like ? ");
+			myStmt = myCon.prepareStatement("select * from mom where firstName like ? or lastName like ? ");
 			myStmt.setString(1, name);
 			myStmt.setString(2, name);			
 			myRs = myStmt.executeQuery();
@@ -80,8 +80,8 @@ public class MomDAO {
 	public void addMom(Mom newMom) throws Exception{
 		PreparedStatement myStmt = null;
 		try {
-		String sql  = "Insert into Mom"
-				+ "(ID, lastName, firstName, dateOfBirth,Address,Email)"
+		String sql  = "Insert into mom"
+				+ "(momID, lastName, firstName, dateOfBirth,address,email, phoneNum)"
 				+ " values (?, ? ,? , ?, ?, ? ) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);
@@ -95,6 +95,7 @@ public class MomDAO {
 		myStmt.setString(4, stringDate);
 		myStmt.setString(5, newMom.getAddress());
 		myStmt.setString(6, newMom.getEmail());
+		myStmt.setString(7, newMom.getPhoneNum());
 		
 		
 		myStmt.executeUpdate();
@@ -108,18 +109,48 @@ public class MomDAO {
 	// Converting one Mom in table -> object Mom
 	private Mom convertRowToMom(ResultSet myRs) throws SQLException {
 		
-		String id = myRs.getString("ID");
+		String momID = myRs.getString("momID");
 		String lastName = myRs.getString("lastName");
 		String firstName = myRs.getString("firstName");
 		Date dateOfBirth = myRs.getDate("dateOfBirth");
 		String email = myRs.getString("email");
 		String address = myRs.getString("address"); 
+		String phoneNum = myRs.getString("phoneNum");
 		
-	    Mom tempMom = new Mom(id, lastName, firstName, dateOfBirth, address, email);
+	    Mom tempMom = new Mom(momID, lastName, firstName, dateOfBirth, address, email, phoneNum);
 		
 		return tempMom;
 	}
-	
+	// Updating on Mom in table
+	public void updateMom(Mom temp) throws SQLException {
+		PreparedStatement myStmt = null;
+		try {
+			String sql  = "Update mom"
+					+ "set lastName = ?, firstName = ?, dateOfBirth=?,address= ?,email=?, phoneNum=?"
+					+ " where momID = ? " ;
+			
+			myStmt  = myCon.prepareStatement(sql);
+			
+			
+			String stringDate = formatter.format(temp.getDateOfBirth());
+			
+			myStmt.setString(1, temp.getID() );
+			myStmt.setString(1, temp.getLastName());
+			myStmt.setString(2, temp.getFirstName());
+			myStmt.setString(3, stringDate);
+			myStmt.setString(4, temp.getAddress());
+			myStmt.setString(5, temp.getEmail());
+			myStmt.setString(6, temp.getPhoneNum());
+			myStmt.setString(7, temp.getID());			
+			
+			myStmt.executeUpdate();
+	    }
+	    finally {
+	    	myStmt.close();
+	    }
+		
+	}
+
 	
 
 	
@@ -148,6 +179,6 @@ public class MomDAO {
 		System.out.println(dao.getAllMom());
 
 	}
-
+	
 
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Properties;
 
 
+
 public class HistoryMedicalDAO {
     private Connection myCon;
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -25,6 +26,7 @@ public class HistoryMedicalDAO {
 		System.out.println("Connect Successfull");
 	}
 	
+	
 	//  Get all HistoryMedicals of "a person " according to person ID 
 	public  List<HistoryMedical> getHistoryMedicalByName(String theIDPerson) throws Exception {
 		List<HistoryMedical> list = new ArrayList<>();
@@ -35,7 +37,7 @@ public class HistoryMedicalDAO {
 		try {
 			
 			theIDPerson += "%";
-			myStmt = myCon.prepareStatement("select * from HistoryMedical where id = ? ");
+			myStmt = myCon.prepareStatement("select * from medicalhistory where personID = ? ");
 			myStmt.setString(1, theIDPerson);
 			myRs = myStmt.executeQuery();
 			
@@ -58,7 +60,7 @@ public class HistoryMedicalDAO {
 		PreparedStatement myStmt = null;
 		try {
 		String sql  = "Insert into HistoryMedical"
-				+ "(ID, dateOfInjection, typeOfVaccine, IDVaccine, address, interaction, imageHist, nextAppointment)"
+				+ "(personID, dateOfInjection, typeOfVaccine, IDVaccine, address, interaction, imageHist, nextAppointment)"
 				+ " values (?, ? ,?, ?, ?, ? ,?, ?)"; 
 		
 		myStmt  = myCon.prepareStatement(sql);
@@ -66,14 +68,14 @@ public class HistoryMedicalDAO {
 		
 		String stringDateInjection = formatter.format(newHistoryMedical.getDateOfInjection());
 		String stringDateNextAppoint = formatter.format(newHistoryMedical.getNextAppointment());
-		//String StringUrlImage = ;
+
 		myStmt.setString(1, thePersonID );
 		myStmt.setString(2, stringDateInjection);
 		myStmt.setString(3, newHistoryMedical.getTypeOfVaccine());
 		myStmt.setInt(4, newHistoryMedical.getIDVaccine());
 		myStmt.setString(5, newHistoryMedical.getAddress());
 		myStmt.setString(6, newHistoryMedical.getInteraction());
-		//myStmt.setString(7, StringUrlImage);
+		myStmt.setString(7, newHistoryMedical.getImageHist());
 		myStmt.setString(8, stringDateNextAppoint);
 		
 			
@@ -86,25 +88,26 @@ public class HistoryMedicalDAO {
 	}	
 	
 	
-	// Converting one HistoryMedical in table -> object HistoryMedical (with out ID)
+	// Converting one HistoryMedical in table -> object HistoryMedical 
 	private HistoryMedical convertRowToHistoryMedical(ResultSet myRs) throws SQLException {
 		
 		String stringDateInjection = myRs.getString("dateOfInjection");
 		String stringDateNextAppoint =  myRs.getString("nextAppointment");
-		Date dateInjectionInDate, nextAppoinmentInDate = null;
+		Date dateInjectionInDate = null, nextAppoinmentInDate = null;
 		try {
 			dateInjectionInDate = formatter.parse(stringDateInjection);
 			nextAppoinmentInDate = formatter.parse(stringDateNextAppoint);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		String type = myRs.getString("typeOfVaccine");
-		int idvaccine = myRs.getInt("IDVaccine");
-		String url = myRs.getString("imageHist");
+		String interaction = myRs.getString("interation");
+		String typeOfVaccine = myRs.getString("typeOfVaccine");
+		int iDVaccine = myRs.getInt("IDVaccine");
+		String address = myRs.getString("address");
+		String imageHist = myRs.getString("imageHist");
 		
-	    HistoryMedical tempHistoryMedical = new HistoryMedical(dateInjectionInDate, typeOfVaccine, iDVaccine, address, interaction, imageHist, nextAppoinmentInDate)
+	    HistoryMedical tempHistoryMedical = new HistoryMedical(dateInjectionInDate, typeOfVaccine, iDVaccine, address, interaction, imageHist, nextAppoinmentInDate);
 	    
 		return tempHistoryMedical;
 	}
