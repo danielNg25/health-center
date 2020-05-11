@@ -4,28 +4,25 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.Color;
-import java.awt.SystemColor;
+
 import java.awt.Window.Type;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import java.awt.Image;
 
-import javax.swing.DropMode;
-import javax.swing.ImageIcon;
 
-import java.awt.Label;
-import javax.swing.JLabel;
+
+
+
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
-import java.awt.Choice;
-import java.awt.Component;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
-import java.awt.FlowLayout;
+
 import java.awt.BorderLayout;
 import javax.swing.border.CompoundBorder;
 
@@ -34,8 +31,6 @@ import project.medical.DAO.MomDAO;
 import project.medical.core.Kid;
 import project.medical.core.Person;
 
-import java.awt.Rectangle;
-import javax.swing.border.BevelBorder;
 import javax.swing.JToolBar;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;

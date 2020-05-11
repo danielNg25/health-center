@@ -81,22 +81,23 @@ public class KidDAO {
 		PreparedStatement myStmt = null;
 		try {
 		String sql  = "Insert into kid"
-				+ "(kidID, lastName, firstName, dateOfBirth, address, email, phoneNum, gender)"
-				+ " values (?, ?, ?, ?, ?, ?, ?) " ;
+				+ "(kidID, lastName, firstName, dateOfBirth, address, email, phoneNum, gender, parentName)"
+				+ " values (?, ?, ?, ?, ?, ?, ?, ?) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);
 		
 		
 		String stringDate = formatter.format(newKid.getDateOfBirth());
 		
-		myStmt.setString(1, newKid.getID() );
+		myStmt.setString(1, newKid.getID());
 		myStmt.setString(2, newKid.getLastName());
 		myStmt.setString(3, newKid.getFirstName());
 		myStmt.setString(4, stringDate);
 		myStmt.setString(5, newKid.getAddress());
 		myStmt.setString(6, newKid.getEmail());
-		myStmt.setString(8, newKid.getGender());
 		myStmt.setString(7, newKid.getPhoneNum());
+		myStmt.setString(8, newKid.getGender());
+		myStmt.setString(9, newKid.getParentName());
 		
 		
 		myStmt.executeUpdate();
@@ -109,7 +110,6 @@ public class KidDAO {
 	
 	// Converting one Kid in table -> object Kid
 	private Kid convertRowToKid(ResultSet myRs) throws SQLException {
-		
 		String id = myRs.getString("kidID");
 		String lastName = myRs.getString("lastName");
 		String firstName = myRs.getString("firstName");
@@ -119,6 +119,7 @@ public class KidDAO {
 		String gender = myRs.getString("gender");
 		String phoneNum = myRs.getString("phoneNum");
 		String parentName = myRs.getString("parentName");
+
 	    Kid tempKid = new Kid(id, lastName, firstName, dateOfBirth, address, email, phoneNum, gender, parentName);
 		
 		return tempKid;
