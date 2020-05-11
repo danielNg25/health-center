@@ -11,8 +11,15 @@ public class  Person {
 	protected String phoneNum;
 	protected String email;
 	protected HistoryMedical [] histories;
+	protected WeightHeight [] wH;
 	
 	
+	public WeightHeight[] getwH() {
+		return wH;
+	}
+	public void setwH(WeightHeight[] wH) {
+		this.wH = wH;
+	}
 	public HistoryMedical[] getHistories() {
 		return histories;
 	}
@@ -62,7 +69,7 @@ public class  Person {
 		this.email = email;
 	}
 	public Person(String iD, String lastName, String firstName, Date dateOfBirth, String address, String email, String phoneNum,
-			HistoryMedical[] histories) {
+			HistoryMedical[] histories, WeightHeight [] wH) {
 		ID = iD;
 		this.lastName = lastName;
 		this.firstName = firstName;
@@ -71,6 +78,7 @@ public class  Person {
 		this.email = email;
 		this.phoneNum = phoneNum;
 		this.histories = histories;
+		this.wH = wH;
 	}
 	
 	public Person() {
@@ -82,6 +90,7 @@ public class  Person {
 		this.email = null;
 		this.histories = null;
 		this.phoneNum = null;
+		this.wH = null;
 	}
 	public Person(String iD, String lastName, String firstName, Date dateOfBirth, String address, String email, String phoneNum) {
 		this.ID = iD;
