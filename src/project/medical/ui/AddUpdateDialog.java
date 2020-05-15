@@ -69,13 +69,12 @@ public class AddUpdateDialog extends JDialog {
 		momDAO = theMomDAO;
 		momtab = theMomtab;
     	updateMode= theUpdateMode;
-    	
-    	if(updateMode) {
-    		if (momtab) populateGui(thePrevMom);
-    		else populateGui(thePrevKid);
+
+    	if (updateMode) {
+    		setTitle("Update");
+    		if (!momtab) populateGui(thePrevKid);
+    		else populateGui(thePrevMom);
     	}
-	
-	
 	}
 	private void populateGui(Person thepreviousPerson) {
 		idField.setText(thepreviousPerson.getID());
@@ -87,7 +86,7 @@ public class AddUpdateDialog extends JDialog {
 		addressField.setText(thepreviousPerson.getAddress());
 		if (thepreviousPerson instanceof Kid) {
 			genderField.setText(((Kid) thepreviousPerson).getGender());
-			//parentNameField.setText(thepreviousPerson.getFirstName());
+			parentNameField.setText(thepreviousPerson.getFirstName());
 		}
 	
 	}
@@ -100,202 +99,112 @@ public class AddUpdateDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		if (!momtab) {
-			if (updateMode) setTitle("Update Kid");
-			else setTitle("Add Kid");
-			JLabel lblNewLabel = new JLabel("ID");
-			lblNewLabel.setBounds(10, 14, 46, 14);
-			contentPanel.add(lblNewLabel);
-			
-			idField = new JTextField();
-			idField.setBounds(100, 8, 312, 20);
-			contentPanel.add(idField);
-			idField.setColumns(10);
-			
-			JLabel lblNewLabel_1 = new JLabel("Last Name");
-			lblNewLabel_1.setBounds(10, 39, 66, 14);
-			contentPanel.add(lblNewLabel_1);
-			
-			JLabel lblNewLabel_2 = new JLabel("First Name");
-			lblNewLabel_2.setBounds(10, 67, 58, 14);
-			contentPanel.add(lblNewLabel_2);
-			
-			lastNameField = new JTextField();
-			lastNameField.setBounds(100, 33, 312, 20);
-			contentPanel.add(lastNameField);
-			lastNameField.setColumns(10);
-			
-			firstNameField = new JTextField();
-			firstNameField.setColumns(10);
-			firstNameField.setBounds(100, 64, 312, 20);
-			contentPanel.add(firstNameField);
-			
-			JLabel lblNewLabel_3 = new JLabel("DateOfBirth");
-			lblNewLabel_3.setBounds(10, 98, 66, 14);
-			contentPanel.add(lblNewLabel_3);
-			
-			dateOfBirthField = new JTextField();
-			dateOfBirthField.setColumns(10);
-			dateOfBirthField.setBounds(100, 95, 129, 20);
-			contentPanel.add(dateOfBirthField);
-			
-			JLabel lblNewLabel_4 = new JLabel("Gender");
-			lblNewLabel_4.setBounds(250, 98, 46, 14);
-			contentPanel.add(lblNewLabel_4);
-			
-			genderField = new JTextField();
-			genderField.setColumns(10);
-			genderField.setBounds(315, 95, 97, 20);
-			contentPanel.add(genderField);
-			
-			JLabel lblNewLabel_5 = new JLabel("Address");
-			lblNewLabel_5.setBounds(10, 137, 46, 14);
-			contentPanel.add(lblNewLabel_5);
-			
-			addressField = new JTextField();
-			addressField.setColumns(10);
-			addressField.setBounds(100, 134, 129, 20);
-			contentPanel.add(addressField);
-			
-			JLabel lblNewLabel_6 = new JLabel("Phone");
-			lblNewLabel_6.setBounds(250, 137, 46, 14);
-			contentPanel.add(lblNewLabel_6);
-			
-			phoneField = new JTextField();
-			phoneField.setBounds(315, 134, 97, 20);
-			contentPanel.add(phoneField);
-			phoneField.setColumns(10);
-			
-			JLabel lblNewLabel_7 = new JLabel("Email");
-			lblNewLabel_7.setBounds(10, 178, 46, 14);
-			contentPanel.add(lblNewLabel_7);
-			
-			emailField = new JTextField();
-			emailField.setBounds(100, 175, 312, 20);
-			contentPanel.add(emailField);
-			emailField.setColumns(10);
-			
-			JLabel lblNewLabel_8 = new JLabel("ParentName");
-			lblNewLabel_8.setBounds(10, 203, 66, 14);
-			contentPanel.add(lblNewLabel_8);
-			
-			parentNameField = new JTextField();
-			parentNameField.setBounds(100, 200, 312, 20);
-			contentPanel.add(parentNameField);
-			parentNameField.setColumns(10);
+		JLabel lblNewLabel = new JLabel("ID");
+		lblNewLabel.setBounds(10, 14, 46, 14);
+		contentPanel.add(lblNewLabel);
+		
+		idField = new JTextField();
+		idField.setBounds(100, 8, 312, 20);
+		contentPanel.add(idField);
+		idField.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Last Name");
+		lblNewLabel_1.setBounds(10, 39, 66, 14);
+		contentPanel.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("First Name");
+		lblNewLabel_2.setBounds(10, 67, 58, 14);
+		contentPanel.add(lblNewLabel_2);
+		
+		lastNameField = new JTextField();
+		lastNameField.setBounds(100, 33, 312, 20);
+		contentPanel.add(lastNameField);
+		lastNameField.setColumns(10);
+		
+		firstNameField = new JTextField();
+		firstNameField.setColumns(10);
+		firstNameField.setBounds(100, 64, 312, 20);
+		contentPanel.add(firstNameField);
+		
+		JLabel lblNewLabel_3 = new JLabel("DateOfBirth");
+		lblNewLabel_3.setBounds(10, 98, 66, 14);
+		contentPanel.add(lblNewLabel_3);
+		
+		dateOfBirthField = new JTextField();
+		dateOfBirthField.setColumns(10);
+		dateOfBirthField.setBounds(100, 95, 129, 20);
+		contentPanel.add(dateOfBirthField);
+		
+		JLabel lblNewLabel_4 = new JLabel("Gender");
+		lblNewLabel_4.setBounds(250, 98, 46, 14);
+		contentPanel.add(lblNewLabel_4);
+		
+		genderField = new JTextField();
+		genderField.setColumns(10);
+		genderField.setBounds(315, 95, 97, 20);
+		contentPanel.add(genderField);
+		
+		JLabel lblNewLabel_5 = new JLabel("Address");
+		lblNewLabel_5.setBounds(10, 137, 46, 14);
+		contentPanel.add(lblNewLabel_5);
+		
+		addressField = new JTextField();
+		addressField.setColumns(10);
+		addressField.setBounds(100, 134, 129, 20);
+		contentPanel.add(addressField);
+		
+		JLabel lblNewLabel_6 = new JLabel("Phone");
+		lblNewLabel_6.setBounds(250, 137, 46, 14);
+		contentPanel.add(lblNewLabel_6);
+		
+		phoneField = new JTextField();
+		phoneField.setBounds(315, 134, 97, 20);
+		contentPanel.add(phoneField);
+		phoneField.setColumns(10);
+		
+		JLabel lblNewLabel_7 = new JLabel("Email");
+		lblNewLabel_7.setBounds(10, 178, 46, 14);
+		contentPanel.add(lblNewLabel_7);
+		
+		emailField = new JTextField();
+		emailField.setBounds(100, 175, 312, 20);
+		contentPanel.add(emailField);
+		emailField.setColumns(10);
+		
+		JLabel lblNewLabel_8 = new JLabel("ParentName");
+		lblNewLabel_8.setBounds(10, 203, 66, 14);
+		contentPanel.add(lblNewLabel_8);
+		
+		parentNameField = new JTextField();
+		parentNameField.setBounds(100, 200, 312, 20);
+		contentPanel.add(parentNameField);
+		parentNameField.setColumns(10);
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JPanel buttonPane = new JPanel();
-				buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-				getContentPane().add(buttonPane, BorderLayout.SOUTH);
-				{
-					JButton okButton = new JButton("Save");
-					okButton.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							saveKid();
-						}
+				JButton okButton = new JButton("Save");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						saveKid();
+					}
 
-					});
-					okButton.setActionCommand("OK");
-					buttonPane.add(okButton);
-					getRootPane().setDefaultButton(okButton);
-				}
-				{
-					JButton cancelButton = new JButton("Cancel");
-					cancelButton.setActionCommand("Cancel");
-					buttonPane.add(cancelButton);
-				}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
 			}
-		} else {
-			if (updateMode) setTitle("Update Mom");
-			else setTitle("Add Mom");
-			JLabel lblNewLabel = new JLabel("ID");
-			lblNewLabel.setBounds(10, 14, 46, 14);
-			contentPanel.add(lblNewLabel);
-			
-			idField = new JTextField();
-			idField.setBounds(100, 8, 312, 20);
-			contentPanel.add(idField);
-			idField.setColumns(10);
-			
-			JLabel lblNewLabel_1 = new JLabel("Last Name");
-			lblNewLabel_1.setBounds(10, 39, 66, 14);
-			contentPanel.add(lblNewLabel_1);
-			
-			JLabel lblNewLabel_2 = new JLabel("First Name");
-			lblNewLabel_2.setBounds(10, 67, 58, 14);
-			contentPanel.add(lblNewLabel_2);
-			
-			lastNameField = new JTextField();
-			lastNameField.setBounds(100, 33, 312, 20);
-			contentPanel.add(lastNameField);
-			lastNameField.setColumns(10);
-			
-			firstNameField = new JTextField();
-			firstNameField.setColumns(10);
-			firstNameField.setBounds(100, 64, 312, 20);
-			contentPanel.add(firstNameField);
-			
-			JLabel lblNewLabel_3 = new JLabel("DateOfBirth");
-			lblNewLabel_3.setBounds(10, 98, 66, 14);
-			contentPanel.add(lblNewLabel_3);
-			
-			dateOfBirthField = new JTextField();
-			dateOfBirthField.setColumns(10);
-			dateOfBirthField.setBounds(100, 95, 129, 20);
-			contentPanel.add(dateOfBirthField);
-			
-			
-			JLabel lblNewLabel_5 = new JLabel("Address");
-			lblNewLabel_5.setBounds(10, 137, 46, 14);
-			contentPanel.add(lblNewLabel_5);
-			
-			addressField = new JTextField();
-			addressField.setColumns(10);
-			addressField.setBounds(100, 134, 129, 20);
-			contentPanel.add(addressField);
-			
-			JLabel lblNewLabel_6 = new JLabel("Phone");
-			lblNewLabel_6.setBounds(250, 137, 46, 14);
-			contentPanel.add(lblNewLabel_6);
-			
-			phoneField = new JTextField();
-			phoneField.setBounds(315, 134, 97, 20);
-			contentPanel.add(phoneField);
-			phoneField.setColumns(10);
-			
-			JLabel lblNewLabel_7 = new JLabel("Email");
-			lblNewLabel_7.setBounds(10, 178, 46, 14);
-			contentPanel.add(lblNewLabel_7);
-			
-			emailField = new JTextField();
-			emailField.setBounds(100, 175, 312, 20);
-			contentPanel.add(emailField);
-			emailField.setColumns(10);
-			
 			{
-				JPanel buttonPane = new JPanel();
-				buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-				getContentPane().add(buttonPane, BorderLayout.SOUTH);
-				{
-					JButton okButton = new JButton("Save");
-					okButton.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							saveMom();
-						}
-					});
-					okButton.setActionCommand("OK");
-					buttonPane.add(okButton);
-					getRootPane().setDefaultButton(okButton);
-				}
-				{
-					JButton cancelButton = new JButton("Cancel");
-					cancelButton.setActionCommand("Cancel");
-					buttonPane.add(cancelButton);
-				}
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
 			}
-			
 		}
-	}
+			
+		
+			
+}
 
 	protected void saveMom() {
 		String id = idField.getText();
@@ -305,9 +214,6 @@ public class AddUpdateDialog extends JDialog {
 		String email = emailField.getText();
 		String address = addressField.getText();
 		String phone = phoneField.getText();
-		
-//		String parent_name = parentNameField.getText();
-//		String gender = genderField.getText();
 		Mom temp = null;
 		try {
 			if(updateMode) {
@@ -341,7 +247,6 @@ public class AddUpdateDialog extends JDialog {
 			setVisible(false);
 			dispose();
 			
-//			thisPanel.refreshPersonView();		
 			
 		}
 		catch(Exception e) {

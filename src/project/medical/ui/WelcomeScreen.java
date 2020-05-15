@@ -29,6 +29,7 @@ import javax.swing.border.CompoundBorder;
 import project.medical.DAO.KidDAO;
 import project.medical.DAO.MomDAO;
 import project.medical.core.Kid;
+import project.medical.core.Mom;
 import project.medical.core.Person;
 
 import javax.swing.JToolBar;
@@ -42,11 +43,16 @@ public class WelcomeScreen {
 	private JTextField kidNameField;
 	private KidDAO kidDAO;
 	private MomDAO momDAO;
-	private JTable table;
+	private JTable kidTable;
+	private JTable momTable;
+	private JTextField momNameField;
 
 	/**
 	 * Launch the application.
+	 * @throws Exception 
 	 */
+	
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -62,8 +68,12 @@ public class WelcomeScreen {
 
 	/**
 	 * Create the application.
+	 * @throws Exception 
 	 */
-	public WelcomeScreen() {
+	
+	public WelcomeScreen() throws Exception {
+		kidDAO = new KidDAO();
+		momDAO = new MomDAO();
 		initialize();
 	}
 
@@ -71,6 +81,9 @@ public class WelcomeScreen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		
+		
 		MainScreen = new JFrame();
 		MainScreen.setType(Type.UTILITY);
 		MainScreen.getContentPane().setBackground(new Color(192, 192, 192));
@@ -110,13 +123,13 @@ public class WelcomeScreen {
 		JButton btnNewButton_1 = new JButton("Update");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int row = table.getSelectedRow();
+				int row = kidTable.getSelectedRow();
 				if(row <0) {
 					JOptionPane.showMessageDialog(panel_kids,"Please select a kid","Warning",JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				
-				Kid temp = (Kid) table.getValueAt(row, KidTableModel.OBJECT_COL);
+				Kid temp = (Kid) kidTable.getValueAt(row, KidTableModel.OBJECT_COL);
 				
 				AddUpdateDialog updatedialog = new AddUpdateDialog(panel_kids, kidDAO, temp, null, null, false, true);
 				
@@ -145,7 +158,7 @@ public class WelcomeScreen {
 					}
 					
                     KidTableModel model = new KidTableModel(kids);
-                    table.setModel(model);
+                    kidTable.setModel(model);
                     
 	
 				}
@@ -192,14 +205,85 @@ public class WelcomeScreen {
 		btnNewButton_5.setMaximumSize(new Dimension(93, 23));
 		toolBar_1.add(btnNewButton_5);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		
+		kidTable = new JTable();
+		JScrollPane scrollPane = new JScrollPane(kidTable);
 		panel_kids.add(scrollPane, BorderLayout.CENTER);
 		
-		table = new JTable();
-		scrollPane.setColumnHeaderView(table);
+		
+		
 		
 		JPanel panel_moms = new JPanel();
 		tabbedPane.addTab("MOMS", null, panel_moms, null);
+		panel_moms.setLayout(new BorderLayout(0, 0));
+		
+		JToolBar toolBar_2 = new JToolBar();
+		panel_moms.add(toolBar_2, BorderLayout.NORTH);
+		
+		JButton btnNewButton_8 = new JButton("Add");
+		toolBar_2.add(btnNewButton_8);
+		
+		JButton btnNewButton_9 = new JButton("Update");
+		toolBar_2.add(btnNewButton_9);
+		
+		JButton btnNewButton_10 = new JButton("Delete");
+		toolBar_2.add(btnNewButton_10);
+		
+		JButton btnNewButton_11 = new JButton("Search");
+		btnNewButton_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+					String name = momNameField.getText();
+				
+					List <Mom> moms = null;
+					
+					if(name != null && name.trim().length() > 0 ) {
+						moms = momDAO.getMomByName(name);
+					}
+					else {
+						moms = momDAO.getAllMom();
+					}
+					
+                    MomTableModel model2 = new MomTableModel(moms);
+                    momTable.setModel(model2);
+                    
+	
+				}
+				catch(Exception exc) {
+					JOptionPane.showMessageDialog(panel_kids, "Error: "+ exc, "Error",JOptionPane.ERROR_MESSAGE);
+				}
+				
+				
+				
+			}
+		});
+		toolBar_2.add(btnNewButton_11);
+		
+		momNameField = new JTextField();
+		toolBar_2.add(momNameField);
+		momNameField.setColumns(10);
+		
+		JToolBar toolBar_3 = new JToolBar();
+		toolBar_3.setOrientation(SwingConstants.VERTICAL);
+		panel_moms.add(toolBar_3, BorderLayout.WEST);
+		
+		JButton btnNewButton_13 = new JButton("New button");
+		toolBar_3.add(btnNewButton_13);
+		
+		JButton btnNewButton_14 = new JButton("New button");
+		toolBar_3.add(btnNewButton_14);
+		
+		JButton btnNewButton_15 = new JButton("New button");
+		toolBar_3.add(btnNewButton_15);
+		
+		JButton btnNewButton_12 = new JButton("New button");
+		toolBar_3.add(btnNewButton_12);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		panel_moms.add(scrollPane_1, BorderLayout.CENTER);
+		
+		momTable = new JTable();
+		scrollPane_1.setViewportView(momTable);
 		
 		JPanel panel_clinic = new JPanel();
 		tabbedPane.addTab("CLINIC", null, panel_clinic, null);

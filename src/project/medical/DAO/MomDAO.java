@@ -3,6 +3,7 @@ package project.medical.DAO;
 import project.medical.core.*;
 import java.io.FileInputStream;
 import java.sql.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -107,17 +108,17 @@ public class MomDAO {
 	
 	
 	// Converting one Mom in table -> object Mom
-	private Mom convertRowToMom(ResultSet myRs) throws SQLException {
+	private Mom convertRowToMom(ResultSet myRs) throws SQLException, ParseException {
 		
 		String momID = myRs.getString("momID");
 		String lastName = myRs.getString("lastName");
 		String firstName = myRs.getString("firstName");
-		Date dateOfBirth = myRs.getDate("dateOfBirth");
+		String dateOfBirth = myRs.getString("dateOfBirth");
 		String email = myRs.getString("email");
 		String address = myRs.getString("address"); 
 		String phoneNum = myRs.getString("phoneNum");
-		
-	    Mom tempMom = new Mom(momID, lastName, firstName, dateOfBirth, address, email, phoneNum);
+		Date tempdate = formatter.parse(dateOfBirth);
+	    Mom tempMom = new Mom(momID, lastName, firstName, tempdate, address, email, phoneNum);
 		
 		return tempMom;
 	}
