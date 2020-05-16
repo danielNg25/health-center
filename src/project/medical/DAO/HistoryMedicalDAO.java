@@ -36,7 +36,7 @@ public class HistoryMedicalDAO {
 
 		try {
 			
-			theIDPerson += "%";
+			//theIDPerson += "%";
 			myStmt = myCon.prepareStatement("select * from medicalhistory where personID = ? ");
 			myStmt.setString(1, theIDPerson);
 			myRs = myStmt.executeQuery();
@@ -101,7 +101,7 @@ public class HistoryMedicalDAO {
 			e.printStackTrace();
 		}
 		
-		String interaction = myRs.getString("interation");
+		String interaction = myRs.getString("interaction");
 		String typeOfVaccine = myRs.getString("typeOfVaccine");
 		int iDVaccine = myRs.getInt("IDVaccine");
 		String address = myRs.getString("address");

@@ -187,7 +187,8 @@ public class AddUpdateDialog extends JDialog {
 				JButton okButton = new JButton("Save");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						saveKid();
+						if (momtab) saveMom();
+						else saveKid();
 					}
 
 				});

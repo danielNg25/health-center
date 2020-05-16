@@ -130,8 +130,8 @@ public class KidDAO {
 	public void updateKid(Kid temp) throws SQLException {
 		PreparedStatement myStmt = null;
 		try {
-			String sql  = "Update Kid"
-					+ "set lastName = ?, firstName = ?, dateOfBirth=?,address= ?,email=?, phoneNum=?,"
+			String sql  = "update kid "
+					+ " set lastName = ?, firstName = ?, dateOfBirth=?, address= ?,email=?, phoneNum=?,"
 					+ " gender = ?, parentName=? "
 					+ " where kidID = ? " ;
 			
@@ -182,7 +182,15 @@ public class KidDAO {
 
 	public static void main(String[] args) throws Exception {
 		KidDAO dao = new KidDAO();
-		System.out.println(dao.getAllKid());
+		//System.out.println(dao.getAllKid());
+		List<Kid> lists = dao.getAllKid();
+		for (Kid temp: lists) {
+			temp.setEmail("test@gmail.com");
+			dao.updateKid(temp);
+			break;
+		}
+			
+		
 
 	}
 

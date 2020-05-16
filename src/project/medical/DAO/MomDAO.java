@@ -83,7 +83,7 @@ public class MomDAO {
 		try {
 		String sql  = "Insert into mom"
 				+ "(momID, lastName, firstName, dateOfBirth,address,email, phoneNum)"
-				+ " values (?, ? ,? , ?, ?, ? ) " ;
+				+ " values (?, ? ,? , ?, ?, ?, ?) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);
 		
@@ -126,8 +126,8 @@ public class MomDAO {
 	public void updateMom(Mom temp) throws SQLException {
 		PreparedStatement myStmt = null;
 		try {
-			String sql  = "Update mom"
-					+ "set lastName = ?, firstName = ?, dateOfBirth=?,address= ?,email=?, phoneNum=?"
+			String sql  = "Update mom "
+					+ " set lastName = ?, firstName = ?, dateOfBirth=?,address= ?,email=?, phoneNum=?"
 					+ " where momID = ? " ;
 			
 			myStmt  = myCon.prepareStatement(sql);
