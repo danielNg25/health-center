@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
 
 public class VaccinationTab extends JFrame {
 
@@ -28,6 +29,7 @@ public class VaccinationTab extends JFrame {
 	private String personID;
 	private HistoryMedicalDAO histDAO;
 	private JTable vaccinationTable;
+	private JTextField decorateField;
 	/**
 	 * Launch the application.
 	 */
@@ -60,6 +62,8 @@ public class VaccinationTab extends JFrame {
         
         vaccinationTable.setModel(model);
 		
+        String txt = "Vaccination Hisory of "+ personID;
+        decorateField.setText(txt);
 		
     
 		
@@ -78,10 +82,17 @@ public class VaccinationTab extends JFrame {
 		JButton btnNewButton = new JButton("Add new history");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				  AddVaccinationDialog diag = new AddVaccinationDialog(histDAO ,personID);
+				  diag.setVisible(true);
 
 			}
 		});
 		toolBar.add(btnNewButton);
+		
+		decorateField = new JTextField();
+		decorateField.setEditable(false);
+		toolBar.add(decorateField);
+		decorateField.setColumns(10);
 		
 		vaccinationTable = new JTable();
 		JScrollPane scrollPane = new JScrollPane(vaccinationTable);

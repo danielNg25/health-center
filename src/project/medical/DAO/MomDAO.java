@@ -74,15 +74,39 @@ public class MomDAO {
 			close(myStmt, myRs);
 		}
 	}
-	
+//  Get all Moms by ID from table into a list 
+	public  Person getMomByID(String id) throws Exception {
+		Person thisperson = null;
+
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+
+		try {
+			
+			id += "%";
+			myStmt = myCon.prepareStatement("select * from Mom where momID = ?");
+			myStmt.setString(1, id);		
+			myRs = myStmt.executeQuery();
+			
+			while (myRs.next()) {
+				Mom tempMom = convertRowToMom(myRs);
+				thisperson  = tempMom;
+			}
+			
+			return thisperson;
+		}
+		finally {
+			close(myStmt, myRs);
+		}
+	}
 	
 	
 	// Adding a Mom object to table
 	public void addMom(Mom newMom) throws Exception{
 		PreparedStatement myStmt = null;
 		try {
-		String sql  = "Insert into mom"
-				+ "(momID, lastName, firstName, dateOfBirth,address,email, phoneNum)"
+		String sql  = "Insert into mom "
+				+ " (momID, lastName, firstName, dateOfBirth,address,email, phoneNum)"
 				+ " values (?, ? ,? , ?, ?, ?, ?) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);

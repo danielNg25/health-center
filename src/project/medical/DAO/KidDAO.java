@@ -74,8 +74,35 @@ public class KidDAO {
 			close(myStmt, myRs);
 		}
 	}
-	
-	
+	//  Get all Kids by ID from table into a list "Person"
+	public  Person getKidByID(String id) throws Exception {
+		Person thisperson = null;
+
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+
+		try {
+			
+			id += "%";
+			myStmt = myCon.prepareStatement("select * from Kid where kidID = ?");
+			myStmt.setString(1, id);		
+			myRs = myStmt.executeQuery();
+		
+			while(myRs!=null) {
+				System.out.println("vaodaydmdmdm");
+				//myRs.first();
+				Kid tempKid = convertRowToKid(myRs);
+				thisperson = tempKid;
+				break;
+			}
+			
+			
+			return thisperson;
+		}
+		finally {
+			close(myStmt, myRs);
+		}
+	}
 	
 	// Adding a Kid object to table
 	public void addKid(Kid newKid) throws Exception{
@@ -180,19 +207,6 @@ public class KidDAO {
 		close(null, myStmt, myRs);		
 	}
 
-	public static void main(String[] args) throws Exception {
-		KidDAO dao = new KidDAO();
-		//System.out.println(dao.getAllKid());
-		List<Kid> lists = dao.getAllKid();
-		for (Kid temp: lists) {
-			temp.setEmail("test@gmail.com");
-			dao.updateKid(temp);
-			break;
-		}
-			
-		
-
-	}
 
 
 }

@@ -44,6 +44,7 @@ public class WelcomeScreen {
 	private JTable kidTable;
 	private JTable momTable;
 	private JTextField momNameField;
+	private JButton btnNewButton_15;
 
 	/**
 	 * Launch the application.
@@ -179,15 +180,20 @@ public class WelcomeScreen {
 		JButton btnNewButton_7 = new JButton("Appointment");
 		btnNewButton_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-			
-				
+					AppoinmentTab aptab;
+					try {
+						aptab = new AppoinmentTab();
+						aptab.setVisible(true);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				
 			}
 		});
 		btnNewButton_7.setHorizontalAlignment(SwingConstants.LEFT);
 		toolBar_1.add(btnNewButton_7);
 		
+		// VACCINATION KID
 		JButton btnNewButton_4 = new JButton("Vaccination");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -323,16 +329,57 @@ public class WelcomeScreen {
 		toolBar_3.setOrientation(SwingConstants.VERTICAL);
 		panel_moms.add(toolBar_3, BorderLayout.WEST);
 		
-		JButton btnNewButton_13 = new JButton("New button");
+		JButton btnNewButton_13 = new JButton("Appointment");
+		btnNewButton_13.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNewButton_13.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		toolBar_3.add(btnNewButton_13);
-		
-		JButton btnNewButton_14 = new JButton("New button");
+		// VACCINATION MOM
+		JButton btnNewButton_14 = new JButton("Vaccination");
+		btnNewButton_14.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNewButton_14.setMinimumSize(new Dimension(93, 23));
+		btnNewButton_14.setMaximumSize(new Dimension(93, 23));
+		btnNewButton_14.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = momTable.getSelectedRow();
+				if(row <0) {
+					JOptionPane.showMessageDialog(panel_moms,"Please select a mom","Warning",JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				Mom temp = (Mom) momTable.getValueAt(row, KidTableModel.OBJECT_COL);
+				String id = temp.getID();
+				VaccinationTab vactab = null;
+				try {
+					vactab = new VaccinationTab(id);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+				vactab.setVisible(true);
+				
+				
+				
+			}
+		});
 		toolBar_3.add(btnNewButton_14);
 		
-		JButton btnNewButton_15 = new JButton("New button");
+		btnNewButton_15 = new JButton("Index");
+		btnNewButton_15.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNewButton_15.setMinimumSize(new Dimension(93, 23));
+		btnNewButton_15.setMaximumSize(new Dimension(93, 23));
+		btnNewButton_15.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		toolBar_3.add(btnNewButton_15);
 		
-		JButton btnNewButton_12 = new JButton("New button");
+		JButton btnNewButton_12 = new JButton("Information");
+		btnNewButton_12.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNewButton_12.setMinimumSize(new Dimension(93, 23));
+		btnNewButton_12.setMaximumSize(new Dimension(93, 23));
 		toolBar_3.add(btnNewButton_12);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
