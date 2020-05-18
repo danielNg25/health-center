@@ -229,6 +229,8 @@ public class WelcomeScreen {
 		btnNewButton_6.setMinimumSize(new Dimension(93, 23));
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
 			}
 		});
 		toolBar_1.add(btnNewButton_6);
@@ -333,6 +335,15 @@ public class WelcomeScreen {
 		btnNewButton_13.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_13.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				AppoinmentTab aptab;
+				try {
+					aptab = new AppoinmentTab();
+					aptab.setVisible(true);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+				
 			}
 		});
 		toolBar_3.add(btnNewButton_13);

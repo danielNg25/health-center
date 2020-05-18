@@ -1,6 +1,5 @@
 package project.medical.ui;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.swing.table.AbstractTableModel;

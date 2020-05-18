@@ -26,7 +26,7 @@ public class WeightHeightDAO {
 	}
 	
 	//  Get all WeightHeights of "a person " according to person ID 
-	public  List<WeightHeight> getWeightHeightByName(String theIDPerson) throws Exception {
+	public  List<WeightHeight> getWeightHeightByID(String theIDPerson) throws Exception {
 		List<WeightHeight> list = new ArrayList<>();
 
 		PreparedStatement myStmt = null;

@@ -76,14 +76,11 @@ public class MomDAO {
 	}
 //  Get all Moms by ID from table into a list 
 	public  Person getMomByID(String id) throws Exception {
-		Person thisperson = null;
-
 		PreparedStatement myStmt = null;
 		ResultSet myRs = null;
-
+		Person thisperson = null;
 		try {
 			
-			id += "%";
 			myStmt = myCon.prepareStatement("select * from Mom where momID = ?");
 			myStmt.setString(1, id);		
 			myRs = myStmt.executeQuery();

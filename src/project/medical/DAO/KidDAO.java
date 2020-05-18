@@ -76,25 +76,22 @@ public class KidDAO {
 	}
 	//  Get all Kids by ID from table into a list "Person"
 	public  Person getKidByID(String id) throws Exception {
-		Person thisperson = null;
-
+		
 		PreparedStatement myStmt = null;
 		ResultSet myRs = null;
+		Person thisperson = null;
 
 		try {
 			
-			id += "%";
 			myStmt = myCon.prepareStatement("select * from Kid where kidID = ?");
 			myStmt.setString(1, id);		
 			myRs = myStmt.executeQuery();
-		
-			while(myRs!=null) {
-				System.out.println("vaodaydmdmdm");
-				//myRs.first();
+			
+			while(myRs.next()) {
 				Kid tempKid = convertRowToKid(myRs);
 				thisperson = tempKid;
-				break;
 			}
+			
 			
 			
 			return thisperson;
@@ -153,7 +150,7 @@ public class KidDAO {
 		
 		return tempKid;
 	}
-	
+	// Updating kid 
 	public void updateKid(Kid temp) throws SQLException {
 		PreparedStatement myStmt = null;
 		try {

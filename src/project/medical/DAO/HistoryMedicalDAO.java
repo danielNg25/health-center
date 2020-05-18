@@ -170,21 +170,20 @@ public class HistoryMedicalDAO {
 				
 				String tempStringDate = myRs.getString("nextAppointment");
 				if (tempStringDate.equals(today)) {
-					System.out.println("denday roi");
+					
 					Person eKid = kidDAO.getKidByID(cur_ID);
 					Person eMom =  momDAO.getMomByID(cur_ID);
-					System.out.println(eKid);
-					System.out.println(eMom);
+					
+					
 					if (eMom != null) {
 						todayPeople.add(eMom);
-					} else if (eKid != null) {
+					} else if ( eKid != null) {
 						todayPeople.add(eKid);
 					}
 					
 				}
 				
 			}
-
 			return todayPeople;		
 		}
 		finally {
@@ -214,9 +213,10 @@ public class HistoryMedicalDAO {
 				if (tempStringDate.equals(tomorrow)) {
 					Person eKid = kidDAO.getKidByID(cur_ID);
 					Person eMom =  momDAO.getMomByID(cur_ID);
+					
 					if (eMom != null) {
 						tomPeople.add(eMom);
-					} else if (eKid != null) {
+					} else if ( eKid != null) {
 						tomPeople.add(eKid);
 					}
 					

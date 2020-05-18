@@ -10,22 +10,23 @@ import javax.swing.border.EmptyBorder;
 
 import project.medical.DAO.HistoryMedicalDAO;
 import project.medical.core.HistoryMedical;
-import project.medical.core.Kid;
-import project.medical.core.Mom;
-import project.medical.core.Person;
 
-import java.awt.Window.Type;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class AddVaccinationDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	private JTextField dateofinjection;

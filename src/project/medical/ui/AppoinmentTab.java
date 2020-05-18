@@ -8,28 +8,34 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import project.medical.DAO.HistoryMedicalDAO;
-import project.medical.DAO.KidDAO;
-import project.medical.DAO.MomDAO;
+
 import project.medical.core.Person;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
+
 import java.awt.event.ActionListener;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
-import javax.swing.BoxLayout;
+
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class AppoinmentTab extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable todayTable;
 	private JTextField tomorrowField;
 	private JTable tomTable;
 	private HistoryMedicalDAO histDAO;
 	private JTextField todayField;
+	private List<String> emailToday;
+	private List<String> emailTomorrow;
 
 	/**
 	 * Launch the application.
@@ -67,6 +73,10 @@ public class AppoinmentTab extends JFrame {
 		JButton btnNewButton = new JButton("Send Email to All");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				EmailSender sender = new EmailSender(emailToday, emailTomorrow);
+				sender.sendToday();
+				sender.sendTomorrow();
+				
 			}
 		});
 		panel.add(btnNewButton);
@@ -85,6 +95,7 @@ public class AppoinmentTab extends JFrame {
 
 		
 		todayField = new JTextField();
+		todayField.setHorizontalAlignment(SwingConstants.CENTER);
 		todayField.setEditable(false);
 		panel_1.add(todayField, BorderLayout.NORTH);
 		todayField.setColumns(10);
@@ -95,6 +106,7 @@ public class AppoinmentTab extends JFrame {
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
 		tomorrowField = new JTextField();
+		tomorrowField.setHorizontalAlignment(SwingConstants.CENTER);
 		tomorrowField.setEditable(false);
 		panel_2.add(tomorrowField, BorderLayout.NORTH);
 		tomorrowField.setColumns(10);
@@ -106,13 +118,27 @@ public class AppoinmentTab extends JFrame {
 		
 		
 		histDAO = new HistoryMedicalDAO();
+		emailToday = new ArrayList<String>();
+		emailTomorrow = new ArrayList<String>();
 		List<Person> listPersonToday = histDAO.getPersonToday();
 		List<Person> listPersonTomorrow = histDAO.getPersonTomorrow();
-		
+		for(Person p: listPersonToday) {
+			
+			String e = p.getEmail();
+			System.out.println(e);
+			emailToday.add(e);
+		}
+		for(Person p: listPersonTomorrow) {
+			String e = p.getEmail();
+			System.out.println(e);
+			emailTomorrow.add(e);
+		}
 		int numToday = listPersonToday.size();
 		int numTom = listPersonTomorrow.size();
 		
-        AppointmentTableModel modeltoday = new AppointmentTableModel(listPersonToday);
+        
+		
+		AppointmentTableModel modeltoday = new AppointmentTableModel(listPersonToday);
         AppointmentTableModel modeltomorrow  = new AppointmentTableModel(listPersonTomorrow);
         todayTable.setModel(modeltoday);
 		tomTable.setModel(modeltomorrow);
