@@ -15,6 +15,8 @@ import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -229,6 +231,23 @@ public class WelcomeScreen {
 		btnNewButton_6.setMinimumSize(new Dimension(93, 23));
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int row = kidTable.getSelectedRow();
+				if(row <0) {
+					JOptionPane.showMessageDialog(panel_kids,"Please select a kid","Warning",JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				Kid temp = (Kid) kidTable.getValueAt(row, KidTableModel.OBJECT_COL);
+				String idperson = temp.getID();
+				IndexTab idextab;
+				try {
+					idextab = new IndexTab(idperson);
+					idextab.setVisible(true);
+				} catch (SQLException | IOException e1) {
+					e1.printStackTrace();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 				
 				
 			}
@@ -383,6 +402,7 @@ public class WelcomeScreen {
 		btnNewButton_15.setMaximumSize(new Dimension(93, 23));
 		btnNewButton_15.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		toolBar_3.add(btnNewButton_15);
