@@ -34,6 +34,8 @@ import javax.swing.JToolBar;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.GridBagLayout;
+import javax.swing.JSplitPane;
 
 public class WelcomeScreen {
 
@@ -45,6 +47,7 @@ public class WelcomeScreen {
 	private JTable momTable;
 	private JTextField momNameField;
 	private JButton btnNewButton_15;
+	private JTextField clinicNameField;
 
 	/**
 	 * Launch the application.
@@ -401,6 +404,32 @@ public class WelcomeScreen {
 		
 		JPanel panel_clinic = new JPanel();
 		tabbedPane.addTab("CLINIC", null, panel_clinic, null);
+		panel_clinic.setLayout(new BorderLayout(0, 0));
+		
+		JToolBar toolBar_4 = new JToolBar();
+		panel_clinic.add(toolBar_4, BorderLayout.NORTH);
+		
+		JButton btnNewButton_16 = new JButton("Add");
+		toolBar_4.add(btnNewButton_16);
+		
+		JButton btnNewButton_17 = new JButton("Update");
+		toolBar_4.add(btnNewButton_17);
+		
+		JButton btnNewButton_18 = new JButton("Delete");
+		toolBar_4.add(btnNewButton_18);
+		
+		JButton btnNewButton_19 = new JButton("Search");
+		toolBar_4.add(btnNewButton_19);
+		
+		clinicNameField = new JTextField();
+		toolBar_4.add(clinicNameField);
+		clinicNameField.setColumns(10);
+		
+		JToolBar toolBar_5 = new JToolBar();
+		panel_clinic.add(toolBar_5, BorderLayout.WEST);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		panel_clinic.add(scrollPane_2, BorderLayout.CENTER);
 		
 		JPanel panel_about = new JPanel();
 		tabbedPane.addTab("ABOUT", null, panel_about, null);
