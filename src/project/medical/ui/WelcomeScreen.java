@@ -39,6 +39,8 @@ import javax.swing.JToolBar;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.GridBagLayout;
+import javax.swing.JSplitPane;
 
 public class WelcomeScreen {
 
@@ -52,6 +54,8 @@ public class WelcomeScreen {
 	private JTextField momNameField;
 	private JButton btnNewButton_15;
 	private JTable eventTable;
+	private JTextField clinicNameField;
+
 
 	/**
 	 * Launch the application.
@@ -446,16 +450,42 @@ public class WelcomeScreen {
 		
 		JPanel panel_clinic = new JPanel();
 		tabbedPane.addTab("CLINIC", null, panel_clinic, null);
+		panel_clinic.setLayout(new BorderLayout(0, 0));
+		
+		JToolBar toolBar_4 = new JToolBar();
+		panel_clinic.add(toolBar_4, BorderLayout.NORTH);
+		
+		JButton btnNewButton_16 = new JButton("Add");
+		toolBar_4.add(btnNewButton_16);
+		
+		JButton btnNewButton_17 = new JButton("Update");
+		toolBar_4.add(btnNewButton_17);
+		
+		JButton btnNewButton_18 = new JButton("Delete");
+		toolBar_4.add(btnNewButton_18);
+		
+		JButton btnNewButton_19 = new JButton("Search");
+		toolBar_4.add(btnNewButton_19);
+		
+		clinicNameField = new JTextField();
+		toolBar_4.add(clinicNameField);
+		clinicNameField.setColumns(10);
+		
+		JToolBar toolBar_5 = new JToolBar();
+		panel_clinic.add(toolBar_5, BorderLayout.WEST);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		panel_clinic.add(scrollPane_2, BorderLayout.CENTER);
 		
 		JPanel panel_events = new JPanel();
 		tabbedPane.addTab("Event", null, panel_events, null);
 		panel_events.setLayout(new BorderLayout(0, 0));
 		
-		JToolBar toolBar_4 = new JToolBar();
-		panel_events.add(toolBar_4, BorderLayout.NORTH);
+		JToolBar toolBar_41 = new JToolBar();
+		panel_events.add(toolBar_41, BorderLayout.NORTH);
 		
-		JButton btnNewButton_18 = new JButton("Show events");
-		btnNewButton_18.addActionListener(new ActionListener() {
+		JButton btnNewButton_181 = new JButton("Show events");
+		btnNewButton_181.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					List<Event> events = eventDAO.getAllEvent();			
@@ -467,10 +497,10 @@ public class WelcomeScreen {
 				}
 			}
 		});
-		toolBar_4.add(btnNewButton_18);
+		toolBar_41.add(btnNewButton_181);
 		
-		JButton btnNewButton_16 = new JButton("Create New Event");
-		btnNewButton_16.addActionListener(new ActionListener() {
+		JButton btnNewButton_161 = new JButton("Create New Event");
+		btnNewButton_161.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddEventDialog adddialog;
 				try {
@@ -483,10 +513,10 @@ public class WelcomeScreen {
 				
 			}
 		});
-		toolBar_4.add(btnNewButton_16);
+		toolBar_41.add(btnNewButton_161);
 		
-		JButton btnNewButton_17 = new JButton("Send Email");
-		btnNewButton_17.addActionListener(new ActionListener() {
+		JButton btnNewButton_171 = new JButton("Send Email");
+		btnNewButton_171.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				int row = eventTable.getSelectedRow();
@@ -517,17 +547,17 @@ public class WelcomeScreen {
 			}
 		});
 		
-		JButton btnNewButton_19 = new JButton("Delete Event");
-		toolBar_4.add(btnNewButton_19);
-		toolBar_4.add(btnNewButton_17);
+		JButton btnNewButton_191 = new JButton("Delete Event");
+		toolBar_41.add(btnNewButton_191);
+		toolBar_41.add(btnNewButton_171);
 		
 		JPanel panel = new JPanel();
 		panel_events.add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		eventTable = new JTable();
-		JScrollPane scrollPane_2 = new JScrollPane(eventTable);
-		panel.add(scrollPane_2, BorderLayout.CENTER);
+		JScrollPane scrollPane_21 = new JScrollPane(eventTable);
+		panel.add(scrollPane_21, BorderLayout.CENTER);
 		
 		JPanel panel_about = new JPanel();
 		tabbedPane.addTab("ABOUT", null, panel_about, null);
