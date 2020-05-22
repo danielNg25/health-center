@@ -13,6 +13,8 @@ import project.medical.core.Clinic;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -50,8 +52,9 @@ public class AddUpdateClinicDialog extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @throws Exception 
 	 */
-	public AddUpdateClinicDialog(JPanel thePanel, Clinic thePrevClinic, ClinicDAO theClinicDAO, boolean theUpdateMode) {
+	public AddUpdateClinicDialog(JPanel thePanel, Clinic thePrevClinic, ClinicDAO theClinicDAO, boolean theUpdateMode) throws Exception {
 		this();
 		thisPanel = thePanel;
 		prevClinic = thePrevClinic;
@@ -73,7 +76,8 @@ public class AddUpdateClinicDialog extends JDialog {
 		typeField.setText(thePrevClinic.getType());
 	}
 	
-	public AddUpdateClinicDialog() {
+	public AddUpdateClinicDialog() throws Exception {
+		
 		setBounds(100, 100, 450, 331);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -169,12 +173,47 @@ public class AddUpdateClinicDialog extends JDialog {
 	}
 	
 	protected void saveClinic() {
+		
 		String id = idField.getText();
 		String clinicName = nameField.getText();
 		String address = addressField.getText();
 		String phoneNum = phoneField.getText();
 		String email = emailField.getText();
 		String type = typeField.getText();
+		
+		Clinic temp = null;
+		if(updateMode) {
+		
+			temp = prevClinic;
+			temp.setClinicName(clinicName);
+			temp.setAddress(address);
+			temp.setPhoneNum(phoneNum);
+			temp.setEmail(email);
+			temp.setType(type);
+			temp.setID(id);
+		}
+		else {
+			temp = new Clinic(id, clinicName, address, phoneNum, email, type);
+		}
+		try {
+			if (updateMode) {
+				clinicDAO.updateclinic(temp);
+				JOptionPane.showMessageDialog(thisPanel, "Updated successfully","Updated successfully ", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else {
+				clinicDAO.addClinic(temp);
+				JOptionPane.showMessageDialog(thisPanel, "Added successfully", "Added successfully ", JOptionPane.INFORMATION_MESSAGE);
+			}
+			
+			setVisible(false);
+			dispose();	
+		}
+		catch(Exception e) {
+			JOptionPane.showMessageDialog(thisPanel,"Error saving: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			
+		}
+		
+		
 	}
 	
 }
