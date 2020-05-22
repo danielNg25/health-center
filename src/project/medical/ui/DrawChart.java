@@ -39,7 +39,7 @@ public class DrawChart {
 	}
 	public void drawingHeightChart() {
 		try{
-           	final String SQL = "SELECT height, id FROM weightheight where personID = " + this.personID;
+           	final String SQL = "SELECT id, height FROM weightheight where personID = " + this.personID;
 	        final CategoryDataset dataset = new JDBCCategoryDataset(myCon, SQL);
 	     
 	        JFreeChart chart = ChartFactory.createLineChart("Height Chart","Time","Height", dataset, PlotOrientation.VERTICAL, false, false, false);
@@ -56,7 +56,7 @@ public class DrawChart {
 	}
 	public void drawingWeightChart() {
 		try{
-           	final String SQL = "SELECT weight, id FROM weightheight where personID = " + this.personID;
+           	final String SQL = "SELECT id, weight FROM weightheight where personID = " + this.personID;
 	        final CategoryDataset dataset = new JDBCCategoryDataset(myCon, SQL);
 	     
 	        JFreeChart chart = ChartFactory.createLineChart("Weight Chart","Time","Weight", dataset, PlotOrientation.VERTICAL, false, false, false);

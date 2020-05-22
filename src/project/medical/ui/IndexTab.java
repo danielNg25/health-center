@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import project.medical.DAO.HistoryMedicalDAO;
 import project.medical.DAO.WeightHeightDAO;
 
 import javax.swing.JTextField;
@@ -15,22 +14,33 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
+
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+
 
 public class IndexTab extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private DrawChart myDrawer;
 	private String personID;
 	private JPanel panel;
-	private JTextField advicesField;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
 	private WeightHeightDAO whDAO;
+	private JButton btnNewButton_3;
+	private JPanel panel_1;
+	private JTextField bmiField;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
+	private JTextField advicesField;
+	private JTextField stateField;
 	/**
 	 * Launch the application.
 	 */
@@ -60,8 +70,9 @@ public class IndexTab extends JFrame {
 	
 	
 	public IndexTab() {
-		setTitle("Kid Index");
-		setBounds(100, 100, 377, 304);
+		setType(Type.UTILITY);
+		setTitle("Index");
+		setBounds(100, 100, 420, 376);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -76,6 +87,23 @@ public class IndexTab extends JFrame {
 				myDrawer.drawingHeightChart();
 			}
 		});
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		btnNewButton_3 = new JButton("Add");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddIndexDialog addialog;
+				try {
+					addialog = new AddIndexDialog(personID);
+					addialog.setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		panel.add(btnNewButton_3);
 		panel.add(btnNewButton);
 		
 		btnNewButton_1 = new JButton("Weight Chart");
@@ -123,17 +151,51 @@ public class IndexTab extends JFrame {
 					state = "Obese class III";
 					advices = "You should do more excercises and start eating diet food";
 				}
-				String mota = "BMI index:" + cur_bmi +"\n"+
-				 " You are in " + state + "\n" +advices;
-				advicesField.setText(mota);
+				
+				bmiField.setText(Double.toString(cur_bmi));
+				stateField.setText(state);
+				advicesField.setText(advices);
+				
 			}
 		});
 		panel.add(btnNewButton_2);
 		
+		panel_1 = new JPanel();
+		contentPane.add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(null);
+		
+		bmiField = new JTextField();
+		bmiField.setEditable(false);
+		bmiField.setBounds(130, 65, 139, 20);
+		panel_1.add(bmiField);
+		bmiField.setColumns(10);
+		
+		lblNewLabel = new JLabel("Click Advices to show details");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(0, 11, 394, 14);
+		panel_1.add(lblNewLabel);
+		
+		lblNewLabel_1 = new JLabel("BMI index");
+		lblNewLabel_1.setBounds(33, 68, 66, 14);
+		panel_1.add(lblNewLabel_1);
+		
+		lblNewLabel_2 = new JLabel("Details");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setBounds(0, 118, 394, 14);
+		panel_1.add(lblNewLabel_2);
+		
 		advicesField = new JTextField();
 		advicesField.setHorizontalAlignment(SwingConstants.CENTER);
-		advicesField.setText("Mo ta o day");
-		contentPane.add(advicesField, BorderLayout.CENTER);
+		advicesField.setEditable(false);
+		advicesField.setBounds(10, 223, 374, 38);
+		panel_1.add(advicesField);
 		advicesField.setColumns(10);
+		
+		stateField = new JTextField();
+		stateField.setEditable(false);
+		stateField.setHorizontalAlignment(SwingConstants.CENTER);
+		stateField.setBounds(10, 164, 374, 38);
+		panel_1.add(stateField);
+		stateField.setColumns(10);
 	}
 }

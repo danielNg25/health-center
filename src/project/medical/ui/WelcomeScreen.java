@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -26,11 +27,13 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.border.CompoundBorder;
 
+import project.medical.DAO.EventDAO;
 import project.medical.DAO.KidDAO;
 import project.medical.DAO.MomDAO;
+import project.medical.core.Event;
 import project.medical.core.Kid;
 import project.medical.core.Mom;
-
+import project.medical.core.Person;
 
 import javax.swing.JToolBar;
 import java.awt.Dimension;
@@ -43,10 +46,12 @@ public class WelcomeScreen {
 	private JTextField kidNameField;
 	private KidDAO kidDAO;
 	private MomDAO momDAO;
+	private EventDAO eventDAO;
 	private JTable kidTable;
 	private JTable momTable;
 	private JTextField momNameField;
 	private JButton btnNewButton_15;
+	private JTable eventTable;
 
 	/**
 	 * Launch the application.
@@ -75,6 +80,7 @@ public class WelcomeScreen {
 	public WelcomeScreen() throws Exception {
 		kidDAO = new KidDAO();
 		momDAO = new MomDAO();
+		eventDAO = new EventDAO();
 		initialize();
 	}
 
@@ -395,13 +401,32 @@ public class WelcomeScreen {
 			}
 		});
 		toolBar_3.add(btnNewButton_14);
-		
+		// INDEX MOM
 		btnNewButton_15 = new JButton("Index");
 		btnNewButton_15.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_15.setMinimumSize(new Dimension(93, 23));
 		btnNewButton_15.setMaximumSize(new Dimension(93, 23));
 		btnNewButton_15.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int row = momTable.getSelectedRow();
+				if(row <0) {
+					JOptionPane.showMessageDialog(panel_moms,"Please select a Mom","Warning",JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				Mom temp = (Mom) momTable.getValueAt(row, MomTableModel.OBJECT_COL);
+				String idperson = temp.getID();
+				IndexTab idextab;
+				try {
+					idextab = new IndexTab(idperson);
+					idextab.setVisible(true);
+				} catch (SQLException | IOException e1) {
+					e1.printStackTrace();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+					
+				
 				
 			}
 		});
@@ -422,12 +447,90 @@ public class WelcomeScreen {
 		JPanel panel_clinic = new JPanel();
 		tabbedPane.addTab("CLINIC", null, panel_clinic, null);
 		
+		JPanel panel_events = new JPanel();
+		tabbedPane.addTab("Event", null, panel_events, null);
+		panel_events.setLayout(new BorderLayout(0, 0));
+		
+		JToolBar toolBar_4 = new JToolBar();
+		panel_events.add(toolBar_4, BorderLayout.NORTH);
+		
+		JButton btnNewButton_18 = new JButton("Show events");
+		btnNewButton_18.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+					List<Event> events = eventDAO.getAllEvent();			
+                    EventTableModel eventmodel = new EventTableModel(events);
+                    eventTable.setModel(eventmodel);
+				}
+				catch(Exception exc) {
+					JOptionPane.showMessageDialog(panel_events, "Error: "+ exc, "Error",JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		toolBar_4.add(btnNewButton_18);
+		
+		JButton btnNewButton_16 = new JButton("Create New Event");
+		btnNewButton_16.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddEventDialog adddialog;
+				try {
+					adddialog = new AddEventDialog();
+					adddialog.setVisible(true);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+				
+			}
+		});
+		toolBar_4.add(btnNewButton_16);
+		
+		JButton btnNewButton_17 = new JButton("Send Email");
+		btnNewButton_17.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int row = eventTable.getSelectedRow();
+				if(row <0) {
+					JOptionPane.showMessageDialog(panel_events,"Please select an Event","Warning",JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				List<String> allEmails = new  ArrayList<String>();
+				try {
+					List<Kid> allKids = kidDAO.getAllKid();
+					List<Mom> allMoms = momDAO.getAllMom();
+					for(Kid k: allKids) {
+						String s = k.getEmail();
+						allEmails.add(s);
+					}
+					for(Mom p: allMoms) {
+						String t  =  p.getEmail();
+						allEmails.add(t);
+					}
+					
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+				Event temp = (Event) eventTable.getValueAt(row, EventTableModel.OBJECT_COL);
+				EmailSender sender = new EmailSender(null, null);
+				sender.sendEvent(temp, allEmails);
+			}
+		});
+		
+		JButton btnNewButton_19 = new JButton("Delete Event");
+		toolBar_4.add(btnNewButton_19);
+		toolBar_4.add(btnNewButton_17);
+		
+		JPanel panel = new JPanel();
+		panel_events.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		eventTable = new JTable();
+		JScrollPane scrollPane_2 = new JScrollPane(eventTable);
+		panel.add(scrollPane_2, BorderLayout.CENTER);
+		
 		JPanel panel_about = new JPanel();
 		tabbedPane.addTab("ABOUT", null, panel_about, null);
 	}
-	
-
-	
-	
   }
 

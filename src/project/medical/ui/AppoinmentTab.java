@@ -21,6 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class AppoinmentTab extends JFrame {
 
@@ -58,6 +59,7 @@ public class AppoinmentTab extends JFrame {
 	 * @throws Exception 
 	 */
 	public AppoinmentTab() throws Exception {
+		setType(Type.UTILITY);
 		setTitle("Appointment");
 
 		setBounds(100, 100, 580, 428);
@@ -95,6 +97,7 @@ public class AppoinmentTab extends JFrame {
 
 		
 		todayField = new JTextField();
+		todayField.setFont(new Font("Tahoma", Font.BOLD, 12));
 		todayField.setHorizontalAlignment(SwingConstants.CENTER);
 		todayField.setEditable(false);
 		panel_1.add(todayField, BorderLayout.NORTH);
@@ -106,6 +109,7 @@ public class AppoinmentTab extends JFrame {
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
 		tomorrowField = new JTextField();
+		tomorrowField.setFont(new Font("Tahoma", Font.BOLD, 12));
 		tomorrowField.setHorizontalAlignment(SwingConstants.CENTER);
 		tomorrowField.setEditable(false);
 		panel_2.add(tomorrowField, BorderLayout.NORTH);

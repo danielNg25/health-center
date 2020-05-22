@@ -182,7 +182,6 @@ public class KidDAO {
 		
 	}
 
-
 	
 	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)
 			throws SQLException {

@@ -23,7 +23,7 @@ class VaccinationTableModel extends AbstractTableModel {
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 
-	private String[] columnNames = {"dateOfInjection","typeOfVaccine","IDVaccine","address","interaction", "nextAppointment"}; 
+	private String[] columnNames = {"DateOfInjection","TypeOfVaccine","IDVaccine","Address","Interaction", "NextAppointment"}; 
 	private List<HistoryMedical> HistoryMedicals;
 
 	public VaccinationTableModel(List<HistoryMedical> theHistoryMedicals) {
