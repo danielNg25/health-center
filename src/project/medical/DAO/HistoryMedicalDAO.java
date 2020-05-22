@@ -6,6 +6,7 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -15,7 +16,10 @@ import java.util.Properties;
 public class HistoryMedicalDAO {
     private Connection myCon;
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-	
+	private String today;
+	private String tomorrow;
+	private KidDAO kidDAO;
+	private MomDAO momDAO;
 	public HistoryMedicalDAO() throws Exception{
 		Properties prop = new Properties();
 		prop.load(new FileInputStream("sql/person.properties"));
@@ -24,6 +28,18 @@ public class HistoryMedicalDAO {
 		String dburl = prop.getProperty("dburl");
 		myCon= DriverManager.getConnection(dburl,user,password);
 		System.out.println("Connect Successfull");
+		
+		kidDAO = new KidDAO();
+		momDAO = new MomDAO();
+		Calendar calendar = Calendar.getInstance();
+	    Date todaytemp = calendar.getTime();
+	    calendar.add(Calendar.DAY_OF_YEAR, 1);
+	    Date tomorrowtemp = calendar.getTime();
+		this.today = formatter.format(todaytemp);
+		this.tomorrow = formatter.format(tomorrowtemp);
+		System.out.println(today);
+		System.out.println(tomorrow);
+		
 	}
 	
 	
@@ -36,7 +52,7 @@ public class HistoryMedicalDAO {
 
 		try {
 			
-			theIDPerson += "%";
+			//theIDPerson += "%";
 			myStmt = myCon.prepareStatement("select * from medicalhistory where personID = ? ");
 			myStmt.setString(1, theIDPerson);
 			myRs = myStmt.executeQuery();
@@ -59,9 +75,9 @@ public class HistoryMedicalDAO {
 	public void addHistoryMedical(HistoryMedical newHistoryMedical, String thePersonID) throws Exception{
 		PreparedStatement myStmt = null;
 		try {
-		String sql  = "Insert into HistoryMedical"
-				+ "(personID, dateOfInjection, typeOfVaccine, IDVaccine, address, interaction, imageHist, nextAppointment)"
-				+ " values (?, ? ,?, ?, ?, ? ,?, ?)"; 
+		String sql  = "Insert into medicalhistory "
+				+ " (personID, dateOfInjection, typeOfVaccine, IDVaccine, address, interaction, imageHist, nextAppointment)"
+				+ "  values (?, ? ,?, ?, ?, ? ,?, ?)"; 
 		
 		myStmt  = myCon.prepareStatement(sql);
 		
@@ -75,7 +91,7 @@ public class HistoryMedicalDAO {
 		myStmt.setInt(4, newHistoryMedical.getIDVaccine());
 		myStmt.setString(5, newHistoryMedical.getAddress());
 		myStmt.setString(6, newHistoryMedical.getInteraction());
-		myStmt.setString(7, newHistoryMedical.getImageHist());
+		myStmt.setString(7, null);
 		myStmt.setString(8, stringDateNextAppoint);
 		
 			
@@ -101,7 +117,7 @@ public class HistoryMedicalDAO {
 			e.printStackTrace();
 		}
 		
-		String interaction = myRs.getString("interation");
+		String interaction = myRs.getString("interaction");
 		String typeOfVaccine = myRs.getString("typeOfVaccine");
 		int iDVaccine = myRs.getInt("IDVaccine");
 		String address = myRs.getString("address");
@@ -133,6 +149,88 @@ public class HistoryMedicalDAO {
 
 	private void close(Statement myStmt, ResultSet myRs) throws SQLException {
 		close(null, myStmt, myRs);		
+	}
+	
+	// GETTING PERSON TODAY APPOINMENT
+	public List<Person> getPersonToday() throws Exception {
+		List<Person> todayPeople = new ArrayList<>();
+		
+		Statement myStmt = null;
+		ResultSet myRs = null;
+		
+		try {
+			myStmt = myCon.createStatement();
+			myRs = myStmt.executeQuery("select * from medicalhistory ");
+			
+			while (myRs.next()) {
+				String cur_ID = myRs.getString("personID");
+//				HistoryMedical tempHist = convertRowToHistoryMedical(myRs);
+//				Date tempDate = tempHist.getNextAppointment();
+//				String tempStringDate = formatter.format(tempDate);
+				
+				String tempStringDate = myRs.getString("nextAppointment");
+				if (tempStringDate.equals(today)) {
+					
+					Person eKid = kidDAO.getKidByID(cur_ID);
+					Person eMom =  momDAO.getMomByID(cur_ID);
+					
+					
+					if (eMom != null) {
+						todayPeople.add(eMom);
+					} else if ( eKid != null) {
+						todayPeople.add(eKid);
+					}
+					
+				}
+				
+			}
+			return todayPeople;		
+		}
+		finally {
+			close(myStmt, myRs);
+		}
+		
+		
+	}
+	// GETTING PERSON TOMMOROW APPOINMENT
+
+	public List<Person> getPersonTomorrow() throws Exception {
+		List<Person> tomPeople = new ArrayList<>();
+		
+		Statement myStmt = null;
+		ResultSet myRs = null;
+		
+		try {
+			myStmt = myCon.createStatement();
+			myRs = myStmt.executeQuery("select * from medicalhistory ");
+			
+			while (myRs.next()) {
+				String cur_ID = myRs.getString("personID");
+				//HistoryMedical tempHist = convertRowToHistoryMedical(myRs);
+				//Date tempDate = tempHist.getNextAppointment();
+				//String tempStringDate = formatter.format(tempDate);
+				String tempStringDate = myRs.getString("nextAppointment");
+				if (tempStringDate.equals(tomorrow)) {
+					Person eKid = kidDAO.getKidByID(cur_ID);
+					Person eMom =  momDAO.getMomByID(cur_ID);
+					
+					if (eMom != null) {
+						tomPeople.add(eMom);
+					} else if ( eKid != null) {
+						tomPeople.add(eKid);
+					}
+					
+				}
+				
+			}
+
+			return tomPeople;		
+		}
+		finally {
+			close(myStmt, myRs);
+		}
+		
+		
 	}
 
 

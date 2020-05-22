@@ -26,7 +26,7 @@ class KidTableModel extends AbstractTableModel {
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 
-	private String[] columnNames = {"kidID","lastName","firstName","dateOfBirth","gender","address","email", "phoneNum"}; 
+	private String[] columnNames = {"kidID","LastName","FirstName","DateOfBirth","Gender","Address","Email", "PhoneNum"}; 
 	private List<Kid> Kids;
 
 	public KidTableModel(List<Kid> theKids) {

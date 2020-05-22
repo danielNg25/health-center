@@ -26,7 +26,7 @@ public class WeightHeightDAO {
 	}
 	
 	//  Get all WeightHeights of "a person " according to person ID 
-	public  List<WeightHeight> getWeightHeightByName(String theIDPerson) throws Exception {
+	public  List<WeightHeight> getWeightHeightByID(String theIDPerson) throws Exception {
 		List<WeightHeight> list = new ArrayList<>();
 
 		PreparedStatement myStmt = null;
@@ -102,7 +102,37 @@ public class WeightHeightDAO {
 		return tempWeightHeight;
 	}
 	
-	
+	//
+	public  double getBmiByID(String theIDPerson) throws Exception {
+		List<WeightHeight> list = new ArrayList<>();
+		
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+
+		try {
+			
+			//theIDPerson += "%";
+			myStmt = myCon.prepareStatement("select * from weightheight where personID = ? ");
+			myStmt.setString(1, theIDPerson);
+			myRs = myStmt.executeQuery();
+			
+			while (myRs.next()) {
+				WeightHeight tempWeightHeight = convertRowToWeightHeight(myRs);
+				list.add(tempWeightHeight);
+			}
+			
+			WeightHeight latestWH = list.get(list.size()-1); 
+			double height = latestWH.getHeight();
+			double weight = latestWH.getWeight();
+			
+			double bmi = weight *100 *100 / (height * height);
+			System.out.println(height+" "+ weight+" "+bmi);
+			return bmi;
+		}
+		finally {
+			close(myStmt, myRs);
+		}
+	}
 
 	
 	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)

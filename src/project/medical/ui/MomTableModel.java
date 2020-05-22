@@ -24,7 +24,7 @@ class MomTableModel extends AbstractTableModel {
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 
-	private String[] columnNames = {"MomID","lastName","firstName","dateOfBirth","address","email", "phoneNum"}; 
+	private String[] columnNames = {"MomID","LastName","FirstName","DateOfBirth","Address","Email", "PhoneNum"}; 
 	private List<Mom> Moms;
 
 	public MomTableModel(List<Mom> theMoms) {

@@ -3,6 +3,7 @@ package project.medical.DAO;
 import project.medical.core.*;
 import java.io.FileInputStream;
 import java.sql.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,8 +74,32 @@ public class KidDAO {
 			close(myStmt, myRs);
 		}
 	}
-	
-	
+	//  Get all Kids by ID from table into a list "Person"
+	public  Person getKidByID(String id) throws Exception {
+		
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+		Person thisperson = null;
+
+		try {
+			
+			myStmt = myCon.prepareStatement("select * from Kid where kidID = ?");
+			myStmt.setString(1, id);		
+			myRs = myStmt.executeQuery();
+			
+			while(myRs.next()) {
+				Kid tempKid = convertRowToKid(myRs);
+				thisperson = tempKid;
+			}
+			
+			
+			
+			return thisperson;
+		}
+		finally {
+			close(myStmt, myRs);
+		}
+	}
 	
 	// Adding a Kid object to table
 	public void addKid(Kid newKid) throws Exception{
@@ -82,7 +107,7 @@ public class KidDAO {
 		try {
 		String sql  = "Insert into kid"
 				+ "(kidID, lastName, firstName, dateOfBirth, address, email, phoneNum, gender, parentName)"
-				+ " values (?, ?, ?, ?, ?, ?, ?, ?) " ;
+				+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);
 		
@@ -109,27 +134,28 @@ public class KidDAO {
 	
 	
 	// Converting one Kid in table -> object Kid
-	private Kid convertRowToKid(ResultSet myRs) throws SQLException {
+	private Kid convertRowToKid(ResultSet myRs) throws SQLException, ParseException {
 		String id = myRs.getString("kidID");
 		String lastName = myRs.getString("lastName");
 		String firstName = myRs.getString("firstName");
-		Date dateOfBirth = myRs.getDate("dateOfBirth");
+		String dateOfBirth = myRs.getString("dateOfBirth");
 		String email = myRs.getString("email");
 		String address = myRs.getString("address"); 
 		String gender = myRs.getString("gender");
 		String phoneNum = myRs.getString("phoneNum");
 		String parentName = myRs.getString("parentName");
-
-	    Kid tempKid = new Kid(id, lastName, firstName, dateOfBirth, address, email, phoneNum, gender, parentName);
+		Date tempDate = formatter.parse(dateOfBirth);
+	    
+		Kid tempKid = new Kid(id, lastName, firstName, tempDate, address, email, phoneNum, gender, parentName);
 		
 		return tempKid;
 	}
-	
+	// Updating kid 
 	public void updateKid(Kid temp) throws SQLException {
 		PreparedStatement myStmt = null;
 		try {
-			String sql  = "Update Kid"
-					+ "set lastName = ?, firstName = ?, dateOfBirth=?,address= ?,email=?, phoneNum=?,"
+			String sql  = "update kid "
+					+ " set lastName = ?, firstName = ?, dateOfBirth=?, address= ?,email=?, phoneNum=?,"
 					+ " gender = ?, parentName=? "
 					+ " where kidID = ? " ;
 			
@@ -138,7 +164,6 @@ public class KidDAO {
 			
 			String stringDate = formatter.format(temp.getDateOfBirth());
 			
-			myStmt.setString(1, temp.getID() );
 			myStmt.setString(1, temp.getLastName());
 			myStmt.setString(2, temp.getFirstName());
 			myStmt.setString(3, stringDate);
@@ -147,7 +172,7 @@ public class KidDAO {
 			myStmt.setString(6, temp.getPhoneNum());
 			myStmt.setString(7, temp.getGender());
 			myStmt.setString(8, temp.getParentName());
-			myStmt.setString(7, temp.getID());			
+			myStmt.setString(9, temp.getID());			
 			
 			myStmt.executeUpdate();
 	    }
@@ -156,7 +181,6 @@ public class KidDAO {
 	    }
 		
 	}
-
 
 	
 	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)
@@ -179,11 +203,6 @@ public class KidDAO {
 		close(null, myStmt, myRs);		
 	}
 
-	public static void main(String[] args) throws Exception {
-		KidDAO dao = new KidDAO();
-		System.out.println(dao.getAllKid());
-
-	}
 
 
 }

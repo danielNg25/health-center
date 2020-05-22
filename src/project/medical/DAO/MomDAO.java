@@ -3,6 +3,7 @@ package project.medical.DAO;
 import project.medical.core.*;
 import java.io.FileInputStream;
 import java.sql.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,16 +74,37 @@ public class MomDAO {
 			close(myStmt, myRs);
 		}
 	}
-	
+//  Get all Moms by ID from table into a list 
+	public  Person getMomByID(String id) throws Exception {
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+		Person thisperson = null;
+		try {
+			
+			myStmt = myCon.prepareStatement("select * from Mom where momID = ?");
+			myStmt.setString(1, id);		
+			myRs = myStmt.executeQuery();
+			
+			while (myRs.next()) {
+				Mom tempMom = convertRowToMom(myRs);
+				thisperson  = tempMom;
+			}
+			
+			return thisperson;
+		}
+		finally {
+			close(myStmt, myRs);
+		}
+	}
 	
 	
 	// Adding a Mom object to table
 	public void addMom(Mom newMom) throws Exception{
 		PreparedStatement myStmt = null;
 		try {
-		String sql  = "Insert into mom"
-				+ "(momID, lastName, firstName, dateOfBirth,address,email, phoneNum)"
-				+ " values (?, ? ,? , ?, ?, ? ) " ;
+		String sql  = "Insert into mom "
+				+ " (momID, lastName, firstName, dateOfBirth,address,email, phoneNum)"
+				+ " values (?, ? ,? , ?, ?, ?, ?) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);
 		
@@ -107,17 +129,17 @@ public class MomDAO {
 	
 	
 	// Converting one Mom in table -> object Mom
-	private Mom convertRowToMom(ResultSet myRs) throws SQLException {
+	private Mom convertRowToMom(ResultSet myRs) throws SQLException, ParseException {
 		
 		String momID = myRs.getString("momID");
 		String lastName = myRs.getString("lastName");
 		String firstName = myRs.getString("firstName");
-		Date dateOfBirth = myRs.getDate("dateOfBirth");
+		String dateOfBirth = myRs.getString("dateOfBirth");
 		String email = myRs.getString("email");
 		String address = myRs.getString("address"); 
 		String phoneNum = myRs.getString("phoneNum");
-		
-	    Mom tempMom = new Mom(momID, lastName, firstName, dateOfBirth, address, email, phoneNum);
+		Date tempdate = formatter.parse(dateOfBirth);
+	    Mom tempMom = new Mom(momID, lastName, firstName, tempdate, address, email, phoneNum);
 		
 		return tempMom;
 	}
@@ -125,8 +147,8 @@ public class MomDAO {
 	public void updateMom(Mom temp) throws SQLException {
 		PreparedStatement myStmt = null;
 		try {
-			String sql  = "Update mom"
-					+ "set lastName = ?, firstName = ?, dateOfBirth=?,address= ?,email=?, phoneNum=?"
+			String sql  = "Update mom "
+					+ " set lastName = ?, firstName = ?, dateOfBirth=?,address= ?,email=?, phoneNum=?"
 					+ " where momID = ? " ;
 			
 			myStmt  = myCon.prepareStatement(sql);
