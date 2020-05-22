@@ -27,9 +27,11 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.border.CompoundBorder;
 
+import project.medical.DAO.ClinicDAO;
 import project.medical.DAO.EventDAO;
 import project.medical.DAO.KidDAO;
 import project.medical.DAO.MomDAO;
+import project.medical.core.Clinic;
 import project.medical.core.Event;
 import project.medical.core.Kid;
 import project.medical.core.Mom;
@@ -41,6 +43,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.GridBagLayout;
 import javax.swing.JSplitPane;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import java.awt.Window.Type;
 
 public class WelcomeScreen {
 
@@ -49,12 +54,14 @@ public class WelcomeScreen {
 	private KidDAO kidDAO;
 	private MomDAO momDAO;
 	private EventDAO eventDAO;
+	private ClinicDAO clinicDAO;
 	private JTable kidTable;
 	private JTable momTable;
 	private JTextField momNameField;
 	private JButton btnNewButton_15;
 	private JTable eventTable;
 	private JTextField clinicNameField;
+	private JTable clinicTable;
 
 
 	/**
@@ -85,6 +92,7 @@ public class WelcomeScreen {
 		kidDAO = new KidDAO();
 		momDAO = new MomDAO();
 		eventDAO = new EventDAO();
+		clinicDAO = new ClinicDAO();
 		initialize();
 	}
 
@@ -96,6 +104,7 @@ public class WelcomeScreen {
 		
 		
 		MainScreen = new JFrame();
+		MainScreen.setType(Type.UTILITY);
 		MainScreen.getContentPane().setBackground(new Color(192, 192, 192));
 		MainScreen.setTitle("HealthCenter");
 		MainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,6 +120,12 @@ public class WelcomeScreen {
 		JPanel panel_home = new JPanel();
 		panel_home.setBackground(Color.ORANGE);
 		tabbedPane.addTab("HOME", null, panel_home, null);
+		panel_home.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\admin\\eclipse-workspace\\Medical\\Image\\home.jpg"));
+		panel_home.add(lblNewLabel_1, BorderLayout.CENTER);
 		
 		JPanel panel_kids = new JPanel();
 		panel_kids.setBorder(new CompoundBorder());
@@ -118,6 +133,7 @@ public class WelcomeScreen {
 		panel_kids.setLayout(new BorderLayout(0, 0));
 		
 		JToolBar toolBar = new JToolBar();
+		toolBar.setBackground(Color.WHITE);
 		panel_kids.add(toolBar, BorderLayout.NORTH);
 		// ADD KID
 		JButton btnNewButton = new JButton("Add");
@@ -279,10 +295,13 @@ public class WelcomeScreen {
 		
 		
 		JPanel panel_moms = new JPanel();
+		panel_moms.setBackground(Color.RED);
 		tabbedPane.addTab("MOMS", null, panel_moms, null);
 		panel_moms.setLayout(new BorderLayout(0, 0));
 		
 		JToolBar toolBar_2 = new JToolBar();
+		toolBar_2.setBackground(Color.WHITE);
+		toolBar_2.setForeground(Color.WHITE);
 		panel_moms.add(toolBar_2, BorderLayout.NORTH);
 		
 		// ADD MOM
@@ -453,18 +472,82 @@ public class WelcomeScreen {
 		panel_clinic.setLayout(new BorderLayout(0, 0));
 		
 		JToolBar toolBar_4 = new JToolBar();
+		toolBar_4.setBackground(Color.WHITE);
 		panel_clinic.add(toolBar_4, BorderLayout.NORTH);
 		
 		JButton btnNewButton_16 = new JButton("Add");
+		btnNewButton_16.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddUpdateClinicDialog diag;
+				try {
+					diag = new AddUpdateClinicDialog(panel_clinic, null,clinicDAO, false);
+					diag.setVisible(true);
+				} catch (Exception e1) {
+				
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		toolBar_4.add(btnNewButton_16);
 		
 		JButton btnNewButton_17 = new JButton("Update");
+		btnNewButton_17.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = clinicTable.getSelectedRow();
+				if(row <0) {
+					JOptionPane.showMessageDialog(panel_clinic,"Please select a clinic","Warning",JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				Clinic temp = (Clinic) clinicTable.getValueAt(row, ClinicTableModel.OBJECT_COL);
+				
+				AddUpdateClinicDialog updatedialog;
+				try {
+					updatedialog = new AddUpdateClinicDialog(panel_clinic, temp, clinicDAO, true);
+					updatedialog.setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+				
+			}
+		});
 		toolBar_4.add(btnNewButton_17);
 		
 		JButton btnNewButton_18 = new JButton("Delete");
 		toolBar_4.add(btnNewButton_18);
 		
 		JButton btnNewButton_19 = new JButton("Search");
+		btnNewButton_19.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+					String name = clinicNameField.getText();
+				
+					List <Clinic> clinics = null;
+					
+					if(name != null && name.trim().length() > 0 ) {
+						clinics = clinicDAO.getClinicByName(name);
+					}
+					else {
+						clinics = clinicDAO.getAllClicnic();
+					}
+					
+                    ClinicTableModel model = new ClinicTableModel(clinics);
+                    clinicTable.setModel(model);
+                    
+	
+				}
+				catch(Exception exc) {
+					JOptionPane.showMessageDialog(panel_clinic, "Error: "+ exc, "Error",JOptionPane.ERROR_MESSAGE);
+				}				
+				
+				
+			}
+		});
 		toolBar_4.add(btnNewButton_19);
 		
 		clinicNameField = new JTextField();
@@ -474,14 +557,19 @@ public class WelcomeScreen {
 		JToolBar toolBar_5 = new JToolBar();
 		panel_clinic.add(toolBar_5, BorderLayout.WEST);
 		
-		JScrollPane scrollPane_2 = new JScrollPane();
+		clinicTable = new JTable();
+		JScrollPane scrollPane_2 = new JScrollPane(clinicTable);
 		panel_clinic.add(scrollPane_2, BorderLayout.CENTER);
 		
+		
+
+		
 		JPanel panel_events = new JPanel();
-		tabbedPane.addTab("Event", null, panel_events, null);
+		tabbedPane.addTab("EVENT", null, panel_events, null);
 		panel_events.setLayout(new BorderLayout(0, 0));
 		
 		JToolBar toolBar_41 = new JToolBar();
+		toolBar_41.setBackground(Color.WHITE);
 		panel_events.add(toolBar_41, BorderLayout.NORTH);
 		
 		JButton btnNewButton_181 = new JButton("Show events");
@@ -561,6 +649,12 @@ public class WelcomeScreen {
 		
 		JPanel panel_about = new JPanel();
 		tabbedPane.addTab("ABOUT", null, panel_about, null);
+		panel_about.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\admin\\eclipse-workspace\\Medical\\Image\\about.jpg"));
+		panel_about.add(lblNewLabel, BorderLayout.CENTER);
 	}
   }
 
