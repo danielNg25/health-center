@@ -9,13 +9,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
 import project.medical.core.Clinic;
-import project.medical.core.clinic;
-import project.medical.core.Clinic;
+
 
 
 public class ClinicDAO {
