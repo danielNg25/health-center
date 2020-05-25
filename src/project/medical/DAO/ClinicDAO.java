@@ -144,6 +144,23 @@ public class ClinicDAO {
 			return tempClinic;
 		}
 		
+		public void deleteClinic(String id) throws SQLException {
+			PreparedStatement myStmt = null;
+			try {
+				String sql  = "delete from clinic where  clinicID = ? ";
+				
+				myStmt  = myCon.prepareStatement(sql);
+				
+				myStmt.setString(1, id);
+				
+				myStmt.executeUpdate();
+		    }
+		    finally {
+		    	myStmt.close();
+		    }
+			
+		}
+		
 		private static void close(Connection myCon, Statement myStmt, ResultSet myRs)
 				throws SQLException {
 

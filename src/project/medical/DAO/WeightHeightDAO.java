@@ -155,6 +155,24 @@ public class WeightHeightDAO {
 		close(null, myStmt, myRs);		
 	}
 
+	public void deleteWH(String id) throws SQLException {
+		PreparedStatement myStmt = null;
+		try {
+			String sql  = "delete from weightheight where personID = ? ";
+			
+			myStmt  = myCon.prepareStatement(sql);
+			
+			myStmt.setString(1, id);
+			
+			myStmt.executeUpdate();
+	    }
+	    finally {
+	    	myStmt.close();
+	    }
+		
+		
+	}
+
 
 
 }

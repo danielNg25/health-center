@@ -172,7 +172,24 @@ public class MomDAO {
 	    }
 		
 	}
-
+	
+	public void deleteMom(String momID) throws SQLException {
+		PreparedStatement myStmt = null;
+		try {
+			String sql  = "delete from mom where  momID = ? ";
+			
+			myStmt  = myCon.prepareStatement(sql);
+			
+			myStmt.setString(1, momID);
+			
+			myStmt.executeUpdate();
+	    }
+	    finally {
+	    	myStmt.close();
+	    }
+		
+	}
+	
 	
 
 	

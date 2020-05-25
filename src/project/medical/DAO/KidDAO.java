@@ -181,7 +181,23 @@ public class KidDAO {
 	    }
 		
 	}
-
+	// Delete a kid according to kidID
+	public void deleteKid(String kidID) throws SQLException {
+		PreparedStatement myStmt = null;
+		try {
+			String sql  = "delete from kid where  kidID = ? ";
+			
+			myStmt  = myCon.prepareStatement(sql);
+			
+			myStmt.setString(1, kidID);
+			
+			myStmt.executeUpdate();
+	    }
+	    finally {
+	    	myStmt.close();
+	    }
+		
+	}
 	
 	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)
 			throws SQLException {

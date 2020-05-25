@@ -15,6 +15,9 @@ public class EventDAO {
     private Connection myCon;
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	
+	
+	
+	
 	public EventDAO() throws Exception{
 		Properties prop = new Properties();
 		prop.load(new FileInputStream("sql/person.properties"));
@@ -95,6 +98,22 @@ public class EventDAO {
 		return tempEvent;
 	}
 
+	public void deleteEvent(String name) throws SQLException {
+		PreparedStatement myStmt = null;
+		try {
+			String sql  = "delete from Event where  name = ? ";
+			
+			myStmt  = myCon.prepareStatement(sql);
+			
+			myStmt.setString(1, name);
+			
+			myStmt.executeUpdate();
+	    }
+	    finally {
+	    	myStmt.close();
+	    }
+		
+	}
 	
 	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)
 			throws SQLException {

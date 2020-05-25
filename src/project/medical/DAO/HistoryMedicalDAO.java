@@ -234,5 +234,23 @@ public class HistoryMedicalDAO {
 	}
 
 
+	public void deleteHist(String id) throws SQLException {
+		PreparedStatement myStmt = null;
+		try {
+			String sql  = "delete from medicalhistory where  personID = ? ";
+			
+			myStmt  = myCon.prepareStatement(sql);
+			
+			myStmt.setString(1, id);
+			
+			myStmt.executeUpdate();
+	    }
+	    finally {
+	    	myStmt.close();
+	    }
+		
+	}
+
+
 
 }
