@@ -29,23 +29,21 @@ import javax.swing.border.CompoundBorder;
 
 import project.medical.DAO.ClinicDAO;
 import project.medical.DAO.EventDAO;
+import project.medical.DAO.HistoryMedicalDAO;
 import project.medical.DAO.KidDAO;
 import project.medical.DAO.MomDAO;
+import project.medical.DAO.WeightHeightDAO;
 import project.medical.core.Clinic;
 import project.medical.core.Event;
 import project.medical.core.Kid;
 import project.medical.core.Mom;
-import project.medical.core.Person;
 
 import javax.swing.JToolBar;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import java.awt.GridBagLayout;
-import javax.swing.JSplitPane;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import java.awt.Window.Type;
 
 public class WelcomeScreen {
 
@@ -54,6 +52,8 @@ public class WelcomeScreen {
 	private KidDAO kidDAO;
 	private MomDAO momDAO;
 	private EventDAO eventDAO;
+	private HistoryMedicalDAO  histDAO;
+	private WeightHeightDAO whDAO;
 	private ClinicDAO clinicDAO;
 	private JTable kidTable;
 	private JTable momTable;
@@ -91,6 +91,8 @@ public class WelcomeScreen {
 	public WelcomeScreen() throws Exception {
 		kidDAO = new KidDAO();
 		momDAO = new MomDAO();
+		histDAO = new HistoryMedicalDAO();
+		whDAO = new WeightHeightDAO();
 		eventDAO = new EventDAO();
 		clinicDAO = new ClinicDAO();
 		initialize();
@@ -104,12 +106,11 @@ public class WelcomeScreen {
 		
 		
 		MainScreen = new JFrame();
-		MainScreen.setType(Type.UTILITY);
 		MainScreen.getContentPane().setBackground(new Color(192, 192, 192));
 		MainScreen.setTitle("HealthCenter");
 		MainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		MainScreen.setBackground(new Color(0, 0, 0));
-		MainScreen.setBounds(100, 100, 609, 475);
+		MainScreen.setBounds(100, 100, 645, 504);
 		MainScreen.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -166,6 +167,27 @@ public class WelcomeScreen {
 		toolBar.add(btnNewButton_1);
 		// DELETE KID
 		JButton btnNewButton_2 = new JButton("Delete");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int row = kidTable.getSelectedRow();
+					if(row <0) {
+						JOptionPane.showMessageDialog(panel_kids,"Please select a kid","Warning",JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					
+					Kid temp = (Kid) kidTable.getValueAt(row, KidTableModel.OBJECT_COL);
+					kidDAO.deleteKid(temp.getID());
+					histDAO.deleteHist(temp.getID());
+					whDAO.deleteWH(temp.getID());
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(panel_kids,"Deleted","Deleted",JOptionPane.INFORMATION_MESSAGE);
+				
+			}
+		});
 		toolBar.add(btnNewButton_2);
 		// SEARCH KID
 		JButton btnNewButton_3 = new JButton("Search");
@@ -205,6 +227,7 @@ public class WelcomeScreen {
 		toolBar_1.setOrientation(SwingConstants.VERTICAL);
 		panel_kids.add(toolBar_1, BorderLayout.WEST);
 		
+		// APPOINTMENT 1
 		JButton btnNewButton_7 = new JButton("Appointment");
 		btnNewButton_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -250,7 +273,7 @@ public class WelcomeScreen {
 		btnNewButton_4.setMinimumSize(new Dimension(93, 23));
 		btnNewButton_4.setMaximumSize(new Dimension(93, 23));
 		toolBar_1.add(btnNewButton_4);
-		
+		// INDEX KID
 		JButton btnNewButton_6 = new JButton("Index");
 		btnNewButton_6.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_6.setMaximumSize(new Dimension(93, 23));
@@ -339,6 +362,27 @@ public class WelcomeScreen {
 		toolBar_2.add(btnNewButton_9);
 		// DELETE MOM
 		JButton btnNewButton_10 = new JButton("Delete");
+		btnNewButton_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int row = momTable.getSelectedRow();
+					if(row <0) {
+						JOptionPane.showMessageDialog(panel_moms,"Please select a mom","Warning",JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					
+					Mom temp = (Mom) momTable.getValueAt(row, MomTableModel.OBJECT_COL);
+					momDAO.deleteMom(temp.getID());
+					histDAO.deleteHist(temp.getID());
+					whDAO.deleteWH(temp.getID());
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(panel_moms,"Deleted","Deleted",JOptionPane.INFORMATION_MESSAGE);
+				
+			}
+		});
 		toolBar_2.add(btnNewButton_10);
 		// SEARCH MOM
 		JButton btnNewButton_11 = new JButton("Search");
@@ -378,7 +422,7 @@ public class WelcomeScreen {
 		JToolBar toolBar_3 = new JToolBar();
 		toolBar_3.setOrientation(SwingConstants.VERTICAL);
 		panel_moms.add(toolBar_3, BorderLayout.WEST);
-		
+		//APPOINTMENT 2
 		JButton btnNewButton_13 = new JButton("Appointment");
 		btnNewButton_13.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_13.addActionListener(new ActionListener() {
@@ -474,7 +518,7 @@ public class WelcomeScreen {
 		JToolBar toolBar_4 = new JToolBar();
 		toolBar_4.setBackground(Color.WHITE);
 		panel_clinic.add(toolBar_4, BorderLayout.NORTH);
-		
+		// ADD CLINIC
 		JButton btnNewButton_16 = new JButton("Add");
 		btnNewButton_16.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -490,7 +534,7 @@ public class WelcomeScreen {
 			}
 		});
 		toolBar_4.add(btnNewButton_16);
-		
+		// UPDATE CLINIC
 		JButton btnNewButton_17 = new JButton("Update");
 		btnNewButton_17.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -512,15 +556,31 @@ public class WelcomeScreen {
 				}
 				
 				
-				
-				
 			}
 		});
 		toolBar_4.add(btnNewButton_17);
-		
+		// DELETE CLINIC
 		JButton btnNewButton_18 = new JButton("Delete");
+		btnNewButton_18.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int row = clinicTable.getSelectedRow();
+					if(row <0) {
+						JOptionPane.showMessageDialog(panel_moms,"Please select a clinic","Warning",JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					
+					Clinic temp = (Clinic) clinicTable.getValueAt(row, ClinicTableModel.OBJECT_COL);
+					clinicDAO.deleteClinic(temp.getID());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(panel_clinic,"Deleted","Deleted",JOptionPane.INFORMATION_MESSAGE);
+				
+			}
+		});
 		toolBar_4.add(btnNewButton_18);
-		
+		// SEARCH CLINIC
 		JButton btnNewButton_19 = new JButton("Search");
 		btnNewButton_19.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -571,7 +631,7 @@ public class WelcomeScreen {
 		JToolBar toolBar_41 = new JToolBar();
 		toolBar_41.setBackground(Color.WHITE);
 		panel_events.add(toolBar_41, BorderLayout.NORTH);
-		
+		// SHOW EVENT
 		JButton btnNewButton_181 = new JButton("Show events");
 		btnNewButton_181.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -586,7 +646,7 @@ public class WelcomeScreen {
 			}
 		});
 		toolBar_41.add(btnNewButton_181);
-		
+		// CREATE EVENT
 		JButton btnNewButton_161 = new JButton("Create New Event");
 		btnNewButton_161.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -602,7 +662,7 @@ public class WelcomeScreen {
 			}
 		});
 		toolBar_41.add(btnNewButton_161);
-		
+		// SEND EVENT EMAIL
 		JButton btnNewButton_171 = new JButton("Send Email");
 		btnNewButton_171.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -634,8 +694,27 @@ public class WelcomeScreen {
 				sender.sendEvent(temp, allEmails);
 			}
 		});
-		
+		// DELETE EVENT
 		JButton btnNewButton_191 = new JButton("Delete Event");
+		btnNewButton_191.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int row = eventTable.getSelectedRow();
+					if(row <0) {
+						JOptionPane.showMessageDialog(panel_events,"Please select an event","Warning",JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					
+					Event temp = (Event) eventTable.getValueAt(row, EventTableModel.OBJECT_COL);
+					eventDAO.deleteEvent(temp.getName());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(panel_clinic,"Deleted","Deleted",JOptionPane.INFORMATION_MESSAGE);
+				
+				
+			}
+		});
 		toolBar_41.add(btnNewButton_191);
 		toolBar_41.add(btnNewButton_171);
 		
