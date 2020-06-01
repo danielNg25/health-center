@@ -45,6 +45,12 @@ import javax.swing.JTable;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import java.awt.Toolkit;
+import java.awt.Dialog.ModalExclusionType;
+import java.awt.SystemColor;
+import javax.swing.Icon;
+
+
 public class WelcomeScreen {
 
 	private JFrame MainScreen;
@@ -106,38 +112,49 @@ public class WelcomeScreen {
 		
 		
 		MainScreen = new JFrame();
+		MainScreen.getContentPane().setMaximumSize(new Dimension(650, 650));
+		MainScreen.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		//MainScreen.setUndecorated(true);
+		MainScreen.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+		MainScreen.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\admin\\eclipse-workspace\\Medical\\Image\\healthcareIcon.png"));
 		MainScreen.getContentPane().setBackground(new Color(192, 192, 192));
-		MainScreen.setTitle("HealthCenter");
+		MainScreen.setTitle("Health Center");
 		MainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		MainScreen.setBackground(new Color(0, 0, 0));
 		MainScreen.setBounds(100, 100, 645, 504);
 		MainScreen.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBackground(Color.WHITE);
+		tabbedPane.setForeground(Color.BLACK);
 		tabbedPane.setBorder(new CompoundBorder());
 		tabbedPane.setFont(new Font("Tahoma", Font.BOLD, 13));
 		MainScreen.getContentPane().add(tabbedPane);
 		
 		JPanel panel_home = new JPanel();
-		panel_home.setBackground(Color.ORANGE);
-		tabbedPane.addTab("HOME", null, panel_home, null);
+		panel_home.setMaximumSize(new Dimension(650, 650));
+		panel_home.setBackground(new Color(0, 191, 255));
+		tabbedPane.addTab("HOME", (Icon) null, panel_home, null);
+		tabbedPane.setDisabledIconAt(0, null);
 		panel_home.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\admin\\eclipse-workspace\\Medical\\Image\\home.jpg"));
 		panel_home.add(lblNewLabel_1, BorderLayout.CENTER);
 		
 		JPanel panel_kids = new JPanel();
-		panel_kids.setBorder(new CompoundBorder());
 		tabbedPane.addTab("KIDS", null, panel_kids, null);
 		panel_kids.setLayout(new BorderLayout(0, 0));
 		
 		JToolBar toolBar = new JToolBar();
-		toolBar.setBackground(Color.WHITE);
+		toolBar.setBackground(SystemColor.textHighlightText);
 		panel_kids.add(toolBar, BorderLayout.NORTH);
 		// ADD KID
 		JButton btnNewButton = new JButton("Add");
+		btnNewButton.setFont(new Font("Arial", Font.BOLD, 11));
+		btnNewButton.setBackground(SystemColor.control);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddUpdateDialog adddialog = new AddUpdateDialog(panel_kids, kidDAO, null, null, null, false, false);
@@ -148,6 +165,8 @@ public class WelcomeScreen {
 		toolBar.add(btnNewButton);
 		// UPDATE KID
 		JButton btnNewButton_1 = new JButton("Update");
+		btnNewButton_1.setFont(new Font("Arial", Font.BOLD, 11));
+		btnNewButton_1.setBackground(SystemColor.control);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = kidTable.getSelectedRow();
@@ -167,6 +186,8 @@ public class WelcomeScreen {
 		toolBar.add(btnNewButton_1);
 		// DELETE KID
 		JButton btnNewButton_2 = new JButton("Delete");
+		btnNewButton_2.setFont(new Font("Arial", Font.BOLD, 11));
+		btnNewButton_2.setBackground(SystemColor.control);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -191,6 +212,8 @@ public class WelcomeScreen {
 		toolBar.add(btnNewButton_2);
 		// SEARCH KID
 		JButton btnNewButton_3 = new JButton("Search");
+		btnNewButton_3.setFont(new Font("Arial", Font.BOLD, 11));
+		btnNewButton_3.setBackground(SystemColor.control);
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
@@ -224,11 +247,14 @@ public class WelcomeScreen {
 		kidNameField.setColumns(10);
 		
 		JToolBar toolBar_1 = new JToolBar();
+		toolBar_1.setBackground(SystemColor.textHighlightText);
 		toolBar_1.setOrientation(SwingConstants.VERTICAL);
 		panel_kids.add(toolBar_1, BorderLayout.WEST);
 		
 		// APPOINTMENT 1
 		JButton btnNewButton_7 = new JButton("Appointment");
+		btnNewButton_7.setFont(new Font("Arial", Font.BOLD, 11));
+		btnNewButton_7.setBackground(Color.WHITE);
 		btnNewButton_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					AppoinmentTab aptab;
@@ -246,6 +272,8 @@ public class WelcomeScreen {
 		
 		// VACCINATION KID
 		JButton btnNewButton_4 = new JButton("Vaccination");
+		btnNewButton_4.setFont(new Font("Arial", Font.BOLD, 11));
+		btnNewButton_4.setBackground(Color.WHITE);
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = kidTable.getSelectedRow();
@@ -275,6 +303,8 @@ public class WelcomeScreen {
 		toolBar_1.add(btnNewButton_4);
 		// INDEX KID
 		JButton btnNewButton_6 = new JButton("Index");
+		btnNewButton_6.setFont(new Font("Arial", Font.BOLD, 11));
+		btnNewButton_6.setBackground(Color.WHITE);
 		btnNewButton_6.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_6.setMaximumSize(new Dimension(93, 23));
 		btnNewButton_6.setMinimumSize(new Dimension(93, 23));
@@ -303,12 +333,6 @@ public class WelcomeScreen {
 		});
 		toolBar_1.add(btnNewButton_6);
 		
-		JButton btnNewButton_5 = new JButton("Information");
-		btnNewButton_5.setHorizontalAlignment(SwingConstants.LEFT);
-		btnNewButton_5.setMinimumSize(new Dimension(93, 23));
-		btnNewButton_5.setMaximumSize(new Dimension(93, 23));
-		toolBar_1.add(btnNewButton_5);
-		
 		
 		kidTable = new JTable();
 		JScrollPane scrollPane = new JScrollPane(kidTable);
@@ -329,6 +353,7 @@ public class WelcomeScreen {
 		
 		// ADD MOM
 		JButton btnNewButton_8 = new JButton("Add");
+		btnNewButton_8.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNewButton_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddUpdateDialog adddialog = new AddUpdateDialog(panel_moms, null, null, momDAO, null, true, false);
@@ -340,6 +365,7 @@ public class WelcomeScreen {
 		
 		// UPDATE MOM
 		JButton btnNewButton_9 = new JButton("Update");
+		btnNewButton_9.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNewButton_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = momTable.getSelectedRow();
@@ -362,6 +388,7 @@ public class WelcomeScreen {
 		toolBar_2.add(btnNewButton_9);
 		// DELETE MOM
 		JButton btnNewButton_10 = new JButton("Delete");
+		btnNewButton_10.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNewButton_10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -386,6 +413,7 @@ public class WelcomeScreen {
 		toolBar_2.add(btnNewButton_10);
 		// SEARCH MOM
 		JButton btnNewButton_11 = new JButton("Search");
+		btnNewButton_11.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNewButton_11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
@@ -420,10 +448,13 @@ public class WelcomeScreen {
 		momNameField.setColumns(10);
 		
 		JToolBar toolBar_3 = new JToolBar();
+		toolBar_3.setBackground(SystemColor.textHighlightText);
 		toolBar_3.setOrientation(SwingConstants.VERTICAL);
 		panel_moms.add(toolBar_3, BorderLayout.WEST);
 		//APPOINTMENT 2
 		JButton btnNewButton_13 = new JButton("Appointment");
+		btnNewButton_13.setFont(new Font("Arial", Font.BOLD, 11));
+		btnNewButton_13.setBackground(Color.WHITE);
 		btnNewButton_13.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_13.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -441,6 +472,8 @@ public class WelcomeScreen {
 		toolBar_3.add(btnNewButton_13);
 		// VACCINATION MOM
 		JButton btnNewButton_14 = new JButton("Vaccination");
+		btnNewButton_14.setFont(new Font("Arial", Font.BOLD, 11));
+		btnNewButton_14.setBackground(Color.WHITE);
 		btnNewButton_14.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_14.setMinimumSize(new Dimension(93, 23));
 		btnNewButton_14.setMaximumSize(new Dimension(93, 23));
@@ -470,6 +503,8 @@ public class WelcomeScreen {
 		toolBar_3.add(btnNewButton_14);
 		// INDEX MOM
 		btnNewButton_15 = new JButton("Index");
+		btnNewButton_15.setFont(new Font("Arial", Font.BOLD, 11));
+		btnNewButton_15.setBackground(Color.WHITE);
 		btnNewButton_15.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_15.setMinimumSize(new Dimension(93, 23));
 		btnNewButton_15.setMaximumSize(new Dimension(93, 23));
@@ -499,12 +534,6 @@ public class WelcomeScreen {
 		});
 		toolBar_3.add(btnNewButton_15);
 		
-		JButton btnNewButton_12 = new JButton("Information");
-		btnNewButton_12.setHorizontalAlignment(SwingConstants.LEFT);
-		btnNewButton_12.setMinimumSize(new Dimension(93, 23));
-		btnNewButton_12.setMaximumSize(new Dimension(93, 23));
-		toolBar_3.add(btnNewButton_12);
-		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel_moms.add(scrollPane_1, BorderLayout.CENTER);
 		
@@ -520,6 +549,7 @@ public class WelcomeScreen {
 		panel_clinic.add(toolBar_4, BorderLayout.NORTH);
 		// ADD CLINIC
 		JButton btnNewButton_16 = new JButton("Add");
+		btnNewButton_16.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNewButton_16.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddUpdateClinicDialog diag;
@@ -536,6 +566,7 @@ public class WelcomeScreen {
 		toolBar_4.add(btnNewButton_16);
 		// UPDATE CLINIC
 		JButton btnNewButton_17 = new JButton("Update");
+		btnNewButton_17.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNewButton_17.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = clinicTable.getSelectedRow();
@@ -551,7 +582,6 @@ public class WelcomeScreen {
 					updatedialog = new AddUpdateClinicDialog(panel_clinic, temp, clinicDAO, true);
 					updatedialog.setVisible(true);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
@@ -561,6 +591,7 @@ public class WelcomeScreen {
 		toolBar_4.add(btnNewButton_17);
 		// DELETE CLINIC
 		JButton btnNewButton_18 = new JButton("Delete");
+		btnNewButton_18.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNewButton_18.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -582,6 +613,7 @@ public class WelcomeScreen {
 		toolBar_4.add(btnNewButton_18);
 		// SEARCH CLINIC
 		JButton btnNewButton_19 = new JButton("Search");
+		btnNewButton_19.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNewButton_19.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
@@ -615,6 +647,7 @@ public class WelcomeScreen {
 		clinicNameField.setColumns(10);
 		
 		JToolBar toolBar_5 = new JToolBar();
+		toolBar_5.setBackground(Color.LIGHT_GRAY);
 		panel_clinic.add(toolBar_5, BorderLayout.WEST);
 		
 		clinicTable = new JTable();
@@ -633,6 +666,7 @@ public class WelcomeScreen {
 		panel_events.add(toolBar_41, BorderLayout.NORTH);
 		// SHOW EVENT
 		JButton btnNewButton_181 = new JButton("Show events");
+		btnNewButton_181.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNewButton_181.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
@@ -648,6 +682,7 @@ public class WelcomeScreen {
 		toolBar_41.add(btnNewButton_181);
 		// CREATE EVENT
 		JButton btnNewButton_161 = new JButton("Create New Event");
+		btnNewButton_161.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNewButton_161.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddEventDialog adddialog;
@@ -664,6 +699,7 @@ public class WelcomeScreen {
 		toolBar_41.add(btnNewButton_161);
 		// SEND EVENT EMAIL
 		JButton btnNewButton_171 = new JButton("Send Email");
+		btnNewButton_171.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNewButton_171.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -696,6 +732,7 @@ public class WelcomeScreen {
 		});
 		// DELETE EVENT
 		JButton btnNewButton_191 = new JButton("Delete Event");
+		btnNewButton_191.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNewButton_191.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -730,8 +767,9 @@ public class WelcomeScreen {
 		tabbedPane.addTab("ABOUT", null, panel_about, null);
 		panel_about.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\admin\\eclipse-workspace\\Medical\\Image\\about.jpg"));
 		panel_about.add(lblNewLabel, BorderLayout.CENTER);
 	}

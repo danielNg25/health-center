@@ -54,6 +54,7 @@ public class EmailSender {
     	emailToday = thelisttoday;
     	emailTomorrow = thelisttomorrow;
     }
+    // Sending email today
     public void sendToday() {
     	
     	for (String receiver : emailToday) {
@@ -80,6 +81,8 @@ public class EmailSender {
     		JOptionPane.showMessageDialog(null,"Sent email successfully");
     	}
     }
+    // Sending email tomorrow
+  
     public void sendTomorrow() {
     	
     	for (String receiver : emailTomorrow) {
@@ -108,7 +111,7 @@ public class EmailSender {
     	}
     	JOptionPane.showMessageDialog(null,"Sent email successfully");
     }
-    
+    // Sending email event
     public void sendEvent(Event event, List<String> emails) {
     	messEvent = " Hi friends, Our center is going to hold an event. This Event: " + event.getName() + 
     			", Date: "+ event.getDate() + ", Description: "+ event.getDescription()+ 

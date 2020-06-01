@@ -26,11 +26,10 @@ public class ClinicDAO {
 		String password = prop.getProperty("password");
 		String dburl = prop.getProperty("dburl");
 		myCon= DriverManager.getConnection(dburl,user,password);
-		System.out.println("Connect Successfull");
 	}
 	
-	// Get all Clinics from table into a list
-		public  List<Clinic> getAllClicnic() throws Exception {
+	// Get all Clinics 
+	public  List<Clinic> getAllClicnic() throws Exception {
 			
 			List<Clinic> listAllClinic = new ArrayList<>();
 			
@@ -53,133 +52,129 @@ public class ClinicDAO {
 			}
 		}
 	
-		// Get all Clinics by name from table into a list 
-		public  List<Clinic> getClinicByName(String name) throws Exception {
-			List<Clinic> list = new ArrayList<>();
+	// Get all Clinics by name from table into a list 
+	public  List<Clinic> getClinicByName(String name) throws Exception {
+		List<Clinic> list = new ArrayList<>();
 
-			PreparedStatement myStmt = null;
-			ResultSet myRs = null;
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
 
-			try {
-				
-				name += "%";
-				myStmt = myCon.prepareStatement("select * from Clinic where clinicName like ? ");
-				myStmt.setString(1, name);		
-				myRs = myStmt.executeQuery();
-				
-				while (myRs.next()) {
-					Clinic tempClinic = convertRowToClinic(myRs);
-					list.add(tempClinic);
-				}
-				
-				return list;
+		try {
+			
+			name += "%";
+			myStmt = myCon.prepareStatement("select * from Clinic where clinicName like ? ");
+			myStmt.setString(1, name);		
+			myRs = myStmt.executeQuery();
+			
+			while (myRs.next()) {
+				Clinic tempClinic = convertRowToClinic(myRs);
+				list.add(tempClinic);
 			}
-			finally {
-				close(myStmt, myRs);
-			}
+			
+			return list;
 		}
+		finally {
+			close(myStmt, myRs);
+		}
+	}
 		
-		// Adding a Clinic object to table
-		public void addClinic(Clinic newClinic) throws Exception{
-			PreparedStatement myStmt = null;
-			try {
-			String sql  = "Insert into clinic"
-					+ "(clinicID, clinicName, address, email, phoneNum, typee)"
-					+ " values (?, ?, ?, ?, ?, ?) " ;
+	// Adding a Clinic object to table
+	public void addClinic(Clinic newClinic) throws Exception{
+		PreparedStatement myStmt = null;
+		try {
+		String sql  = "Insert into clinic"
+				+ "(clinicID, clinicName, address, email, phoneNum, typee)"
+				+ " values (?, ?, ?, ?, ?, ?) " ;
+		
+		myStmt  = myCon.prepareStatement(sql);
+		
+		myStmt.setString(1, newClinic.getID());
+		myStmt.setString(2, newClinic.getClinicName());
+		myStmt.setString(5, newClinic.getAddress());
+		myStmt.setString(6, newClinic.getEmail());
+		myStmt.setString(7, newClinic.getPhoneNum());
+		myStmt.setString(8, newClinic.getType());
+		
+		myStmt.executeUpdate();
+	    }
+	    finally {
+	    	myStmt.close();
+	    }
+	}	
+		
+	// Updating clinic 
+	public void updateclinic(Clinic temp) throws SQLException {
+		PreparedStatement myStmt = null;
+		try {
+			String sql  = "update clinic "
+					+ " set clinicName = ?, address= ?,email=?, phoneNum=?,"
+					+ " type = ?,"
+					+ " where clinicID = ? " ;
 			
 			myStmt  = myCon.prepareStatement(sql);
 			
-			myStmt.setString(1, newClinic.getID());
-			myStmt.setString(2, newClinic.getClinicName());
-			myStmt.setString(5, newClinic.getAddress());
-			myStmt.setString(6, newClinic.getEmail());
-			myStmt.setString(7, newClinic.getPhoneNum());
-			myStmt.setString(8, newClinic.getType());
+			myStmt.setString(1, temp.getClinicName());
+			myStmt.setString(2, temp.getAddress());
+			myStmt.setString(3, temp.getEmail());
+			myStmt.setString(4, temp.getPhoneNum());
+			myStmt.setString(5, temp.getType());
+			myStmt.setString(6, temp.getID());			
 			
 			myStmt.executeUpdate();
-		    }
-		    finally {
-		    	myStmt.close();
-		    }
-		}	
+	    }
+	    finally {
+	    	myStmt.close();
+	    }
 		
-		// Updating clinic 
-		public void updateclinic(Clinic temp) throws SQLException {
-			PreparedStatement myStmt = null;
-			try {
-				String sql  = "update clinic "
-						+ " set clinicName = ?, address= ?,email=?, phoneNum=?,"
-						+ " type = ?,"
-						+ " where clinicID = ? " ;
-				
-				myStmt  = myCon.prepareStatement(sql);
-				
-				myStmt.setString(1, temp.getClinicName());
-				myStmt.setString(2, temp.getAddress());
-				myStmt.setString(3, temp.getEmail());
-				myStmt.setString(4, temp.getPhoneNum());
-				myStmt.setString(5, temp.getType());
-				myStmt.setString(6, temp.getID());			
-				
-				myStmt.executeUpdate();
-		    }
-		    finally {
-		    	myStmt.close();
-		    }
+	}
+		
+	// Converting table row to oject clinic	
+	private Clinic convertRowToClinic(ResultSet myRs) throws SQLException, ParseException {
+		String id = myRs.getString("clinicID");
+		String clinicName = myRs.getString("clinicName");
+		String email = myRs.getString("email");
+		String address = myRs.getString("address"); 
+		String phoneNum = myRs.getString("phoneNum");
+		String type = myRs.getString("type");
+		
+	    
+		Clinic tempClinic = new Clinic(id, clinicName, address, email, phoneNum, type);
+		
+		return tempClinic;
+	}
+	// Delete clinic according id	
+	public void deleteClinic(String id) throws SQLException {
+		PreparedStatement myStmt = null;
+		try {
+			String sql  = "delete from clinic where  clinicID = ? ";
 			
-		}
-		
-		
-		private Clinic convertRowToClinic(ResultSet myRs) throws SQLException, ParseException {
-			String id = myRs.getString("clinicID");
-			String clinicName = myRs.getString("clinicName");
-			String email = myRs.getString("email");
-			String address = myRs.getString("address"); 
-			String phoneNum = myRs.getString("phoneNum");
-			String type = myRs.getString("type");
+			myStmt  = myCon.prepareStatement(sql);
 			
-		    
-			Clinic tempClinic = new Clinic(id, clinicName, address, email, phoneNum, type);
+			myStmt.setString(1, id);
 			
-			return tempClinic;
-		}
+			myStmt.executeUpdate();
+	    }
+	    finally {
+	    	myStmt.close();
+	    }
 		
-		public void deleteClinic(String id) throws SQLException {
-			PreparedStatement myStmt = null;
-			try {
-				String sql  = "delete from clinic where  clinicID = ? ";
-				
-				myStmt  = myCon.prepareStatement(sql);
-				
-				myStmt.setString(1, id);
-				
-				myStmt.executeUpdate();
-		    }
-		    finally {
-		    	myStmt.close();
-		    }
-			
-		}
-		
-		private static void close(Connection myCon, Statement myStmt, ResultSet myRs)
-				throws SQLException {
+	}
+	// Close connection
+	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)
+			throws SQLException {
 
-			if (myRs != null) {
-				myRs.close();
-			}
-
-			if (myStmt != null) {
-				
-			} 
-			
-			if (myCon != null) {
-				myCon.close();
-			}
+		if (myRs != null) {
+			myRs.close();
 		}
 
-		private void close(Statement myStmt, ResultSet myRs) throws SQLException {
-			close(null, myStmt, myRs);		
-		}
+		if (myStmt != null) {
+			
+		} 
+	}
+
+	private void close(Statement myStmt, ResultSet myRs) throws SQLException {
+		close(null, myStmt, myRs);		
+	}
 
 
 }

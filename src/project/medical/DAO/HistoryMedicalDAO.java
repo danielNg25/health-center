@@ -1,7 +1,9 @@
 package project.medical.DAO;
 
 import project.medical.core.*;
+
 import java.io.FileInputStream;
+
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,7 +29,7 @@ public class HistoryMedicalDAO {
 		String password = prop.getProperty("password");
 		String dburl = prop.getProperty("dburl");
 		myCon= DriverManager.getConnection(dburl,user,password);
-		System.out.println("Connect Successfull");
+
 		
 		kidDAO = new KidDAO();
 		momDAO = new MomDAO();
@@ -37,8 +39,6 @@ public class HistoryMedicalDAO {
 	    Date tomorrowtemp = calendar.getTime();
 		this.today = formatter.format(todaytemp);
 		this.tomorrow = formatter.format(tomorrowtemp);
-		System.out.println(today);
-		System.out.println(tomorrow);
 		
 	}
 	
@@ -69,8 +69,6 @@ public class HistoryMedicalDAO {
 		}
 	}
 	
-	
-	
 	// Adding a HistoryMedical object to table according to person ID 
 	public void addHistoryMedical(HistoryMedical newHistoryMedical, String thePersonID) throws Exception{
 		PreparedStatement myStmt = null;
@@ -84,25 +82,24 @@ public class HistoryMedicalDAO {
 		
 		String stringDateInjection = formatter.format(newHistoryMedical.getDateOfInjection());
 		String stringDateNextAppoint = formatter.format(newHistoryMedical.getNextAppointment());
-
+//		File theFile = new File(url);
+//		FileInputStream input = new FileInputStream(theFile);
+		
 		myStmt.setString(1, thePersonID );
 		myStmt.setString(2, stringDateInjection);
 		myStmt.setString(3, newHistoryMedical.getTypeOfVaccine());
 		myStmt.setInt(4, newHistoryMedical.getIDVaccine());
 		myStmt.setString(5, newHistoryMedical.getAddress());
 		myStmt.setString(6, newHistoryMedical.getInteraction());
-		myStmt.setString(7, null);
+		myStmt.setString(7, newHistoryMedical.getImageHist());
 		myStmt.setString(8, stringDateNextAppoint);
-		
-			
-		
+
 		myStmt.executeUpdate();
 	    }
 	    finally {
 	    	myStmt.close();
 	    }
 	}	
-	
 	
 	// Converting one HistoryMedical in table -> object HistoryMedical 
 	private HistoryMedical convertRowToHistoryMedical(ResultSet myRs) throws SQLException {
@@ -127,30 +124,6 @@ public class HistoryMedicalDAO {
 	    
 		return tempHistoryMedical;
 	}
-	
-	
-
-	
-	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)
-			throws SQLException {
-
-		if (myRs != null) {
-			myRs.close();
-		}
-
-		if (myStmt != null) {
-			
-		} 
-		
-		if (myCon != null) {
-			myCon.close();
-		}
-	}
-
-	private void close(Statement myStmt, ResultSet myRs) throws SQLException {
-		close(null, myStmt, myRs);		
-	}
-	
 	// GETTING PERSON TODAY APPOINMENT
 	public List<Person> getPersonToday() throws Exception {
 		List<Person> todayPeople = new ArrayList<>();
@@ -164,9 +137,7 @@ public class HistoryMedicalDAO {
 			
 			while (myRs.next()) {
 				String cur_ID = myRs.getString("personID");
-//				HistoryMedical tempHist = convertRowToHistoryMedical(myRs);
-//				Date tempDate = tempHist.getNextAppointment();
-//				String tempStringDate = formatter.format(tempDate);
+
 				
 				String tempStringDate = myRs.getString("nextAppointment");
 				if (tempStringDate.equals(today)) {
@@ -192,8 +163,8 @@ public class HistoryMedicalDAO {
 		
 		
 	}
+	
 	// GETTING PERSON TOMMOROW APPOINMENT
-
 	public List<Person> getPersonTomorrow() throws Exception {
 		List<Person> tomPeople = new ArrayList<>();
 		
@@ -232,8 +203,8 @@ public class HistoryMedicalDAO {
 		
 		
 	}
-
-
+	
+	// Delete history according to id
 	public void deleteHist(String id) throws SQLException {
 		PreparedStatement myStmt = null;
 		try {
@@ -248,9 +219,27 @@ public class HistoryMedicalDAO {
 	    finally {
 	    	myStmt.close();
 	    }
+	}
+	
+	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)
+			throws SQLException {
+
+		if (myRs != null) {
+			myRs.close();
+		}
+
+		if (myStmt != null) {
+			
+		} 
 		
+		if (myCon != null) {
+			myCon.close();
+		}
 	}
 
-
+	private void close(Statement myStmt, ResultSet myRs) throws SQLException {
+		close(null, myStmt, myRs);		
+	}
+	
 
 }

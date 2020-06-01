@@ -22,7 +22,6 @@ public class WeightHeightDAO {
 		String password = prop.getProperty("password");
 		String dburl = prop.getProperty("dburl");
 		myCon= DriverManager.getConnection(dburl,user,password);
-		System.out.println("Connect Successfull");
 	}
 	
 	//  Get all WeightHeights of "a person " according to person ID 
@@ -102,7 +101,7 @@ public class WeightHeightDAO {
 		return tempWeightHeight;
 	}
 	
-	//
+	// Get BMI according personID
 	public  double getBmiByID(String theIDPerson) throws Exception {
 		List<WeightHeight> list = new ArrayList<>();
 		
@@ -111,7 +110,6 @@ public class WeightHeightDAO {
 
 		try {
 			
-			//theIDPerson += "%";
 			myStmt = myCon.prepareStatement("select * from weightheight where personID = ? ");
 			myStmt.setString(1, theIDPerson);
 			myRs = myStmt.executeQuery();
@@ -124,17 +122,35 @@ public class WeightHeightDAO {
 			WeightHeight latestWH = list.get(list.size()-1); 
 			double height = latestWH.getHeight();
 			double weight = latestWH.getWeight();
-			
-			double bmi = weight *100 *100 / (height * height);
-			System.out.println(height+" "+ weight+" "+bmi);
+			height = height/100;
+			double bmi = weight/ (height * height);
 			return bmi;
 		}
 		finally {
 			close(myStmt, myRs);
 		}
 	}
-
 	
+	// Delete WeightHeight history according to personID
+		public void deleteWH(String id) throws SQLException {
+			PreparedStatement myStmt = null;
+			try {
+				String sql  = "delete from weightheight where personID = ? ";
+				
+				myStmt  = myCon.prepareStatement(sql);
+				
+				myStmt.setString(1, id);
+				
+				myStmt.executeUpdate();
+		    }
+		    finally {
+		    	myStmt.close();
+		    }
+			
+			
+		}
+
+	// Close connection
 	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)
 			throws SQLException {
 
@@ -155,24 +171,7 @@ public class WeightHeightDAO {
 		close(null, myStmt, myRs);		
 	}
 
-	public void deleteWH(String id) throws SQLException {
-		PreparedStatement myStmt = null;
-		try {
-			String sql  = "delete from weightheight where personID = ? ";
-			
-			myStmt  = myCon.prepareStatement(sql);
-			
-			myStmt.setString(1, id);
-			
-			myStmt.executeUpdate();
-	    }
-	    finally {
-	    	myStmt.close();
-	    }
-		
-		
-	}
-
+	
 
 
 }

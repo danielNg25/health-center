@@ -2,11 +2,15 @@ package project.medical.ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import project.medical.DAO.HistoryMedicalDAO;
 import project.medical.core.HistoryMedical;
@@ -16,7 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
-
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
@@ -37,6 +41,8 @@ public class AddVaccinationDialog extends JDialog {
 	private JTextField nextAppointmentField;
 	private String personID;
 	private HistoryMedicalDAO histDAO;
+	private JLabel img_label = new JLabel("");
+	String s;
 
 	/**
 	 * Launch the application.
@@ -65,7 +71,7 @@ public class AddVaccinationDialog extends JDialog {
 	public AddVaccinationDialog() {
 		setTitle("Add new history");
 		setType(Type.POPUP);
-		setBounds(100, 100, 548, 316);
+		setBounds(100, 100, 533, 491);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -124,6 +130,34 @@ public class AddVaccinationDialog extends JDialog {
 		nextAppointmentField.setBounds(170, 183, 107, 20);
 		contentPanel.add(nextAppointmentField);
 		nextAppointmentField.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Browse Image");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 JFileChooser fileChooser = new JFileChooser();
+		         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+		         FileNameExtensionFilter filter = new FileNameExtensionFilter("*.IMAGE", "jpg","gif","png");
+		         fileChooser.addChoosableFileFilter(filter);
+		         int result = fileChooser.showSaveDialog(null);
+		         if(result == JFileChooser.APPROVE_OPTION){
+		             File selectedFile = fileChooser.getSelectedFile();
+		             String path = selectedFile.getAbsolutePath();
+		             img_label.setIcon(ResizeImage(path));
+		             s = path;
+		         }
+		         else if(result == JFileChooser.CANCEL_OPTION){
+		            JOptionPane.showMessageDialog(contentPanel, "Please select an image");
+		         }	
+				
+				
+			}
+		});
+		btnNewButton.setBounds(325, 182, 160, 23);
+		contentPanel.add(btnNewButton);
+		
+		
+		img_label.setBounds(10, 235, 497, 173);
+		contentPanel.add(img_label);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -150,7 +184,14 @@ public class AddVaccinationDialog extends JDialog {
 			}
 		}
 	}
-
+    public ImageIcon ResizeImage(String imgPath){
+        ImageIcon MyImage = new ImageIcon(imgPath);
+        Image img = MyImage.getImage();
+        Image newImage = img.getScaledInstance(img_label.getWidth(), img_label.getHeight(),Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImage);
+        return image;
+    }
+ 
 	protected void saveHist() throws Exception {
 		String dateInjectstring = dateofinjection.getText();
 		int idvaccine = Integer.parseInt(vaccineIDfield.getText());
@@ -159,9 +200,10 @@ public class AddVaccinationDialog extends JDialog {
 		String nextappoint = nextAppointmentField.getText();
 		String address = AddressField.getText();
 		
+		
 		Date injectdate = formatter.parse(dateInjectstring);
 		Date appointmentdate = formatter.parse(nextappoint);
-		HistoryMedical newhist  = new HistoryMedical(injectdate, type, idvaccine, address, interaction, null, appointmentdate);
+		HistoryMedical newhist  = new HistoryMedical(injectdate, type, idvaccine, address, interaction, s, appointmentdate);
 				
 
 		histDAO.addHistoryMedical(newhist, personID);

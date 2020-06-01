@@ -22,8 +22,8 @@ public class KidDAO {
 		String password = prop.getProperty("password");
 		String dburl = prop.getProperty("dburl");
 		myCon= DriverManager.getConnection(dburl,user,password);
-		System.out.println("Connect Successfull");
 	}
+	
 	// Get all Kids from table into a list
 	public  List<Kid> getAllKid() throws Exception {
 		
@@ -74,6 +74,7 @@ public class KidDAO {
 			close(myStmt, myRs);
 		}
 	}
+	
 	//  Get all Kids by ID from table into a list "Person"
 	public  Person getKidByID(String id) throws Exception {
 		
@@ -199,6 +200,8 @@ public class KidDAO {
 		
 	}
 	
+	
+	// Closing connection
 	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)
 			throws SQLException {
 
@@ -207,12 +210,8 @@ public class KidDAO {
 		}
 
 		if (myStmt != null) {
-			
 		} 
 		
-		if (myCon != null) {
-			myCon.close();
-		}
 	}
 
 	private void close(Statement myStmt, ResultSet myRs) throws SQLException {

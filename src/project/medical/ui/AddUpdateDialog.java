@@ -75,6 +75,10 @@ public class AddUpdateDialog extends JDialog {
     		if (!momtab) populateGui(thePrevKid);
     		else populateGui(thePrevMom);
     	}
+    	if(momtab) {
+    		genderField.setEditable(false);
+    		parentNameField.setEditable(false);
+    	}
 	}
 	private void populateGui(Person thepreviousPerson) {
 		idField.setText(thepreviousPerson.getID());

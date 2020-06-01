@@ -15,9 +15,7 @@ public class EventDAO {
     private Connection myCon;
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	
-	
-	
-	
+		
 	public EventDAO() throws Exception{
 		Properties prop = new Properties();
 		prop.load(new FileInputStream("sql/person.properties"));
@@ -25,7 +23,6 @@ public class EventDAO {
 		String password = prop.getProperty("password");
 		String dburl = prop.getProperty("dburl");
 		myCon= DriverManager.getConnection(dburl,user,password);
-		System.out.println("Connect Successfull");
 	}
 	
 	//  Get all Events 
@@ -53,7 +50,7 @@ public class EventDAO {
 	
 	
 	
-	// Adding a Event  
+	// Adding an Event  
 	public void addEvent(Event newEvent) throws Exception{
 		PreparedStatement myStmt = null;
 		try {
@@ -98,6 +95,7 @@ public class EventDAO {
 		return tempEvent;
 	}
 
+	// Delete an event according to event'name
 	public void deleteEvent(String name) throws SQLException {
 		PreparedStatement myStmt = null;
 		try {
@@ -115,6 +113,7 @@ public class EventDAO {
 		
 	}
 	
+	// Close connection
 	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)
 			throws SQLException {
 
