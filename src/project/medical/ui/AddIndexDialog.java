@@ -117,6 +117,7 @@ public class AddIndexDialog extends JDialog {
 			}
 		}
 	}
+	// Save index
 	public void saveIndex() throws ParseException {
 		String weight_S = WeightField.getText();
 		String height_S = HeightField.getText();

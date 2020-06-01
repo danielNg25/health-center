@@ -35,7 +35,6 @@ public class DrawChart {
 		String password = prop.getProperty("password");
 		String dburl = prop.getProperty("dburl");
 		myCon= DriverManager.getConnection(dburl,user,password);
-		System.out.println("myConect Successfull");
 	}
 	public void drawingHeightChart() {
 		try{

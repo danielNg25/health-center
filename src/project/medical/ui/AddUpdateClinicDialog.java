@@ -172,6 +172,7 @@ public class AddUpdateClinicDialog extends JDialog {
 		}
 	}
 	
+	// Saveclinic
 	protected void saveClinic() {
 		
 		String id = idField.getText();

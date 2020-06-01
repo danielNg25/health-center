@@ -15,18 +15,19 @@ class KidTableModel extends AbstractTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 	public  static final int OBJECT_COL = -1;
-	private static final int ID_COL = 0;
-	private static final int LAST_NAME_COL = 1;
-	private static final int FIRST_NAME_COL = 2;
-	private static final int DATE_OF_BIRTH_COL = 3;
-	private static final int GENDER_COL = 4;
-	private static final int ADDRESS_COL = 5;
-	private static final int EMAIL_COL = 6;
-	private static final int PHONE_COL = 7;
+	private static final int STT_COL = 0;
+	private static final int ID_COL = 1;
+	private static final int LAST_NAME_COL = 2;
+	private static final int FIRST_NAME_COL = 3;
+	private static final int DATE_OF_BIRTH_COL = 4;
+	private static final int GENDER_COL = 5;
+	private static final int ADDRESS_COL = 6;
+	private static final int EMAIL_COL = 7;
+	private static final int PHONE_COL = 8;
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 
-	private String[] columnNames = {"kidID","LastName","FirstName","DateOfBirth","Gender","Address","Email", "PhoneNum"}; 
+	private String[] columnNames = {"STT", "kidID","LastName","FirstName","DateOfBirth","Gender","Address","Email", "PhoneNum"}; 
 	private List<Kid> Kids;
 
 	public KidTableModel(List<Kid> theKids) {
@@ -56,6 +57,8 @@ class KidTableModel extends AbstractTableModel {
 		switch (col) {
 		case OBJECT_COL:
 			return tempKid;
+		case STT_COL:
+			return row+1;
 		case ID_COL:
 			return tempKid.getID();
 		case LAST_NAME_COL:

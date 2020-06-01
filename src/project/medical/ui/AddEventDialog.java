@@ -124,6 +124,7 @@ public class AddEventDialog extends JDialog {
 		}
 	}
 
+	// Saving event
 	public void saveEvent() throws ParseException {
 		String name = nameField.getText();
 		String date_S = dateField.getText();

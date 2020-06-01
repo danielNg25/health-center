@@ -22,7 +22,6 @@ public class MomDAO {
 		String password = prop.getProperty("password");
 		String dburl = prop.getProperty("dburl");
 		myCon= DriverManager.getConnection(dburl,user,password);
-		System.out.println("Connect Successfull");
 	}
 	// Get all Moms from table into a list
 	public  List<Mom> getAllMom() throws Exception {
@@ -74,7 +73,8 @@ public class MomDAO {
 			close(myStmt, myRs);
 		}
 	}
-//  Get all Moms by ID from table into a list 
+	
+	//  Get all Moms by ID from table into a list 
 	public  Person getMomByID(String id) throws Exception {
 		PreparedStatement myStmt = null;
 		ResultSet myRs = null;
@@ -143,6 +143,7 @@ public class MomDAO {
 		
 		return tempMom;
 	}
+	
 	// Updating on Mom in table
 	public void updateMom(Mom temp) throws SQLException {
 		PreparedStatement myStmt = null;
@@ -173,6 +174,7 @@ public class MomDAO {
 		
 	}
 	
+	// Delete mom according to momID
 	public void deleteMom(String momID) throws SQLException {
 		PreparedStatement myStmt = null;
 		try {
@@ -192,7 +194,7 @@ public class MomDAO {
 	
 	
 
-	
+	// Close connection
 	private static void close(Connection myCon, Statement myStmt, ResultSet myRs)
 			throws SQLException {
 
@@ -213,11 +215,6 @@ public class MomDAO {
 		close(null, myStmt, myRs);		
 	}
 
-	public static void main(String[] args) throws Exception {
-		MomDAO dao = new MomDAO();
-		System.out.println(dao.getAllMom());
-
-	}
 	
 
 }

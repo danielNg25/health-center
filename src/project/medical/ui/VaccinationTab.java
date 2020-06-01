@@ -2,6 +2,7 @@ package project.medical.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -11,13 +12,19 @@ import javax.swing.border.EmptyBorder;
 import project.medical.DAO.HistoryMedicalDAO;
 import project.medical.core.HistoryMedical;
 
+
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.JTable;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
+
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class VaccinationTab extends JFrame {
 
@@ -30,6 +37,7 @@ public class VaccinationTab extends JFrame {
 	private HistoryMedicalDAO histDAO;
 	private JTable vaccinationTable;
 	private JTextField decorateField;
+	private JLabel  label;
 	/**
 	 * Launch the application.
 	 */
@@ -64,13 +72,14 @@ public class VaccinationTab extends JFrame {
 		
         String txt = "Vaccination Hisory of "+ personID;
         decorateField.setText(txt);
+        label = new JLabel();
 		
     
 		
 	}
 	public VaccinationTab() {
 		setTitle("Vaccination History");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 519, 432);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -87,6 +96,31 @@ public class VaccinationTab extends JFrame {
 
 			}
 		});
+		
+		JButton btnNewButton_1 = new JButton("View Image");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = vaccinationTable.getSelectedRow();
+				if(row <0) {
+					JOptionPane.showMessageDialog(contentPane,"Please select a medical history","Warning",JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				HistoryMedical temp = (HistoryMedical) vaccinationTable.getValueAt(row, VaccinationTableModel.OBJECT_COL);
+				String path = temp.getImageHist();
+				JFrame imgFrame = new JFrame();
+				imgFrame.setBounds(50, 50, 500, 500); 
+				imgFrame.setResizable(false);
+				imgFrame.setTitle("Image History");
+				
+			    label.setBounds(50, 50, 500, 500);  
+			    label.setIcon(ResizeImage(path));
+				imgFrame.add(label);
+				imgFrame.setVisible(true);
+				
+			}
+		});
+		toolBar.add(btnNewButton_1);
 		toolBar.add(btnNewButton);
 		
 		decorateField = new JTextField();
@@ -100,5 +134,12 @@ public class VaccinationTab extends JFrame {
 		
 		
 	}
+    public ImageIcon ResizeImage(String imgPath){
+        ImageIcon MyImage = new ImageIcon(imgPath);
+        Image img = MyImage.getImage();
+        Image newImage = img.getScaledInstance(label.getWidth(), label.getHeight(),Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImage);
+        return image;
+    }
 
 }
