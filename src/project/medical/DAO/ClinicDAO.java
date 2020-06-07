@@ -83,17 +83,17 @@ public class ClinicDAO {
 		PreparedStatement myStmt = null;
 		try {
 		String sql  = "Insert into clinic"
-				+ "(clinicID, clinicName, address, email, phoneNum, typee)"
+				+ "(clinicID, clinicName, address, email, phoneNum, type)"
 				+ " values (?, ?, ?, ?, ?, ?) " ;
 		
 		myStmt  = myCon.prepareStatement(sql);
 		
 		myStmt.setString(1, newClinic.getID());
 		myStmt.setString(2, newClinic.getClinicName());
-		myStmt.setString(5, newClinic.getAddress());
-		myStmt.setString(6, newClinic.getEmail());
-		myStmt.setString(7, newClinic.getPhoneNum());
-		myStmt.setString(8, newClinic.getType());
+		myStmt.setString(3, newClinic.getAddress());
+		myStmt.setString(4, newClinic.getEmail());
+		myStmt.setString(5, newClinic.getPhoneNum());
+		myStmt.setString(6, newClinic.getType());
 		
 		myStmt.executeUpdate();
 	    }

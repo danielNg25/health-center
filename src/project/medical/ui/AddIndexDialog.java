@@ -119,17 +119,18 @@ public class AddIndexDialog extends JDialog {
 	}
 	// Save index
 	public void saveIndex() throws ParseException {
-		String weight_S = WeightField.getText();
-		String height_S = HeightField.getText();
-		String date_S = DateField.getText();
-		
-		int weight = Integer.parseInt(weight_S);		
-		int height = Integer.parseInt(height_S);
-		Date date = formatter.parse(date_S);
-		WeightHeight temp = new WeightHeight(height, weight, date);
+
 		
 		
 		try {
+			String weight_S = WeightField.getText();
+			String height_S = HeightField.getText();
+			String date_S = DateField.getText();
+			
+			int weight = Integer.parseInt(weight_S);		
+			int height = Integer.parseInt(height_S);
+			Date date = formatter.parse(date_S);
+			WeightHeight temp = new WeightHeight(height, weight, date);
 			whDAO.addWeightHeight(temp, personID);
 			JOptionPane.showMessageDialog(AddIndexDialog.this, "Added successfully", "Added successfully ", JOptionPane.INFORMATION_MESSAGE);		
 			setVisible(false);

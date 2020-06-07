@@ -126,13 +126,14 @@ public class AddEventDialog extends JDialog {
 
 	// Saving event
 	public void saveEvent() throws ParseException {
-		String name = nameField.getText();
-		String date_S = dateField.getText();
-		String description = descriptionField.getText();
-		Date date = formatter.parse(date_S);
-		Event temp = new Event(name, date, description);
+		
 		
 		try {
+			String name = nameField.getText();
+			String date_S = dateField.getText();
+			String description = descriptionField.getText();
+			Date date = formatter.parse(date_S);
+			Event temp = new Event(name, date, description);
 			eventDAO.addEvent(temp);
 			JOptionPane.showMessageDialog(AddEventDialog.this, "Added successfully", "Added successfully ", JOptionPane.INFORMATION_MESSAGE);		
 			setVisible(false);
