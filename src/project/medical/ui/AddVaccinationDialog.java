@@ -78,7 +78,7 @@ public class AddVaccinationDialog extends JDialog {
 		contentPanel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Date Injection");
-		lblNewLabel.setBounds(10, 14, 93, 14);
+		lblNewLabel.setBounds(10, 14, 116, 14);
 		contentPanel.add(lblNewLabel);
 		
 		dateofinjection = new JTextField();
@@ -87,7 +87,7 @@ public class AddVaccinationDialog extends JDialog {
 		dateofinjection.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Type Vaccine");
-		lblNewLabel_1.setBounds(10, 55, 68, 14);
+		lblNewLabel_1.setBounds(10, 55, 116, 14);
 		contentPanel.add(lblNewLabel_1);
 		
 		typeVaccineField = new JTextField();
@@ -96,7 +96,7 @@ public class AddVaccinationDialog extends JDialog {
 		typeVaccineField.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("VaccineID");
-		lblNewLabel_2.setBounds(310, 14, 63, 14);
+		lblNewLabel_2.setBounds(297, 14, 76, 14);
 		contentPanel.add(lblNewLabel_2);
 		
 		vaccineIDfield = new JTextField();
@@ -105,7 +105,7 @@ public class AddVaccinationDialog extends JDialog {
 		vaccineIDfield.setColumns(10);
 		
 		JLabel lblNewLabel_3 = new JLabel("Interaction");
-		lblNewLabel_3.setBounds(10, 141, 86, 14);
+		lblNewLabel_3.setBounds(10, 141, 116, 14);
 		contentPanel.add(lblNewLabel_3);
 		
 		interactionField = new JTextField();
@@ -114,7 +114,7 @@ public class AddVaccinationDialog extends JDialog {
 		interactionField.setColumns(10);
 		
 		JLabel lblNewLabel_4 = new JLabel("Address");
-		lblNewLabel_4.setBounds(10, 90, 68, 14);
+		lblNewLabel_4.setBounds(10, 90, 93, 14);
 		contentPanel.add(lblNewLabel_4);
 		
 		AddressField = new JTextField();
@@ -123,11 +123,11 @@ public class AddVaccinationDialog extends JDialog {
 		AddressField.setColumns(10);
 		
 		JLabel lblNewLabel_5 = new JLabel("Date Appointment ");
-		lblNewLabel_5.setBounds(10, 186, 101, 14);
+		lblNewLabel_5.setBounds(10, 186, 133, 14);
 		contentPanel.add(lblNewLabel_5);
 		
 		nextAppointmentField = new JTextField();
-		nextAppointmentField.setBounds(170, 183, 107, 20);
+		nextAppointmentField.setBounds(170, 183, 133, 20);
 		contentPanel.add(nextAppointmentField);
 		nextAppointmentField.setColumns(10);
 		
@@ -179,6 +179,10 @@ public class AddVaccinationDialog extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
@@ -194,25 +198,31 @@ public class AddVaccinationDialog extends JDialog {
  
 	protected void saveHist() throws Exception {
 		String dateInjectstring = dateofinjection.getText();
-		int idvaccine = Integer.parseInt(vaccineIDfield.getText());
-		String type = typeVaccineField.getText();
-		String interaction = interactionField.getText();
-		String nextappoint = nextAppointmentField.getText();
-		String address = AddressField.getText();
-		
-		
-		Date injectdate = formatter.parse(dateInjectstring);
-		Date appointmentdate = formatter.parse(nextappoint);
-		HistoryMedical newhist  = new HistoryMedical(injectdate, type, idvaccine, address, interaction, s, appointmentdate);
-				
-
-		histDAO.addHistoryMedical(newhist, personID);
-		JOptionPane.showMessageDialog(AddVaccinationDialog.this, "Added successfully", "Added successfully ", JOptionPane.INFORMATION_MESSAGE);
-
+		try {
+			int idvaccine = Integer.parseInt(vaccineIDfield.getText());
+			String type = typeVaccineField.getText();
+			String interaction = interactionField.getText();
+			String nextappoint = nextAppointmentField.getText();
+			String address = AddressField.getText();
 			
-		setVisible(false);
-		dispose();
+			
+			Date injectdate = formatter.parse(dateInjectstring);
+			Date appointmentdate = formatter.parse(nextappoint);
+			HistoryMedical newhist  = new HistoryMedical(injectdate, type, idvaccine, address, interaction, s, appointmentdate);
+					
+			
+			histDAO.addHistoryMedical(newhist, personID);
+			JOptionPane.showMessageDialog(AddVaccinationDialog.this, "Added successfully", "Added successfully ", JOptionPane.INFORMATION_MESSAGE);
 
+				
+			setVisible(false);
+			dispose();
+
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(AddVaccinationDialog.this, "Fail to save.Please enter right format");
+		}
+		
+		
 		
 	}
 }

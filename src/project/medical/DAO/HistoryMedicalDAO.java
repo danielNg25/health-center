@@ -20,6 +20,7 @@ public class HistoryMedicalDAO {
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	private String today;
 	private String tomorrow;
+
 	private KidDAO kidDAO;
 	private MomDAO momDAO;
 	public HistoryMedicalDAO() throws Exception{
@@ -41,7 +42,6 @@ public class HistoryMedicalDAO {
 		this.tomorrow = formatter.format(tomorrowtemp);
 		
 	}
-	
 	
 	//  Get all HistoryMedicals of "a person " according to person ID 
 	public  List<HistoryMedical> getHistoryMedicalByName(String theIDPerson) throws Exception {
@@ -82,9 +82,7 @@ public class HistoryMedicalDAO {
 		
 		String stringDateInjection = formatter.format(newHistoryMedical.getDateOfInjection());
 		String stringDateNextAppoint = formatter.format(newHistoryMedical.getNextAppointment());
-//		File theFile = new File(url);
-//		FileInputStream input = new FileInputStream(theFile);
-		
+
 		myStmt.setString(1, thePersonID );
 		myStmt.setString(2, stringDateInjection);
 		myStmt.setString(3, newHistoryMedical.getTypeOfVaccine());
@@ -142,7 +140,7 @@ public class HistoryMedicalDAO {
 				String tempStringDate = myRs.getString("nextAppointment");
 				if (tempStringDate.equals(today)) {
 					
-					Person eKid = kidDAO.getKidByID(cur_ID);
+					Person eKid =  kidDAO.getKidByID(cur_ID);
 					Person eMom =  momDAO.getMomByID(cur_ID);
 					
 					
@@ -177,9 +175,6 @@ public class HistoryMedicalDAO {
 			
 			while (myRs.next()) {
 				String cur_ID = myRs.getString("personID");
-				//HistoryMedical tempHist = convertRowToHistoryMedical(myRs);
-				//Date tempDate = tempHist.getNextAppointment();
-				//String tempStringDate = formatter.format(tempDate);
 				String tempStringDate = myRs.getString("nextAppointment");
 				if (tempStringDate.equals(tomorrow)) {
 					Person eKid = kidDAO.getKidByID(cur_ID);
@@ -203,6 +198,7 @@ public class HistoryMedicalDAO {
 		
 		
 	}
+
 	
 	// Delete history according to id
 	public void deleteHist(String id) throws SQLException {

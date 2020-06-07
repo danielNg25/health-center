@@ -69,7 +69,7 @@ public class AddUpdateDialog extends JDialog {
 		momDAO = theMomDAO;
 		momtab = theMomtab;
     	updateMode= theUpdateMode;
-
+    	setTitle("Add");
     	if (updateMode) {
     		setTitle("Update");
     		if (!momtab) populateGui(thePrevKid);
@@ -92,12 +92,13 @@ public class AddUpdateDialog extends JDialog {
 			genderField.setText(((Kid) thepreviousPerson).getGender());
 			parentNameField.setText(thepreviousPerson.getFirstName());
 		}
+		idField.setEditable(false);
 	
 	}
 
 	public AddUpdateDialog() {
 		
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 443, 364);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -113,11 +114,11 @@ public class AddUpdateDialog extends JDialog {
 		idField.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Last Name");
-		lblNewLabel_1.setBounds(10, 39, 66, 14);
+		lblNewLabel_1.setBounds(10, 39, 80, 14);
 		contentPanel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("First Name");
-		lblNewLabel_2.setBounds(10, 67, 58, 14);
+		lblNewLabel_2.setBounds(10, 67, 80, 14);
 		contentPanel.add(lblNewLabel_2);
 		
 		lastNameField = new JTextField();
@@ -131,7 +132,7 @@ public class AddUpdateDialog extends JDialog {
 		contentPanel.add(firstNameField);
 		
 		JLabel lblNewLabel_3 = new JLabel("DateOfBirth");
-		lblNewLabel_3.setBounds(10, 98, 66, 14);
+		lblNewLabel_3.setBounds(10, 98, 80, 14);
 		contentPanel.add(lblNewLabel_3);
 		
 		dateOfBirthField = new JTextField();
@@ -140,7 +141,7 @@ public class AddUpdateDialog extends JDialog {
 		contentPanel.add(dateOfBirthField);
 		
 		JLabel lblNewLabel_4 = new JLabel("Gender");
-		lblNewLabel_4.setBounds(250, 98, 46, 14);
+		lblNewLabel_4.setBounds(250, 98, 55, 14);
 		contentPanel.add(lblNewLabel_4);
 		
 		genderField = new JTextField();
@@ -149,7 +150,7 @@ public class AddUpdateDialog extends JDialog {
 		contentPanel.add(genderField);
 		
 		JLabel lblNewLabel_5 = new JLabel("Address");
-		lblNewLabel_5.setBounds(10, 137, 46, 14);
+		lblNewLabel_5.setBounds(10, 137, 80, 14);
 		contentPanel.add(lblNewLabel_5);
 		
 		addressField = new JTextField();
@@ -158,7 +159,7 @@ public class AddUpdateDialog extends JDialog {
 		contentPanel.add(addressField);
 		
 		JLabel lblNewLabel_6 = new JLabel("Phone");
-		lblNewLabel_6.setBounds(250, 137, 46, 14);
+		lblNewLabel_6.setBounds(250, 137, 55, 14);
 		contentPanel.add(lblNewLabel_6);
 		
 		phoneField = new JTextField();
@@ -167,7 +168,7 @@ public class AddUpdateDialog extends JDialog {
 		phoneField.setColumns(10);
 		
 		JLabel lblNewLabel_7 = new JLabel("Email");
-		lblNewLabel_7.setBounds(10, 178, 46, 14);
+		lblNewLabel_7.setBounds(10, 178, 84, 14);
 		contentPanel.add(lblNewLabel_7);
 		
 		emailField = new JTextField();
@@ -176,7 +177,7 @@ public class AddUpdateDialog extends JDialog {
 		emailField.setColumns(10);
 		
 		JLabel lblNewLabel_8 = new JLabel("ParentName");
-		lblNewLabel_8.setBounds(10, 203, 66, 14);
+		lblNewLabel_8.setBounds(10, 203, 84, 14);
 		contentPanel.add(lblNewLabel_8);
 		
 		parentNameField = new JTextField();
@@ -220,6 +221,10 @@ public class AddUpdateDialog extends JDialog {
 		String address = addressField.getText();
 		String phone = phoneField.getText();
 		Mom temp = null;
+		if(id.length() == 0){
+			JOptionPane.showMessageDialog(thisPanel, "Please enter ID");
+		}
+		else{
 		try {
 			if(updateMode) {
 			
@@ -260,10 +265,10 @@ public class AddUpdateDialog extends JDialog {
 		}
 		
 		
-		
+	}
 		
 	}
-	protected void saveKid() {
+	protected void saveKid()  {
 		String id = idField.getText();
 		String last_name = lastNameField.getText();
 		String first_name = firstNameField.getText();
@@ -274,6 +279,9 @@ public class AddUpdateDialog extends JDialog {
 		String parent_name = parentNameField.getText();
 		String gender = genderField.getText();
 		Kid temp = null;
+		if (id.length()==0) {
+			JOptionPane.showMessageDialog(thisPanel, "Please enter ID");
+		} else {
 		try {
 			if(updateMode) {
 			
@@ -306,9 +314,7 @@ public class AddUpdateDialog extends JDialog {
 			}
 			
 			setVisible(false);
-			dispose();
-			
-//			thisPanel.refreshPersonView();		
+			dispose();	
 			
 		}
 		catch(Exception e) {
@@ -318,5 +324,6 @@ public class AddUpdateDialog extends JDialog {
 		
 		
 		
+	}
 	}
 }
