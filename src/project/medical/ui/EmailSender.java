@@ -1,5 +1,8 @@
 package project.medical.ui;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
@@ -27,10 +30,14 @@ public class EmailSender {
     private String messEvent;
     private String header;
 
-    public EmailSender() {
-    	sender = "hakasubteam@gmail.com";
-    	password  = "nguyentranbaonguyentranbao";
-    	host =  "smtp.gmail.com";
+    public EmailSender() throws FileNotFoundException, IOException {
+		Properties prop = new Properties();
+		prop.load(new FileInputStream("sql/email.properties"));
+		sender = prop.getProperty("sender");
+		password = prop.getProperty("password");
+		host = prop.getProperty("host");
+
+ 
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", "465");
         properties.put("mail.smtp.ssl.enable", "true");
@@ -49,14 +56,14 @@ public class EmailSender {
     	messTomorrow = " Hi friends, You have an appointment at our center tomorrow"; 
     }
 
-    public EmailSender(List<String> thelisttoday, List<String> thelisttomorrow) {
+    public EmailSender(List<String> thelisttoday, List<String> thelisttomorrow) throws FileNotFoundException, IOException {
     	this();
     	emailToday = thelisttoday;
     	emailTomorrow = thelisttomorrow;
     }
     // Sending email today
     public void sendToday() {
-    	
+    	JOptionPane.showMessageDialog(null,"Sending today ...");
     	for (String receiver : emailToday) {
     		try {
     	        // Create a default MimeMessage object.
@@ -71,20 +78,21 @@ public class EmailSender {
     	        // Now set the actual message 
     	        message.setContent(messToday,"text/html");
     	      
-    	        JOptionPane.showMessageDialog(null,"Sending...");
+    	       
     	        // Send message
     	        Transport.send(message);
     	     
     	    } catch (MessagingException mex) {
     	        mex.printStackTrace();
     	    }
-    		JOptionPane.showMessageDialog(null,"Sent email successfully");
+    		
     	}
+    	JOptionPane.showMessageDialog(null,"Sent email successfully");
     }
     // Sending email tomorrow
   
     public void sendTomorrow() {
-    	
+    	JOptionPane.showMessageDialog(null,"Sending tomorrow...");
     	for (String receiver : emailTomorrow) {
     		try {
     	        // Create a default MimeMessage object.
@@ -98,16 +106,14 @@ public class EmailSender {
 
     	        // Now set the actual message 
     	        message.setContent(messTomorrow,"text/html");
-    	        JOptionPane.showMessageDialog(null,"Sending...");
+    	     
     	        // Send message
     	        Transport.send(message);
 
     	    } catch (MessagingException mex) {
     	        mex.printStackTrace();
     	        JOptionPane.showMessageDialog(null, "Error");
-    	    }
-
- 	
+    	    } 	
     	}
     	JOptionPane.showMessageDialog(null,"Sent email successfully");
     }
@@ -116,7 +122,11 @@ public class EmailSender {
     	messEvent = " Hi friends, Our center is going to hold an event. This Event: " + event.getName() + 
     			", Date: "+ event.getDate() + ", Description: "+ event.getDescription()+ 
     			". Contact with us to get more details. Have a nice day !"; 
+    	int i=0;
+    	JOptionPane.showMessageDialog(null,"Sending...");
     	for (String receiver : emails) {
+    		i++;
+    		if(i == 2) break;
     		try {
     	        // Create a default MimeMessage object.
     	        MimeMessage message = new MimeMessage(session);
@@ -129,15 +139,16 @@ public class EmailSender {
 
     	        // Now set the actual message 
     	        message.setContent(messEvent,"text/html");
-    	        JOptionPane.showMessageDialog(null,"Sending...");
+    	        
     	        // Send message
     	        Transport.send(message);
     	    } catch (MessagingException mex) {
     	        mex.printStackTrace();
+    	        JOptionPane.showMessageDialog(null, "Error");
     	    }
-    		JOptionPane.showMessageDialog(null,"Sent email successfully");
-    		break;
+    		
     	}
+    	JOptionPane.showMessageDialog(null," Sent email successfully");
     	
     }
     	

@@ -13,6 +13,8 @@ import project.medical.core.Person;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -75,9 +77,19 @@ public class AppoinmentTab extends JFrame {
 		JButton btnNewButton = new JButton("Send Email to All");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EmailSender sender = new EmailSender(emailToday, emailTomorrow);
-				sender.sendToday();
-				sender.sendTomorrow();
+				EmailSender sender;
+				try {
+					sender = new EmailSender(emailToday, emailTomorrow);
+					sender.sendToday();
+					sender.sendTomorrow();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 				
 			}
 		});
