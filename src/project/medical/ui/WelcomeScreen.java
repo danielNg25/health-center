@@ -816,10 +816,9 @@ public class WelcomeScreen {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-					String url = "https://www.youtube.com/watch?v=C_Y6yrkj9Sg";
+					String url = "https://www.youtube.com/watch?v=D8l4B7sSS-4&feature=youtu.be&fbclid=IwAR3AhpAbeB6jjtFHEx6HRZJ6ywwCVKxYmP8xOrLenjbKGIsecMPMSAfljDc";
 					java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
@@ -827,23 +826,6 @@ public class WelcomeScreen {
 		});
 		btnNewButton_12.setFont(new Font("Arial", Font.BOLD, 11));
 		panel_1.add(btnNewButton_12);
-		
-		JButton btnNewButton_20 = new JButton("Team Credit ");
-		btnNewButton_20.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				try {
-					String url = "https://www.youtube.com/watch?v=C_Y6yrkj9Sg";
-					java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-			}
-		});
-		btnNewButton_20.setFont(new Font("Arial", Font.BOLD, 11));
-		panel_1.add(btnNewButton_20);
 	}
   }
 

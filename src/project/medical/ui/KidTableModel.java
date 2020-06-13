@@ -24,10 +24,11 @@ class KidTableModel extends AbstractTableModel {
 	private static final int ADDRESS_COL = 6;
 	private static final int EMAIL_COL = 7;
 	private static final int PHONE_COL = 8;
+	private static final int PARENTNAME_COL = 9;
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 
-	private String[] columnNames = {"STT", "kidID","LastName","FirstName","DateOfBirth","Gender","Address","Email", "PhoneNum"}; 
+	private String[] columnNames = {"STT", "KidID","LastName","FirstName","DateOfBirth","Gender","Address","Email", "Phone", "ParentName"}; 
 	private List<Kid> Kids;
 
 	public KidTableModel(List<Kid> theKids) {
@@ -77,6 +78,8 @@ class KidTableModel extends AbstractTableModel {
 			return tempKid.getAddress();
 		case PHONE_COL:
 			return tempKid.getPhoneNum();
+		case PARENTNAME_COL:
+			return tempKid.getParentName();
 		default:
 			return tempKid.getID();
 		}

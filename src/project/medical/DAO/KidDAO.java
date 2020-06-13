@@ -157,7 +157,7 @@ public class KidDAO {
 		try {
 			String sql  = "update kid "
 					+ " set lastName = ?, firstName = ?, dateOfBirth=?, address= ?,email=?, phoneNum=?,"
-					+ " gender = ?, parentName=? "
+					+ " gender = ?, parentName = ? "
 					+ " where kidID = ? " ;
 			
 			myStmt  = myCon.prepareStatement(sql);
