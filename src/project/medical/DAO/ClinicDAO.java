@@ -107,8 +107,7 @@ public class ClinicDAO {
 		PreparedStatement myStmt = null;
 		try {
 			String sql  = "update clinic "
-					+ " set clinicName = ?, address= ?,email=?, phoneNum=?,"
-					+ " type = ?,"
+					+ " set clinicName = ?, address= ?,email=?, phoneNum=?, type = ?"
 					+ " where clinicID = ? " ;
 			
 			myStmt  = myCon.prepareStatement(sql);

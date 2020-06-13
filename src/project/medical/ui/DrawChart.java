@@ -45,7 +45,7 @@ public class DrawChart {
 	        CategoryPlot catplot = chart.getCategoryPlot();
 	        catplot.setRangeGridlinePaint(Color.BLACK);
 	        
-	        ChartFrame frame = new ChartFrame("Chart of kid", chart);
+	        ChartFrame frame = new ChartFrame("Chart of Height", chart);
 	        frame.setVisible(true);
 	        frame.setSize(450, 450);
 	      }
@@ -62,12 +62,34 @@ public class DrawChart {
 	        CategoryPlot catplot = chart.getCategoryPlot();
 	        catplot.setRangeGridlinePaint(Color.BLACK);
 	        
-	        ChartFrame frame = new ChartFrame("Chart of kid", chart);
+	        ChartFrame frame = new ChartFrame("Chart of Weight", chart);
 	        frame.setVisible(true);
 	        frame.setSize(450, 450);
 	      }
 	    catch(Exception e){
 	        JOptionPane.showMessageDialog(null, e);
 	    }
+	}
+	public void drawingStatisticChart() {
+		try {
+           	final String SQL = "SELECT typeOfVaccine, COUNT(*) as count \r\n" + 
+           			"FROM medicalhistory \r\n" + 
+           			"GROUP BY typeOfVaccine \r\n" + 
+           			"ORDER BY count DESC" ;
+	        final CategoryDataset dataset = new JDBCCategoryDataset(myCon, SQL);
+	     
+	        JFreeChart chart = ChartFactory.createBarChart("Vaccine Chart","Type","Number Used", dataset, PlotOrientation.VERTICAL, false, false, false);
+	        CategoryPlot catplot = chart.getCategoryPlot();
+	        catplot.setRangeGridlinePaint(Color.BLACK);
+	        
+	        ChartFrame frame = new ChartFrame("Chart of vaccination statistic", chart);
+	        frame.setVisible(true);
+	        frame.setSize(450, 450);
+	      }
+	    catch(Exception e){
+	        JOptionPane.showMessageDialog(null, e);
+	    }
+		
+		
 	}
 }
